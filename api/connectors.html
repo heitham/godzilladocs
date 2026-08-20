@@ -1,1 +1,123 @@
-<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Connectors endpoint | Godzilla Docs</title>\n  <meta name=\"description\" content=\"Create, list, and rotate credentials for connectors via the v2 REST API.\">\n  <link rel=\"stylesheet\" href=\"/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css\">\n  <style>\n    /* Page body — remove browser default margin so header sits flush.\n       DSes that use position:fixed headers must set --cms-header-height on :root\n       so this padding pushes the first content element below the header. */\n    body { margin: 0; padding-top: var(--cms-header-height, 0px); }\n\n    /* Default layout: single centred column within the site max-width */\n    .cms-page-container {\n      max-width: 1280px;\n      margin: 0 auto;\n      padding: 0 64px;\n      box-sizing: border-box;\n    }\n    .cms-main-content { min-width: 0; }\n\n    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */\n    .cms-has-left-nav {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);\n      gap: 32px;\n      align-items: start;\n    }\n    /* Right nav placeholder column (population deferred) */\n    .cms-has-right-nav {\n      display: grid;\n      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);\n      gap: 32px;\n      align-items: start;\n    }\n    .cms-has-left-nav.cms-has-right-nav {\n      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);\n    }\n\n    /* Mobile — stack columns, match DS spacing.margin-mobile token */\n    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }\n  </style>\n\n</head>\n<body class=\"folder-api page-connectors\">\n<header class='site-header'>\n  <div class='site-header__inner'>\n    <a class='site-header__brand' href='/'>\n      <span class='site-header__logo'>&#127755;</span>\n      <span class='site-header__name'>Godzilla Docs</span>\n    </a>\n    <nav class='site-header__nav'></nav>\n  </div>\n</header>\n<div class=\"cms-page-container cms-has-left-nav\">\n<aside class=\"cms-left-nav\"><nav aria-label=\"Side navigation\"><ul class=\"usa-sidenav\"><li class=\"usa-sidenav__item\"><a href=\"/api/index\">API Reference</a></li><li class=\"usa-sidenav__item\"><a href=\"/api/connectors\" class=\"usa-current\">Connectors endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/api/events\">Events endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/api/pipelines\">Pipelines endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/api/transforms\">Transforms endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/api/rate-limits-errors\">Rate limits &amp; errors</a></li><li class=\"usa-sidenav__item\"><a href=\"/api/webhooks\">Webhooks endpoint</a></li></ul></nav></aside>\n<main class=\"cms-main-content\">\n\n<h1>Connectors endpoint <span class='chip chip--primary'>v2</span></h1>\n<p>Manage <a href=\"/concepts/connectors\">connectors</a> — the source and destination integrations pipelines read from and write to.</p>\n\n<h2 id=\"create\">Create a connector</h2>\n<p><code>POST /v2/connectors</code></p>\n\n<table class='param-table'>\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Type</th>\n      <th>Required</th>\n      <th>Description</th>\n    </tr>\n  </thead>\n  <tbody><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>postgres</code>, <code>s3</code>, <code>snowflake</code>, <code>kafka</code>, <code>webhook</code>.</td></tr><tr><td><code>direction</code></td><td>string</td><td>Yes</td><td><code>source</code>, <code>destination</code>, or <code>bidirectional</code> (webhook only).</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific connection details, e.g. connection string or IAM role ARN.</td></tr></tbody>\n</table>\n\n<div class='code-block'>\n  <div class='code-block__header'>\n    <span class='code-block__filename'>create-connector.sh</span>\n    <span class='code-block__lang'>bash</span>\n    <button class='code-block__copy' type='button'>Copy</button>\n  </div>\n  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '&#123;\n    \"type\": \"postgres\",\n    \"direction\": \"source\",\n    \"config\": &#123; \"connection_string\": \"postgres://...\" &#125;\n  &#125;'</code></pre>\n</div>\n\n<h2 id=\"rotate\">Rotate credentials</h2>\n<p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>\n\n<div class='alert alert--warning'>\n  <div class='alert__title'>Shared connectors</div>\n  <div class='alert__body'><p>A connector referenced by multiple pipelines is rotated once, for all of them. Check a connector's <code>pipeline_count</code> field before rotating during a busy window.</p></div>\n</div>\n\n<h2 id=\"health\">Health status</h2>\n<p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>\n\n<nav class='docs-toc' aria-label='On this page'>\n  <div class='docs-toc__heading'>On this page</div>\n  <ul class='docs-toc__list'><li><a href=\"#create\">Create a connector</a></li><li><a href=\"#rotate\">Rotate credentials</a></li><li><a href=\"#health\">Health status</a></li></ul>\n</nav>\n</main>\n\n</div>\n<footer class='site-footer'>\n  <div class='site-footer__inner'>\n    <span class='site-footer__brand'>Godzilla Docs</span>\n    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>\n  </div>\n</footer>\n</body>\n</html>\n"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connectors endpoint | Godzilla Docs</title>
+  <meta name="description" content="Create, list, and rotate credentials for connectors via the v2 REST API.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-api page-connectors">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Connectors endpoint <span class='chip chip--primary'>v2</span></h1>
+<p>Manage <a href="/concepts/connectors">connectors</a> — the source and destination integrations pipelines read from and write to.</p>
+
+<h2 id="create">Create a connector</h2>
+<p><code>POST /v2/connectors</code></p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>postgres</code>, <code>s3</code>, <code>snowflake</code>, <code>kafka</code>, <code>webhook</code>.</td></tr><tr><td><code>direction</code></td><td>string</td><td>Yes</td><td><code>source</code>, <code>destination</code>, or <code>bidirectional</code> (webhook only).</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific connection details, e.g. connection string or IAM role ARN.</td></tr></tbody>
+</table>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-connector.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "postgres",
+    "direction": "source",
+    "config": { "connection_string": "postgres://..." }
+  }'</code></pre>
+</div>
+
+<h2 id="rotate">Rotate credentials</h2>
+<p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Shared connectors</div>
+  <div class='alert__body'><p>A connector referenced by multiple pipelines is rotated once, for all of them. Check a connector's <code>pipeline_count</code> field before rotating during a busy window.</p></div>
+</div>
+
+<h2 id="health">Health status</h2>
+<p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#create">Create a connector</a></li><li><a href="#rotate">Rotate credentials</a></li><li><a href="#health">Health status</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

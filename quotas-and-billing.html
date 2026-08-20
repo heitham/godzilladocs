@@ -186,7 +186,7 @@
 
 <h3>Rate limit (requests per minute)</h3>
 
-<p>When you exceed your per-minute rate limit, the API returns a <code>429 Too Many Requests</code> status code. The response includes a <code>Retry-After</code> header indicating how many seconds to wait before retrying. See <a href="/api/rate-limits-errors#headers">Rate limit headers</a> in the API reference for details on tracking your usage with response headers.</p>
+<p>When you exceed your per-minute rate limit, the API returns a <code>429 Too Many Requests</code> status code. The response includes a <code>Retry-After</code> header indicating how many seconds to wait before retrying. See <a href="/api/rate-limits#headers">Rate limit headers</a> in the API reference for details on tracking your usage with response headers.</p>
 
 <p><strong>Action to take:</strong> Implement exponential backoff in your client to automatically retry failed requests after the delay specified in <code>Retry-After</code>. If you consistently hit the rate limit, consider upgrading your plan tier.</p>
 
@@ -247,7 +247,7 @@
   <nav aria-label="Related pages">
     <div style="font-size: 0.875rem; text-transform: uppercase; color: #6b625c; margin-bottom: 12px; letter-spacing: 0.05em;">Related</div>
     <ul style="list-style: none; padding: 0; margin: 0;">
-      <li style="margin-bottom: 8px;"><a href="/api/rate-limits-errors">Rate limits & errors</a></li>
+      <li style="margin-bottom: 8px;"><a href="/api/rate-limits">Rate limits</a></li>
       <li style="margin-bottom: 8px;"><a href="/troubleshooting">Troubleshooting / FAQ</a></li>
     </ul>
   </nav>

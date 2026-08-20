@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 33 pages.
+Generated from published output — 34 pages.
 
 ## (root)
 
@@ -27,10 +27,11 @@ Generated from published output — 33 pages.
 | Path | Title |
 |---|---|
 | `/apis/connectors` | Connectors endpoint |
+| `/apis/error-reference` | Error reference |
 | `/apis/events` | Events endpoint |
 | `/apis/index` | API Reference |
 | `/apis/pipelines` | Pipelines endpoint |
-| `/apis/rate-limits-errors` | Rate limits & errors |
+| `/apis/rate-limits` | Rate limits |
 | `/apis/webhooks` | Webhooks endpoint |
 
 ## guides
