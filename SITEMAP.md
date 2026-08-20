@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 32 pages.
+Generated from published output — 33 pages.
 
 ## (root)
 
@@ -19,6 +19,7 @@ Generated from published output — 32 pages.
 | `/glossary` | Glossary |
 | `/index` | Godzilla Docs |
 | `/migration-guide-v1-to-v2` | Migration guide (v1 → v2) |
+| `/quotas-and-billing` | Quotas & billing |
 | `/release-notes-archive` | Release notes archive |
 | `/security-and-compliance` | Security & compliance overview |
 | `/support` | Support / Contact |

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotas & billing | Godzilla Docs</title>
+  <meta name="description" content="Plan tiers, quota limits, and what happens when your account exceeds its quota.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+
+    /* Plan tiers comparison grid */
+    .plan-tiers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 24px 0;
+    }
+    .plan-tier {
+      border: 1px solid #e4dcd3;
+      border-radius: 8px;
+      padding: 24px;
+      background: #fffaf6;
+    }
+    .plan-tier__name {
+      font-size: 1.375rem;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      color: #1c1512;
+    }
+    .plan-tier__description {
+      font-size: 0.875rem;
+      color: #6b625c;
+      margin: 0 0 16px 0;
+    }
+    .plan-tier__stat {
+      margin: 16px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e4dcd3;
+    }
+    .plan-tier__stat:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .plan-tier__stat-label {
+      font-size: 0.875rem;
+      color: #6b625c;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .plan-tier__stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff5a1f;
+      margin-top: 4px;
+    }
+  </style>
+
+</head>
+<body class="page-quotas-and-billing">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-right-nav">
+<main class="cms-main-content">
+
+<h1>Quotas & billing</h1>
+
+<p>Every Godzilla account operates under a plan tier, which determines API request quotas, data retention limits, and billing charges. This page explains each tier and what happens when you exceed your quota.</p>
+
+<h2 id="plan-tiers">Plan tiers</h2>
+
+<p>Godzilla offers three plan tiers, each with different quotas and limits:</p>
+
+<div class="plan-tiers">
+  <div class="plan-tier">
+    <div class="plan-tier__name">Starter</div>
+    <div class="plan-tier__description">For testing and light workloads</div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Requests / minute</div>
+      <div class="plan-tier__stat-value">100</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Daily request quota</div>
+      <div class="plan-tier__stat-value">144,000</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Data retention</div>
+      <div class="plan-tier__stat-value">7 days</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Monthly price</div>
+      <div class="plan-tier__stat-value">Free</div>
+    </div>
+  </div>
+
+  <div class="plan-tier">
+    <div class="plan-tier__name">Standard</div>
+    <div class="plan-tier__description">For production use</div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Requests / minute</div>
+      <div class="plan-tier__stat-value">1,000</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Daily request quota</div>
+      <div class="plan-tier__stat-value">1,440,000</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Data retention</div>
+      <div class="plan-tier__stat-value">30 days</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Monthly price</div>
+      <div class="plan-tier__stat-value">$99</div>
+    </div>
+  </div>
+
+  <div class="plan-tier">
+    <div class="plan-tier__name">Enterprise</div>
+    <div class="plan-tier__description">For high-volume needs</div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Requests / minute</div>
+      <div class="plan-tier__stat-value">Custom</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Daily request quota</div>
+      <div class="plan-tier__stat-value">Custom</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Data retention</div>
+      <div class="plan-tier__stat-value">Custom</div>
+    </div>
+    <div class="plan-tier__stat">
+      <div class="plan-tier__stat-label">Monthly price</div>
+      <div class="plan-tier__stat-value">Contact sales</div>
+    </div>
+  </div>
+</div>
+
+<h2 id="exceeding-quota">What happens when you exceed your quota</h2>
+
+<p>When your account reaches its quota limit, the API behaves differently depending on the type of limit that was exceeded:</p>
+
+<h3>Rate limit (requests per minute)</h3>
+
+<p>When you exceed your per-minute rate limit, the API returns a <code>429 Too Many Requests</code> status code. The response includes a <code>Retry-After</code> header indicating how many seconds to wait before retrying. See <a href="/apis/rate-limits-errors#headers">Rate limit headers</a> in the API reference for details on tracking your usage with response headers.</p>
+
+<p><strong>Action to take:</strong> Implement exponential backoff in your client to automatically retry failed requests after the delay specified in <code>Retry-After</code>. If you consistently hit the rate limit, consider upgrading your plan tier.</p>
+
+<h3>Daily quota exceeded</h3>
+
+<p>Once you exceed your daily request quota, all API requests return a <code>429 Too Many Requests</code> status with a message indicating the daily quota was exceeded. Your quota resets at midnight UTC each day.</p>
+
+<p><strong>Action to take:</strong> Wait for the quota reset at midnight UTC, or upgrade to a higher plan tier with a larger daily quota. Contact support if you need a temporary quota increase.</p>
+
+<h3>Data retention limit exceeded</h3>
+
+<p>Event data older than your plan's retention period is automatically deleted and cannot be recovered. For example, Starter-tier accounts only retain 7 days of event history.</p>
+
+<p><strong>Action to take:</strong> If you need to keep historical event data longer, export it before the retention window expires, or upgrade to a plan tier with extended retention. Standard tier retains data for 30 days.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Monitor your usage</div>
+  <div class='alert__body'><p>Check your workspace settings or billing dashboard regularly to monitor your API usage, remaining quota, and data retention status. Set up alerts in your monitoring system to notify you when you approach a quota limit.</p></div>
+</div>
+
+<h2 id="upgrading">Upgrading your plan</h2>
+
+<p>To upgrade from Starter to Standard, or to discuss custom limits for an Enterprise plan:</p>
+
+<ol>
+  <li>Log in to your workspace at <code>https://app.godzilladocs.dev</code></li>
+  <li>Go to Settings → Billing</li>
+  <li>Choose your new plan and complete the payment process</li>
+</ol>
+
+<p>For Enterprise plans or custom quota requests, <a href="/support">contact our sales team</a>.</p>
+
+<h2 id="faq">Frequently asked questions</h2>
+
+<h3>Do I get charged for failed requests?</h3>
+
+<p>No. Requests that return an error (including 429 rate-limit responses) do not count against your quota or billing.</p>
+
+<h3>Can I get a temporary quota increase?</h3>
+
+<p>Yes. Contact <a href="/support">support</a> with details about your use case, and we can discuss a temporary increase or recommend the right plan tier for your needs.</p>
+
+<h3>What is the monthly billing cycle?</h3>
+
+<p>Billing cycles run from the 1st to the last day of each calendar month. Charges appear on the billing method on file shortly after the end of the cycle. For annual plans, billing runs on the anniversary of your purchase date.</p>
+
+<h3>Can I downgrade my plan?</h3>
+
+<p>Yes. You can downgrade anytime from your billing settings, and the change takes effect on your next billing cycle. Please note that downgrading may reduce your rate limits and data retention.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#plan-tiers">Plan tiers</a></li><li><a href="#exceeding-quota">What happens when you exceed your quota</a></li><li><a href="#upgrading">Upgrading your plan</a></li><li><a href="#faq">Frequently asked questions</a></li></ul>
+</nav>
+</main>
+
+<aside>
+  <nav aria-label="Related pages">
+    <div style="font-size: 0.875rem; text-transform: uppercase; color: #6b625c; margin-bottom: 12px; letter-spacing: 0.05em;">Related</div>
+    <ul style="list-style: none; padding: 0; margin: 0;">
+      <li style="margin-bottom: 8px;"><a href="/apis/rate-limits-errors">Rate limits & errors</a></li>
+      <li style="margin-bottom: 8px;"><a href="/support">Contact support</a></li>
+    </ul>
+  </nav>
+</aside>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy; Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
