@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schemas | Godzilla Docs</title>
+  <meta name="description" content="How event payload shapes are declared and validated in Godzilla pipelines.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-concepts-schemas">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Schemas</h1>
+<p>A <strong>schema</strong> is a formal declaration of the structure, types, and constraints of an <a href="/concepts-events">event</a>'s <code>payload</code>. Schemas enable validation, type safety, and documentation across your data pipeline.</p>
+
+<h2>Why schemas matter</h2>
+<p>Without a schema, downstream connectors and transforms must guess at the shape of incoming data. With a schema, you get:</p>
+<ul>
+  <li><strong>Validation</strong> — Reject or quarantine events that don't match your declared shape, preventing silent data corruption.</li>
+  <li><strong>Type safety</strong> — Transforms and destinations know the exact types (string, number, boolean, array, object) of every field.</li>
+  <li><strong>Documentation</strong> — The schema serves as a contract between teams, making it clear what data flows through each stage of the pipeline.</li>
+  <li><strong>Evolution</strong> — Add or deprecate fields with explicit versioning rules rather than breaking downstream systems unexpectedly.</li>
+</ul>
+
+<h2>Schema definition</h2>
+<p>Godzilla schemas are defined in JSON Schema format (draft 7). A typical schema declares the payload structure:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>order.schema.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,\n  &quot;type&quot;: &quot;object&quot;,\n  &quot;title&quot;: &quot;Order Event&quot;,\n  &quot;properties&quot;: &#123;\n    &quot;order_id&quot;: &#123;\n      &quot;type&quot;: &quot;string&quot;,\n      &quot;pattern&quot;: &quot;^ord_[a-zA-Z0-9]+$&quot;,\n      &quot;description&quot;: &quot;Unique order identifier&quot;\n    &#125;,\n    &quot;customer_id&quot;: &#123;\n      &quot;type&quot;: &quot;string&quot;,\n      &quot;description&quot;: &quot;Customer who placed the order&quot;\n    &#125;,\n    &quot;amount_cents&quot;: &#123;\n      &quot;type&quot;: &quot;integer&quot;,\n      &quot;minimum&quot;: 0,\n      &quot;description&quot;: &quot;Order total in cents&quot;\n    &#125;,\n    &quot;items&quot;: &#123;\n      &quot;type&quot;: &quot;array&quot;,\n      &quot;items&quot;: &#123;\n        &quot;type&quot;: &quot;object&quot;,\n        &quot;properties&quot;: &#123;\n          &quot;sku&quot;: &#123; &quot;type&quot;: &quot;string&quot; &#125;,\n          &quot;quantity&quot;: &#123; &quot;type&quot;: &quot;integer&quot;, &quot;minimum&quot;: 1 &#125;\n        &#125;,\n        &quot;required&quot;: [&quot;sku&quot;, &quot;quantity&quot;]\n      &#125;\n    &#125;\n  &#125;,\n  &quot;required&quot;: [&quot;order_id&quot;, &quot;customer_id&quot;, &quot;amount_cents&quot;]\n&#125;</code></pre>
+</div>
+
+<h2>Declaring a schema</h2>
+<p>When you create or configure a source connector, you can attach a schema to define the structure of events it produces. Godzilla will validate each incoming event against the schema and reject or route invalid events to the pipeline's dead-letter queue (see <a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a> for details).</p>
+
+<p>Schemas can also be attached to <code>transform</code> steps to ensure that transformed payloads match the expected output contract.</p>
+
+<h2>Validation behavior</h2>
+<p>When an event arrives at a step with an attached schema:</p>
+<ol>
+  <li>The event's <code>payload</code> is validated against the schema's <code>properties</code> and <code>required</code> constraints.</li>
+  <li>If validation passes, the event proceeds normally.</li>
+  <li>If validation fails, the event is tagged with a <code>validation_error</code> and moved to the dead-letter queue (or rejected, depending on pipeline configuration).</li>
+</ol>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Partial schemas</div>
+  <div class='alert__body'><p>A schema can be <em>partial</em> — it need not define every property in an event's payload. Unknown properties are ignored during validation. This is useful when upstream systems emit extra fields you don't care about.</p></div>
+</div>
+
+<h2>Schema evolution</h2>
+<p>As your data needs change, you may need to evolve your schema:</p>
+<ul>
+  <li><strong>Adding optional fields</strong> — Add new properties with <code>&quot;required&quot;</code> absent. Existing events will still validate.</li>
+  <li><strong>Making fields required</strong> — Carefully add a property to the <code>&quot;required&quot;</code> array. This may break existing events.</li>
+  <li><strong>Changing field types</strong> — Consider creating a new event type (e.g., <code>order.created.v2</code>) to avoid breaking transforms that depend on the old type.</li>
+  <li><strong>Deprecating fields</strong> — Remove fields from <code>properties</code> and add a deprecation note in your documentation. Validation will continue to ignore them.</li>
+</ul>
+
+<p>Always test schema changes against a sample of real events before deploying to production.</p>
+
+<h2>Platform event schemas</h2>
+<p>Godzilla's own <a href="/concepts-events">platform events</a> (e.g., <code>pipeline.started</code>, <code>connector.error</code>) have fixed schemas defined by the platform. You cannot modify them, but their schemas are published in the API documentation for use in your webhook handlers and monitoring systems.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
