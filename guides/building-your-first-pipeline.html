@@ -66,7 +66,7 @@
 
 <div class='alert alert--info'>
   <div class='alert__title'>Before you start</div>
-  <div class='alert__body'><p>You'll need an API key. See <a href="/getting-started-authentication">Authentication</a> in Getting Started if you don't have one yet.</p></div>
+  <div class='alert__body'><p>You'll need an API key. See <a href="/getting-started/authentication">Authentication</a> in Getting Started if you don't have one yet.</p></div>
 </div>
 
 <h2>1. Create a source connector</h2>
@@ -78,7 +78,9 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -d '{"type":"postgres","direction":"source","config":{"connection_string":"postgres://..."}}'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -d '{\"type\":\"postgres\",\"direction\":\"source\",\"config\":{\"connection_string\":\"postgres://...\"}}'</code></pre>
 </div>
 
 <h2>2. Create a destination connector</h2>
@@ -90,7 +92,9 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -d '{"type":"snowflake","direction":"destination","config":{"account":"..."}}'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -d '{\"type\":\"snowflake\",\"direction\":\"destination\",\"config\":{\"account\":\"...\"}}'</code></pre>
 </div>
 
 <h2>3. Create the pipeline</h2>
@@ -102,7 +106,9 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -d '{"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"}'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -d '{\"name\":\"ingest-orders\",\"source_connector_id\":\"conn_pg_orders\",\"destination_connector_id\":\"conn_snowflake_dw\"}'</code></pre>
 </div>
 
 <p>The pipeline starts in <code>draft</code> state. Activate it once you're ready to start processing events.</p>
@@ -126,7 +132,8 @@
 <footer class='site-footer'>
   <div class='site-footer__inner'>
     <span class='site-footer__brand'>Godzilla Docs</span>
-    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>\n  </div>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
 </footer>
 </body>
 </html>
