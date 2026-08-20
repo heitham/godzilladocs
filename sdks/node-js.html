@@ -62,6 +62,12 @@
 <main class="cms-main-content">
 
 <h1>Node.js SDK <span class='chip chip--primary'>v2</span></h1>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>Breaking changes in next major release</div>
+  <div class='alert__body'><p>The next major SDK release will include significant breaking changes. Please review the <a href="/versions/migration-guide-v1-to-v2">migration guide</a> for details on what will change and how to prepare your code.</p></div>
+</div>
+
 <p>A thin, typed wrapper around the <a href="/api/index">v2 REST API</a> for Node.js and TypeScript projects.</p>
 
 <h2>Install</h2>
@@ -81,7 +87,7 @@
     <span class='code-block__lang'>typescript</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>import { Godzilla } from "@godzilla/sdk";\n\nconst godzilla = new Godzilla({ apiKey: process.env.GODZILLA_API_KEY });</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>import { Godzilla } from "@godzilla/sdk";\\n\\nconst godzilla = new Godzilla({ apiKey: process.env.GODZILLA_API_KEY });</code></pre>
 </div>
 
 <h2>Create a pipeline</h2>
@@ -93,11 +99,7 @@
     <span class='code-block__lang'>typescript</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>const pipeline = await godzilla.pipelines.create({
-  name: "ingest-orders",
-  sourceConnectorId: "conn_pg_orders",
-  destinationConnectorId: "conn_snowflake_dw",
-});</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>const pipeline = await godzilla.pipelines.create({\n  name: "ingest-orders",\n  sourceConnectorId: "conn_pg_orders",\n  destinationConnectorId: "conn_snowflake_dw",\n});</code></pre>
 </div>
 
 <h2>Listening for webhooks</h2>
@@ -109,7 +111,7 @@
     <span class='code-block__lang'>typescript</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>import { verifyWebhookSignature } from "@godzilla/sdk";\n\nconst isValid = verifyWebhookSignature(rawBody, signatureHeader, webhookSecret);</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>import { verifyWebhookSignature } from "@godzilla/sdk";\\n\\nconst isValid = verifyWebhookSignature(rawBody, signatureHeader, webhookSecret);</code></pre>
 </div>
 
 <div class='alert alert--info'>

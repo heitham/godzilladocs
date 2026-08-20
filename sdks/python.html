@@ -62,6 +62,12 @@
 <main class="cms-main-content">
 
 <h1>Python SDK <span class='chip chip--primary'>v2</span></h1>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>Breaking changes in next major release</div>
+  <div class='alert__body'><p>The next major SDK release will include significant breaking changes. Please review the <a href="/versions/migration-guide-v1-to-v2">migration guide</a> for details on what will change and how to prepare your code.</p></div>
+</div>
+
 <p>A typed client for the <a href="/apis/index">v2 REST API</a>, for Python 3.9+.</p>
 
 <h2>Install</h2>
@@ -81,9 +87,7 @@
     <span class='code-block__lang'>python</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>from godzilla import Godzilla
-
-godzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>from godzilla import Godzilla\n\ngodzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
 </div>
 
 <h2>Create a pipeline</h2>
@@ -95,11 +99,7 @@ godzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
     <span class='code-block__lang'>python</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>pipeline = godzilla.pipelines.create(
-    name="ingest-orders",
-    source_connector_id="conn_pg_orders",
-    destination_connector_id="conn_snowflake_dw",
-)</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>pipeline = godzilla.pipelines.create(\n    name="ingest-orders",\n    source_connector_id="conn_pg_orders",\n    destination_connector_id="conn_snowflake_dw",\n)</code></pre>
 </div>
 
 <h2>Replaying dead-lettered events</h2>
