@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforming events in flight | Godzilla Docs</title>
+  <meta name="description" content="Reshape, filter, and enrich events as they pass through a pipeline using transforms.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-transforming-events-in-flight">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforming events in flight</h1>
+<p>This guide covers reshaping, filtering, and enriching events as they flow through your <a href="/concepts-pipelines">pipeline</a> using transforms — a powerful way to clean, unify, and augment data without leaving your pipeline.</p>
+
+<h2>What are transforms?</h2>
+<p>A transform is a processing step in a pipeline that takes each event and can:</p>
+<ul>
+  <li><strong>Reshape</strong> — change field names, flatten nested objects, or reorganize the structure</li>
+  <li><strong>Filter</strong> — drop events that don't match a condition</li>
+  <li><strong>Enrich</strong> — add computed fields, lookups, or derived values</li>
+</ul>
+<p>Transforms run synchronously as events flow through the pipeline, before they reach the destination.</p>
+
+<h2>Common transform patterns</h2>
+
+<h3>Field mapping and restructuring</h3>
+<p>Map source field names to a canonical schema:</p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>transform-example.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  "user_id": "userId",\n  "full_name": "fullName",\n  "email_addr": "email"\n</code></pre>
+</div>}
+
+<h3>Filtering events</h3>
+<p>Use a condition to exclude events that don't meet criteria:</p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>filter-example.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  "condition": "event.status == 'active'",\n  "action": "keep"\n</code></pre>
+</div>}
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Filter behavior</div>
+  <div class='alert__body'><p>When an event fails a filter condition, it is silently dropped. Events are <em>not</em> sent to the dead-letter queue unless there's an error in the transform logic itself.</p></div>
+</div>
+
+<h3>Enrichment with computed fields</h3>
+<p>Add new fields derived from existing data:</p>
+{{ds:component/code-block|filename=enrich-example.json|language=json|code={\n  "new_fields": {\n    "event_year": "year(event.timestamp)",\n    "is_vip": "event.lifetime_value > 10000",\n    "region": "lookup_region(event.postal_code)"\n  }\n}}}
+
+<h2>Transform limitations</h2>
+<p>Keep these constraints in mind when designing transforms:</p>
+<ul>
+  <li>Transforms must complete within 5 seconds per event</li>
+  <li>No external API calls or network I/O — use enrichment data pre-loaded into the transform</li>
+  <li>Memory is limited to 256MB per transform instance</li>
+  <li>Transforms are stateless — no persistent caches across events</li>
+</ul>
+
+<h2>Error handling in transforms</h2>
+<p>If a transform fails on an event:</p>
+<ol>
+  <li>The pipeline logs the error with the event and transform details</li>
+  <li>The event is sent to the dead-letter queue</li>
+  <li>The pipeline continues processing subsequent events</li>
+</ol>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Transform errors are retryable</div>
+  <div class='alert__body'><p>Events in the dead-letter queue from transform failures can be replayed after you fix the transform logic. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for replay instructions.</p></div>
+</div>
+
+<h2>Performance considerations</h2>
+<p>Transforms are synchronous and run on the critical path, so keep them fast:</p>
+<ul>
+  <li>Use simple field mappings instead of complex logic when possible</li>
+  <li>Cache lookup tables or reference data inside the transform at startup</li>
+  <li>Test transforms with realistic event volume before deploying to production</li>
+</ul>
+
+<h2>Next steps</h2>
+<p>Once you've added transforms to clean and enrich your data, follow <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> to understand how failed events are handled and recovered.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Connecting a data source</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Handling errors & retries</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
