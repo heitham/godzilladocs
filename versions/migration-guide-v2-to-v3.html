@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started/authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started/installation">Installation</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started/quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li><li class="usa-sidenav__item usa-sidenav__item--active"><a href="/versions">Versions</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v2-to-v3" class="usa-current">Migration guide (v2 → v3)</a></li><li class="usa-sidenav__item"><a href="/versions/release-notes-archive">Release notes archive</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started/authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts/connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/events">Events</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started/installation">Installation</a></li><li class="usa-sidenav__item"><a href="/concepts/pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started/quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li><li class="usa-sidenav__item usa-sidenav__item--active"><a href="/versions">Versions</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v2-to-v3" class="usa-current">Migration guide (v2 → v3)</a></li><li class="usa-sidenav__item"><a href="/versions/release-notes-archive">Release notes archive</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Migration guide (v2 → v3) <span class='chip chip--danger'>v2 withdrawn</span></h1>
@@ -143,7 +143,23 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines/batch \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "pipelines": [\n      {\n        "name": "ingest-orders",\n        "source_connector_id": "conn_pg_orders",\n        "destination_connector_id": "conn_snowflake_dw"\n      },\n      {\n        "name": "ingest-users",\n        "source_connector_id": "conn_pg_users",\n        "destination_connector_id": "conn_snowflake_dw"\n      }\n    ]\n  }'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines/batch \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "pipelines": [
+      {
+        "name": "ingest-orders",
+        "source_connector_id": "conn_pg_orders",
+        "destination_connector_id": "conn_snowflake_dw"
+      },
+      {
+        "name": "ingest-users",
+        "source_connector_id": "conn_pg_users",
+        "destination_connector_id": "conn_snowflake_dw"
+      }
+    ]
+  }'</code></pre>
 </div>
 
 <h2 id="pipelines-filtering">Pipelines: Enhanced list filtering</h2>
@@ -156,7 +172,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v3/pipelines?state=active&connector_id=conn_snowflake_dw \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v3/pipelines?state=active&connector_id=conn_snowflake_dw \
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
 <h2 id="events-filtering">Events: Advanced filtering</h2>
@@ -169,7 +186,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl "https://api.godzilladocs.dev/v3/pipelines/{pipeline_id}/events?status=failed&since=2026-08-01T00:00:00Z&until=2026-08-31T23:59:59Z" \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl "https://api.godzilladocs.dev/v3/pipelines/{pipeline_id}/events?status=failed&since=2026-08-01T00:00:00Z&until=2026-08-31T23:59:59Z" \
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
 <h2 id="events-batch-query">Events: Batch query (new in v3)</h2>
@@ -182,7 +200,17 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines/events/query \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "filters": {\n      "type": "order.created",\n      "status": "failed",\n      "since": "2026-08-01T00:00:00Z"\n    },\n    "limit": 100\n  }'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines/events/query \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "filters": {
+      "type": "order.created",
+      "status": "failed",
+      "since": "2026-08-01T00:00:00Z"
+    },
+    "limit": 100
+  }'</code></pre>
 </div>
 
 <div class='alert alert--danger'>
