@@ -1,1 +1,123 @@
-<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Monitoring &amp; alerts | Godzilla Docs</title>\n  <meta name=\"description\" content=\"Watch pipeline health and get notified of failures via webhooks before they become incidents.\">\n  <link rel=\"stylesheet\" href=\"/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css\">\n  <style>\n    /* Page body — remove browser default margin so header sits flush.\n       DSes that use position:fixed headers must set --cms-header-height on :root\n       so this padding pushes the first content element below the header. */\n    body { margin: 0; padding-top: var(--cms-header-height, 0px); }\n\n    /* Default layout: single centred column within the site max-width */\n    .cms-page-container {\n      max-width: 1280px;\n      margin: 0 auto;\n      padding: 0 64px;\n      box-sizing: border-box;\n    }\n    .cms-main-content { min-width: 0; }\n\n    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */\n    .cms-has-left-nav {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);\n      gap: 32px;\n      align-items: start;\n    }\n    /* Right nav placeholder column (population deferred) */\n    .cms-has-right-nav {\n      display: grid;\n      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);\n      gap: 32px;\n      align-items: start;\n    }\n    .cms-has-left-nav.cms-has-right-nav {\n      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);\n    }\n\n    /* Mobile — stack columns, match DS spacing.margin-mobile token */\n    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }\n  </style>\n\n</head>\n<body class=\"folder-guides page-monitoring-and-alerts\">\n<header class='site-header'>\n  <div class='site-header__inner'>\n    <a class='site-header__brand' href='/'>\n      <span class='site-header__logo'>&#127755;</span>\n      <span class='site-header__name'>Godzilla Docs</span>\n    </a>\n    <nav class='site-header__nav'></nav>\n  </div>\n</header>\n<div class=\"cms-page-container cms-has-left-nav\">\n<aside class=\"cms-left-nav\"><nav aria-label=\"Side navigation\"><ul class=\"usa-sidenav\"><li class=\"usa-sidenav__item\"><a href=\"/guides/building-your-first-pipeline\">Building your first pipeline</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/connecting-a-data-source\">Connecting a data source</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/index\">Guides</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/transforming-events-in-flight\">Transforming events in flight</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/error-handling-and-recovery\">Error handling &amp; recovery</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/monitoring-and-alerts\" class=\"usa-current\">Monitoring &amp; alerts</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/scheduling-and-triggers\">Scheduling &amp; triggers</a></li></ul></nav></aside>\n<main class=\"cms-main-content\">\n\n<h1>Monitoring &amp; alerts</h1>\n<p>Keep an eye on a running <a href=\"/concepts/pipelines\">pipeline</a> without babysitting it manually.</p>\n\n<h2>Connector health</h2>\n<p>Poll a connector's <code>health</code> field via the <a href=\"/api/connectors\">Connectors endpoint</a>, or better, subscribe to <code>connector.error</code> so you're notified the moment it degrades.</p>\n\n<h2>Subscribing to pipeline lifecycle events</h2>\n<p>The most reliable way to monitor a pipeline is a <a href=\"/api/webhooks\">webhook</a> subscription on <code>pipeline.failed</code> and <code>connector.error</code>.</p>\n\n<div class='code-block'>\n  <div class='code-block__header'>\n    <span class='code-block__filename'>subscribe.sh</span>\n    <span class='code-block__lang'>bash</span>\n    <button class='code-block__copy' type='button'>Copy</button>\n  </div>\n  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/webhooks \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -d '{\"url\":\"https://you.example.com/hooks/godzilla\",\"events\":[\"pipeline.failed\",\"connector.error\"]}'</code></pre>\n</div>\n\n<div class='alert alert--success'>\n  <div class='alert__title'>Recommended baseline</div>\n  <div class='alert__body'><p>At minimum, subscribe to <code>pipeline.failed</code> for every production pipeline. It's the single highest-signal event for catching problems before customers do.</p></div>\n</div>\n\n<h2>Dead-letter queue depth</h2>\n<p>A growing dead-letter queue is an early warning sign, not just a symptom — see <a href=\"/guides/error-handling-and-recovery\">Error handling & recovery</a> for how events end up there and how to drain them.</p>\n\n<nav class='docs-pagination' aria-label='Page navigation'>\n  <a class='docs-pagination__prev' href='/guides/scheduling-and-triggers'>\n    <span class='docs-pagination__direction'>Previous</span>\n    <span class='docs-pagination__label'>Scheduling & triggers</span>\n  </a>\n  <a class='docs-pagination__next' href='/guides/index'>\n    <span class='docs-pagination__direction'>Next</span>\n    <span class='docs-pagination__label'>Guides</span>\n  </a>\n</nav>\n</main>\n\n</div>\n<footer class='site-footer'>\n  <div class='site-footer__inner'>\n    <span class='site-footer__brand'>Godzilla Docs</span>\n    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>\n  </div>\n</footer>\n</body>\n</html>"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitoring &amp; alerts | Godzilla Docs</title>
+  <meta name="description" content="Watch pipeline health and get notified of failures via webhooks before they become incidents.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-monitoring-and-alerts">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav cms-has-right-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li><li class="usa-sidenav__item"><a href="/guides/error-handling-and-recovery">Error handling &amp; recovery</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts" class="usa-current">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Monitoring &amp; alerts</h1>
+<p>Keep an eye on a running <a href="/concepts/pipelines">pipeline</a> without babysitting it manually.</p>
+
+<h2 id="connector-health">Connector health</h2>
+<p>Poll a connector's <code>health</code> field via the <a href="/api/connectors">Connectors endpoint</a>, or better, subscribe to <code>connector.error</code> so you're notified the moment it degrades.</p>
+
+<h2 id="subscribing-to-pipeline-lifecycle-events">Subscribing to pipeline lifecycle events</h2>
+<p>The most reliable way to monitor a pipeline is a <a href="/api/webhooks">webhook</a> subscription on <code>pipeline.failed</code> and <code>connector.error</code>.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>subscribe.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/webhooks \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -d '{"url":"https://you.example.com/hooks/godzilla","events":["pipeline.failed","connector.error"]}'</code></pre>
+</div>
+
+<div class='alert alert--success'>
+  <div class='alert__title'>Recommended baseline</div>
+  <div class='alert__body'><p>At minimum, subscribe to <code>pipeline.failed</code> for every production pipeline. It's the single highest-signal event for catching problems before customers do.</p></div>
+</div>
+
+<h2 id="dead-letter-queue-depth">Dead-letter queue depth</h2>
+<p>A growing dead-letter queue is an early warning sign, not just a symptom — see <a href="/guides/error-handling-and-recovery">Error handling & recovery</a> for how events end up there and how to drain them.</p>
+
+<aside class="cms-right-nav">
+  <div class='docs-toc'>
+    <div class='docs-toc__title'>On this page</div>
+    <ul class='docs-toc__list'>
+      <li><a href='#connector-health'>Connector health</a></li>
+      <li><a href='#subscribing-to-pipeline-lifecycle-events'>Subscribing to pipeline lifecycle events</a></li>
+      <li><a href='#dead-letter-queue-depth'>Dead-letter queue depth</a></li>
+    </ul>
+  </div>
+</aside>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/scheduling-and-triggers'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Scheduling & triggers</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/index'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Guides</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
