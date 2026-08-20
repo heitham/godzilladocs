@@ -44,6 +44,14 @@
       .cms-page-container { padding: 0 16px; }
       .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
+
+    /* Stat cards grid */
+    .stat-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
   </style>
 
 </head>
@@ -63,16 +71,48 @@
 
 <h1>Rate limits <span class='chip chip--primary'>v2</span></h1>
 
-<div class='stat-card'>
-  <div class='stat-card__value'>1,000</div>
-  <div class='stat-card__label'>requests / minute</div>
-  <p class='stat-card__description'>Default rate limit for standard-tier API keys, per workspace.</p>
+<div class='stat-cards-grid'>
+  <div class='stat-card'>
+    <div class='stat-card__value'>1,000</div>
+    <div class='stat-card__label'>requests / minute</div>
+    <p class='stat-card__description'>Default rate limit for standard-tier API keys, per workspace.</p>
+  </div>
+  <div class='stat-card'>
+    <div class='stat-card__value'>429</div>
+    <div class='stat-card__label'>Status code</div>
+    <p class='stat-card__description'>Returned when you exceed your rate limit.</p>
+  </div>
+  <div class='stat-card'>
+    <div class='stat-card__value'>60</div>
+    <div class='stat-card__label'>seconds</div>
+    <p class='stat-card__description'>Standard rate limit window.</p>
+  </div>
 </div>
 
 <p><strong>See also:</strong> For complete details on plan tiers, quotas, and what happens when you exceed your limit, refer to <a href="/quotas-and-billing">Quotas & billing</a>.</p>
 
 <h2 id="headers">Rate limit headers</h2>
-<p>Every response includes <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code>. A request over the limit returns <code>429 Too Many Requests</code> with a <code>Retry-After</code> header.</p>
+<p>Every response includes three rate-limit headers:</p>
+
+<div class='stat-cards-grid'>
+  <div class='stat-card'>
+    <div class='stat-card__value'><code>X-RateLimit-Limit</code></div>
+    <div class='stat-card__label'>Request quota</div>
+    <p class='stat-card__description'>Your rate limit for this window.</p>
+  </div>
+  <div class='stat-card'>
+    <div class='stat-card__value'><code>X-RateLimit-Remaining</code></div>
+    <div class='stat-card__label'>Requests left</div>
+    <p class='stat-card__description'>Remaining requests in the current window.</p>
+  </div>
+  <div class='stat-card'>
+    <div class='stat-card__value'><code>X-RateLimit-Reset</code></div>
+    <div class='stat-card__label'>Window reset time</div>
+    <p class='stat-card__description'>Unix timestamp when the limit resets.</p>
+  </div>
+</div>
+
+<p>A request over the limit returns <code>429 Too Many Requests</code> with a <code>Retry-After</code> header indicating seconds to wait.</p>
 
 <h2 id="pagination">Pagination</h2>
 <p>List endpoints (<a href="/concepts/pipelines#list">Pipelines</a>, Connectors, <a href="/concepts/events">Events</a>) use cursor-based pagination — a departure from v1's offset-based pagination.</p>
