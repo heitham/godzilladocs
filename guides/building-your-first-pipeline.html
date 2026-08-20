@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline" class="usa-current">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline" class="usa-current">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li><li class="usa-sidenav__item"><a href="/guides/error-handling-and-recovery">Error handling &amp; recovery</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Building your first pipeline</h1>
@@ -78,8 +78,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -d '{"type":"postgres","direction":"source","config":{"connection_string":"postgres://..."}}'</code></pre>
 </div>
 
@@ -92,8 +92,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -d '{"type":"snowflake","direction":"destination","config":{"account":"..."}}'</code></pre>
 </div>
 
@@ -106,15 +106,15 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -d '{"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"}'</code></pre>
 </div>
 
 <p>The pipeline starts in <code>draft</code> state. Activate it once you're ready to start processing events.</p>
 
 <h2>Next steps</h2>
-<p>Now that events are flowing, read <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> to see what happens when a write fails, or <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a> to watch it run.</p>
+<p>Now that events are flowing, read <a href="/guides/error-handling-and-recovery">Error handling & recovery</a> to see what happens when a write fails, or <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a> to watch it run.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/guides/index'>

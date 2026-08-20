@@ -82,33 +82,33 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  &quot;fields&quot;: [
-    &#123;
-      &quot;name&quot;: &quot;order_id&quot;,
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;required&quot;: true,
-      &quot;description&quot;: &quot;Unique order identifier&quot;
-    &#125;,
-    &#123;
-      &quot;name&quot;: &quot;amount_cents&quot;,
-      &quot;type&quot;: &quot;integer&quot;,
-      &quot;required&quot;: true,
-      &quot;description&quot;: &quot;Order total in cents&quot;
-    &#125;,
-    &#123;
-      &quot;name&quot;: &quot;customer_id&quot;,
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;required&quot;: false
-    &#125;,
-    &#123;
-      &quot;name&quot;: &quot;tags&quot;,
-      &quot;type&quot;: &quot;array&quot;,
-      &quot;items&quot;: &#123; &quot;type&quot;: &quot;string&quot; &#125;,
-      &quot;required&quot;: false
-    &#125;
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "fields": [
+    {
+      "name": "order_id",
+      "type": "string",
+      "required": true,
+      "description": "Unique order identifier"
+    },
+    {
+      "name": "amount_cents",
+      "type": "integer",
+      "required": true,
+      "description": "Order total in cents"
+    },
+    {
+      "name": "customer_id",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "tags",
+      "type": "array",
+      "items": { "type": "string" },
+      "required": false
+    }
   ]
-&#125;</code></pre>
+}</code></pre>
 </div>
 
 <p>Each field declares:</p>
@@ -127,7 +127,7 @@
   <li>It is moved to the pipeline's dead-letter queue.</li>
 </ul>
 
-<p>This prevents corrupted or malformed data from corrupting downstream systems. See <a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a> to learn how to inspect and replay dead-lettered events.</p>
+<p>This prevents corrupted or malformed data from corrupting downstream systems. See <a href="/guides/error-handling-and-recovery">Error handling &amp; recovery</a> to learn how to inspect and replay dead-lettered events.</p>
 
 <h2>Schema evolution</h2>
 <p>As your source systems evolve, you may need to add or change fields in a schema. Godzilla supports schema evolution through versioning:</p>

@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li><li class="usa-sidenav__item"><a href="/guides/error-handling-and-recovery">Error handling &amp; recovery</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Transforming events in flight</h1>
@@ -81,16 +81,16 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "transform": &#123;
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "transform": {
     "type": "project",
-    "fields": &#123;
+    "fields": {
       "user_id": "id",
       "user_email": "email",
       "user_created_at": "created_at"
-    &#125;
-  &#125;
-&#125;</code></pre>
+    }
+  }
+}</code></pre>
 </div>
 
 <p>This transformation reads the <code>id</code>, <code>email</code>, and <code>created_at</code> fields from incoming events and emits them as <code>user_id</code>, <code>user_email</code>, and <code>user_created_at</code>. Any other fields are dropped.</p>
@@ -109,16 +109,16 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "transform": &#123;
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "transform": {
     "type": "filter",
-    "condition": &#123;
+    "condition": {
       "field": "status",
       "operator": "!=",
       "value": "test"
-    &#125;
-  &#125;
-&#125;</code></pre>
+    }
+  }
+}</code></pre>
 </div>
 
 <p>This filter drops all events where the <code>status</code> field is <code>test</code>. Only events with a non-test status are passed to the destination. Filtered events do not incur downstream costs and do not appear in the dead-letter queue.</p>
@@ -132,18 +132,18 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "transform": &#123;
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "transform": {
     "type": "enrich",
-    "lookups": &#123;
-      "customer_tier": &#123;
+    "lookups": {
+      "customer_tier": {
         "source": "dimension_customers",
         "match_on": "customer_id",
         "select": "tier"
-      &#125;
-    &#125;
-  &#125;
-&#125;</code></pre>
+      }
+    }
+  }
+}</code></pre>
 </div>
 
 <p>This enrichment joins the incoming <code>customer_id</code> against a dimension table called <code>dimension_customers</code>, looks up the <code>tier</code> column, and adds it as a new field on every event.</p>
@@ -162,14 +162,14 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  <pre class='code-block__pre'><code class='code-block__code'>{
   "pipeline_id": "enrich-and-filter-orders",
   "transforms": [
-    &#123; "type": "filter", "condition": &#123; "field": "amount", "operator": ">", "value": 0 &#125; &#125;,
-    &#123; "type": "project", "fields": &#123; "order_id": "id", "order_amount": "amount", "customer_id": "cust_id" &#125; &#125;,
-    &#123; "type": "enrich", "lookups": &#123; "customer_tier": &#123; "source": "dimension_customers", "match_on": "customer_id", "select": "tier" &#125; &#125; &#125;
+    { "type": "filter", "condition": { "field": "amount", "operator": ">", "value": 0 } },
+    { "type": "project", "fields": { "order_id": "id", "order_amount": "amount", "customer_id": "cust_id" } },
+    { "type": "enrich", "lookups": { "customer_tier": { "source": "dimension_customers", "match_on": "customer_id", "select": "tier" } } }
   ]
-&#125;</code></pre>
+}</code></pre>
 </div>
 
 <h2>Performance and debugging</h2>
@@ -180,9 +180,9 @@
     <span class='docs-pagination__direction'>Previous</span>
     <span class='docs-pagination__label'>Connecting a data source</span>
   </a>
-  <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
+  <a class='docs-pagination__next' href='/guides/error-handling-and-recovery'>
     <span class='docs-pagination__direction'>Next</span>
-    <span class='docs-pagination__label'>Handling errors & retries</span>
+    <span class='docs-pagination__label'>Error handling & recovery</span>
   </a>
 </nav>
 </main>

@@ -82,8 +82,8 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'># Pipeline 1: to data warehouse
-curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -d '{
     "name": "events-to-warehouse",
     "source_connector_id": "conn_kafka_events",
@@ -91,8 +91,8 @@ curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
   }'
 
 # Pipeline 2: to real-time analytics
-curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -d '{
     "name": "events-to-analytics",
     "source_connector_id": "conn_kafka_events",
@@ -100,8 +100,8 @@ curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
   }'
 
 # Pipeline 3: to operational database
-curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -d '{
     "name": "events-to-operational-db",
     "source_connector_id": "conn_kafka_events",
@@ -125,7 +125,7 @@ curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
 </div>
 
 <h2>Error handling</h2>
-<p>Each pipeline has independent <a href="/guides/handling-errors-and-retries">error and retry</a> policies. If one destination fails:</p>
+<p>Each pipeline has independent <a href="/guides/error-handling-and-recovery">error and retry</a> policies. If one destination fails:</p>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Isolated failures</div>
@@ -143,8 +143,8 @@ curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>for pipeline in "events-to-warehouse" "events-to-analytics" "events-to-operational-db"; do
   echo "=== $pipeline ==="
-  curl https://api.godzilladocs.dev/v2/events \\
-    -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  curl https://api.godzilladocs.dev/v2/events \
+    -H "Authorization: Bearer $GODZILLA_API_KEY" \
     -d "{\"pipeline_id\": \"$pipeline\", \"status\": \"delivered\"}"
 done</code></pre>
 </div>

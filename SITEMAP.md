@@ -43,7 +43,7 @@ Generated from published output — 33 pages.
 | `/guides/building-your-first-pipeline` | Building your first pipeline |
 | `/guides/connecting-a-data-source` | Connecting a data source |
 | `/guides/transforming-events-in-flight` | Transforming events in flight |
-| `/guides/handling-errors-and-retries` | Handling errors & retries |
+| `/guides/error-handling-and-recovery` | Error handling & recovery |
 | `/guides/index` | Guides |
 | `/guides/monitoring-and-alerts` | Monitoring & alerts |
 | `/guides/scheduling-and-triggers` | Scheduling & triggers |
