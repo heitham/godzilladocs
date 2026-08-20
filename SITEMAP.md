@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 30 pages.
+Generated from published output — 31 pages.
 
 ## (root)
 
@@ -40,6 +40,7 @@ Generated from published output — 30 pages.
 |---|---|
 | `/guides/building-your-first-pipeline` | Building your first pipeline |
 | `/guides/connecting-a-data-source` | Connecting a data source |
+| `/guides/transforming-events-in-flight` | Transforming events in flight |
 | `/guides/handling-errors-and-retries` | Handling errors & retries |
 | `/guides/index` | Guides |
 | `/guides/monitoring-and-alerts` | Monitoring & alerts |
