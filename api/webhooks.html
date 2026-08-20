@@ -64,6 +64,11 @@
 <h1>Webhooks endpoint <span class='chip chip--primary'>v2</span></h1>
 <p>Subscribe to platform lifecycle events — such as <code>pipeline.completed</code> or <code>connector.error</code> — as outbound HTTP requests to a URL you control. This is the v2 replacement for v1's polling-only status checks; see the <a href="/versions/migration-guide-v1-to-v2">Migration guide</a> if you're moving off v1.</p>
 
+<div class='alert alert--info'>
+  <div class='alert__title'>Note: v3 available for Events and Pipelines</div>
+  <div class='alert__body'><p>The <a href="/api/events">Events</a> and <a href="/api/pipelines">Pipelines</a> endpoints now have v3 versions available. The Connectors, Transforms, and Webhooks endpoints remain on v2.</p></div>
+</div>
+
 <h2 id="create">Create a webhook subscription</h2>
 <p><code>POST /v2/webhooks</code></p>
 
@@ -85,12 +90,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{
-  "id": "evt_wh_2091",
-  "type": "pipeline.failed",
-  "occurred_at": "2026-08-18T09:14:02Z",
-  "data": { "pipeline_id": "pl_ingest_orders", "error": "destination_timeout" }
-}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  "id": "evt_wh_2091",\n  "type": "pipeline.failed",\n  "occurred_at": "2026-08-18T09:14:02Z",\n  "data": { "pipeline_id": "pl_ingest_orders", "error": "destination_timeout" }\n}</code></pre>
 </div>
 
 <div class='alert alert--warning'>

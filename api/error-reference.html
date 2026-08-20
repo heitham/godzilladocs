@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Error reference | Godzilla Docs</title>
-  <meta name="description" content="The v2 API's error response shape and error code reference.">
+  <meta name="description" content="The v2 and v3 API's error response shape and error code reference.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -61,7 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/error-reference" class="usa-current">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Error reference <span class='chip chip--primary'>v2</span></h1>
+<h1>Error reference <span class='chip chip--primary'>v2/v3</span></h1>
 
 <h2 id="errors">Error shape</h2>
 <div class='code-block'>
@@ -70,18 +70,17 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{
-  "error": {
-    "code": "connector_unauthorized",
-    "message": "The connector's credentials were rejected by the source system.",
-    "request_id": "req_c93a10"
-  }
-}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  "error": {\n    "code": "connector_unauthorized",\n    "message": "The connector's credentials were rejected by the source system.",\n    "request_id": "req_c93a10"\n  }\n}</code></pre>
 </div>
 
 <div class='alert alert--danger'>
   <div class='alert__title'>Breaking change from v1</div>
-  <div class='alert__body'><p>v1 returned bare error strings. v2 always wraps errors in an <code>error</code> object with a stable <code>code</code> field — match on <code>code</code>, not on <code>message</code> text.</p></div>
+  <div class='alert__body'><p>v1 returned bare error strings. v2 and v3 always wrap errors in an <code>error</code> object with a stable <code>code</code> field — match on <code>code</code>, not on <code>message</code> text.</p></div>
+</div>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Consistent across API versions</div>
+  <div class='alert__body'><p>Error responses are identical in v2 and v3, including the Events and Pipelines endpoints available in both versions.</p></div>
 </div>
 
 <nav class='docs-toc' aria-label='On this page'>

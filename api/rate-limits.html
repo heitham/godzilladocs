@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rate limits | Godzilla Docs</title>
-  <meta name="description" content="Standard-tier rate limits, pagination envelope, and rate limit headers for the v2 API.">
+  <meta name="description" content="Standard-tier rate limits, pagination envelope, and rate limit headers for the v2 and v3 API.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -69,7 +69,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits" class="usa-current">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Rate limits <span class='chip chip--primary'>v2</span></h1>
+<h1>Rate limits <span class='chip chip--primary'>v2/v3</span></h1>
 
 <div class='stat-cards-grid'>
   <div class='stat-card'>
@@ -90,6 +90,11 @@
 </div>
 
 <p><strong>See also:</strong> For complete details on plan tiers, quotas, and what happens when you exceed your limit, refer to <a href="/quotas-and-billing">Quotas & billing</a>.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Rate limits apply to v2 and v3</div>
+  <div class='alert__body'><p>These rate limits are shared across both v2 and v3 API versions. The Events and Pipelines endpoints are available in both v2 and v3, while other endpoints remain on v2.</p></div>
+</div>
 
 <h2 id="headers">Rate limit headers</h2>
 <p>Every response includes three rate-limit headers:</p>
@@ -123,11 +128,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{
-  "data": [ { "id": "pl_ingest_orders" } ],
-  "next_cursor": "eyJvZmZzZXQiOjIwfQ",
-  "has_more": true
-}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  "data": [ { "id": "pl_ingest_orders" } ],\n  "next_cursor": "eyJvZmZzZXQiOjIwfQ",\n  "has_more": true\n}</code></pre>
 </div>
 
 <nav class='docs-toc' aria-label='On this page'>
