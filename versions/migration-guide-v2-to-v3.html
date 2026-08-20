@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Migration guide (v2 → v3) | Godzilla Docs</title>
-  <meta name="description" content="Upgrade your pipelines integration from v2 to v3 with improved error handling and batch operations.">
+  <meta name="description" content="Upgrade your API integration from v2 to v3 with improved error handling, batch operations, and advanced filtering.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -61,15 +61,21 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started/authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started/installation">Installation</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started/quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li><li class="usa-sidenav__item usa-sidenav__item--active"><a href="/versions">Versions</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v2-to-v3" class="usa-current">Migration guide (v2 → v3)</a></li><li class="usa-sidenav__item"><a href="/versions/release-notes-archive">Release notes archive</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Migration guide (v2 → v3)</h1>
-<p>v3 of the pipelines endpoint ships with improved error handling, batch operations, and enhanced filtering. This guide covers breaking changes and new capabilities.</p>
+<h1>Migration guide (v2 → v3) <span class='chip chip--danger'>v2 withdrawn</span></h1>
+<p>v3 ships with improved error handling, batch operations, and advanced filtering for both Pipelines and Events endpoints. v2 is no longer available — all integrations must upgrade to v3. This guide covers the changes required.</p>
+
+<h2 id="urgent">Urgent: v2 is withdrawn</h2>
+<p>v2 endpoints are no longer accepting requests as of <strong>today</strong>. If you are still using v2, your integration is already broken. Migrate immediately using the steps in this guide.</p>
 
 <h2 id="overview">What's new in v3</h2>
 <ul>
-  <li><strong>Error handling policies</strong> — Configure retry, dead-letter queue (DLQ), or discard behavior per pipeline.</li>
-  <li><strong>Batch operations</strong> — Create or update multiple pipelines in a single request.</li>
-  <li><strong>Enhanced filtering</strong> — Filter pipelines by state, connector, or tags in list operations.</li>
-  <li><strong>Improved error messages</strong> — More actionable error responses with suggested remediation.</li>
+  <li><strong>Pipelines: Error handling policies</strong> — Configure retry, dead-letter queue (DLQ), or discard behavior per pipeline.</li>
+  <li><strong>Pipelines: Batch operations</strong> — Create or update multiple pipelines in a single request.</li>
+  <li><strong>Pipelines: Enhanced filtering</strong> — Filter pipelines by state, connector, or tags in list operations.</li>
+  <li><strong>Events: Advanced filtering</strong> — Filter by status (<code>success</code>, <code>failed</code>, <code>dead_letter</code>) and date ranges.</li>
+  <li><strong>Events: Batch query</strong> — Query events across multiple pipelines with complex filters.</li>
+  <li><strong>Events: Single event retrieval</strong> — Get a single event with full processing history.</li>
+  <li><strong>Both: Improved error messages</strong> — More actionable error responses with suggested remediation.</li>
 </ul>
 
 <h2 id="base-url">Update your base URL</h2>
@@ -82,19 +88,23 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>- https://api.godzilladocs.dev/v2/pipelines
-+ https://api.godzilladocs.dev/v3/pipelines</code></pre>
+- https://api.godzilladocs.dev/v2/events
++ https://api.godzilladocs.dev/v3/pipelines
++ https://api.godzilladocs.dev/v3/events</code></pre>
 </div>
 
 <h2 id="breaking-changes">Breaking changes</h2>
 
-<p>v3 is backwards-compatible with v2 for basic create/list/delete operations. The following are the only breaking changes:</p>
+<p>v3 is mostly backwards-compatible with v2 for basic create/list/delete operations on Pipelines. The following are the only breaking changes for Pipelines:</p>
 
 <ul>
   <li><code>error_policy</code> field is now required in pipeline responses (defaults to <code>retry</code> if not set).</li>
   <li>List operations now include a <code>total_count</code> field for pagination context.</li>
 </ul>
 
-<h2 id="error-handling">Add error handling policies</h2>
+<p><strong>Events endpoint changes:</strong> All v2 event list operations have been superseded by improved v3 equivalents with more filter options. Event ID and replay operations are unchanged.</p>
+
+<h2 id="pipelines-error-handling">Pipelines: Add error handling policies</h2>
 
 <p>v3 introduces structured error handling. When creating or updating a pipeline, specify an error policy:</p>
 
@@ -123,7 +133,7 @@
   <li><code>discard</code> — Silently drop failed events (use with caution).</li>
 </ul>
 
-<h2 id="batch-operations">Use batch operations</h2>
+<h2 id="pipelines-batch">Pipelines: Use batch operations</h2>
 
 <p>Create or update multiple pipelines in a single request:</p>
 
@@ -133,28 +143,12 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines/batch \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "pipelines": [
-      {
-        "name": "ingest-orders",
-        "source_connector_id": "conn_pg_orders",
-        "destination_connector_id": "conn_snowflake_dw"
-      },
-      {
-        "name": "ingest-users",
-        "source_connector_id": "conn_pg_users",
-        "destination_connector_id": "conn_snowflake_dw"
-      }
-    ]
-  }'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines/batch \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "pipelines": [\n      {\n        "name": "ingest-orders",\n        "source_connector_id": "conn_pg_orders",\n        "destination_connector_id": "conn_snowflake_dw"\n      },\n      {\n        "name": "ingest-users",\n        "source_connector_id": "conn_pg_users",\n        "destination_connector_id": "conn_snowflake_dw"\n      }\n    ]\n  }'</code></pre>
 </div>
 
-<h2 id="filtering">Enhanced list filtering</h2>
+<h2 id="pipelines-filtering">Pipelines: Enhanced list filtering</h2>
 
-<p>v3 supports filtering on list operations:</p>
+<p>v3 supports filtering on Pipelines list operations:</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -162,22 +156,48 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v3/pipelines?state=active&connector_id=conn_snowflake_dw \
-  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v3/pipelines?state=active&connector_id=conn_snowflake_dw \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
-<h2 id="rollback">Rollback to v2</h2>
+<h2 id="events-filtering">Events: Advanced filtering</h2>
 
-<p>v2 remains available at <code>https://api.godzilladocs.dev/v2</code>. If you encounter issues with v3, you can revert your integration to use v2 endpoints. <a href="/api/pipelines-v2">View v2 documentation</a>.</p>
+<p>The Events list endpoint now supports filtering by status and date range:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>list-failed-events.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl "https://api.godzilladocs.dev/v3/pipelines/{pipeline_id}/events?status=failed&since=2026-08-01T00:00:00Z&until=2026-08-31T23:59:59Z" \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+</div>
+
+<h2 id="events-batch-query">Events: Batch query (new in v3)</h2>
+
+<p>Query events across multiple pipelines or with complex filter combinations:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>batch-query-events.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines/events/query \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "filters": {\n      "type": "order.created",\n      "status": "failed",\n      "since": "2026-08-01T00:00:00Z"\n    },\n    "limit": 100\n  }'</code></pre>
+</div>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>v2 is no longer available</div>
+  <div class='alert__body'><p>v2 endpoints have been shutdown entirely. There is no grace period or fallback — all integrations using v2 are broken as of now and must upgrade to v3 immediately.</p></div>
+</div>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Questions?</div>
-  <div class='alert__body'><p>See the <a href="/api/pipelines">v3 Pipelines endpoint docs</a> for the complete API reference, or reach out to <a href="/troubleshooting">support</a> if you need assistance.</p></div>
+  <div class='alert__body'><p>See the <a href="/api/pipelines">v3 Pipelines endpoint docs</a> or <a href="/api/events">v3 Events endpoint docs</a> for the complete API reference, or reach out to <a href="/troubleshooting">support</a> if you need assistance with migration.</p></div>
 </div>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#overview">What's new in v3</a></li><li><a href="#base-url">Update your base URL</a></li><li><a href="#breaking-changes">Breaking changes</a></li><li><a href="#error-handling">Add error handling policies</a></li><li><a href="#batch-operations">Use batch operations</a></li><li><a href="#filtering">Enhanced list filtering</a></li><li><a href="#rollback">Rollback to v2</a></li></ul>
+  <ul class='docs-toc__list'><li><a href="#urgent">Urgent: v2 is withdrawn</a></li><li><a href="#overview">What's new in v3</a></li><li><a href="#base-url">Update your base URL</a></li><li><a href="#breaking-changes">Breaking changes</a></li><li><a href="#pipelines-error-handling">Pipelines: Error handling policies</a></li><li><a href="#pipelines-batch">Pipelines: Batch operations</a></li><li><a href="#pipelines-filtering">Pipelines: Enhanced filtering</a></li><li><a href="#events-filtering">Events: Advanced filtering</a></li><li><a href="#events-batch-query">Events: Batch query</a></li></ul>
 </nav>
 </main>
 
