@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Connectors endpoint <span class='chip chip--primary'>v2</span></h1>
@@ -96,7 +96,7 @@
 </div>
 
 <h2 id="rotate">Rotate credentials</h2>
-<p><code>POST /v2/connectors/&#123;id&#125;/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
+<p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Shared connectors</div>
@@ -104,7 +104,7 @@
 </div>
 
 <h2 id="health">Health status</h2>
-<p><code>GET /v2/connectors/&#123;id&#125;</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
+<p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
