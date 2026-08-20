@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fan-out to multiple destinations | Godzilla Docs</title>
+  <meta name="description" content="Send events from a single source to multiple destination systems.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-recipes page-fan-out-to-multiple-destinations">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations" class="usa-current">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Fan-out to multiple destinations</h1>
+<p>A common architecture pattern is to stream events from a single source system to multiple destinations. This recipe shows how to set up parallel pipelines so events reach warehouses, real-time analytics platforms, and operational databases simultaneously.</p>
+
+<h2>Overview</h2>
+<p>Fan-out workflows let you:</p>
+<ul>
+<li>Maintain a single source of truth while serving multiple downstream systems</li>
+<li>Process the same events through different <a href="/guides/transforming-events-in-flight">transforms</a> for each destination</li>
+<li>Decouple destination failures from affecting other pipelines</li>
+</ul>
+
+<h2>Creating multiple pipelines</h2>
+<p>Create a separate <a href="/concepts-pipelines">pipeline</a> for each destination, all reading from the same source <a href="/concepts-connectors">connector</a>:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-pipelines.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'># Pipeline 1: to data warehouse
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -d '{
+    "name": "events-to-warehouse",
+    "source_connector_id": "conn_kafka_events",
+    "destination_connector_id": "conn_snowflake_warehouse"
+  }'
+
+# Pipeline 2: to real-time analytics
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -d '{
+    "name": "events-to-analytics",
+    "source_connector_id": "conn_kafka_events",
+    "destination_connector_id": "conn_mixpanel_analytics"
+  }'
+
+# Pipeline 3: to operational database
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -d '{
+    "name": "events-to-operational-db",
+    "source_connector_id": "conn_kafka_events",
+    "destination_connector_id": "conn_postgres_operational"
+  }'</code></pre>
+</div>
+
+<h2>Transforming for each destination</h2>
+<p>Each pipeline can apply destination-specific <a href="/guides/transforming-events-in-flight">transforms</a> without affecting others. For example, reshape the event schema for your warehouse while filtering sensitive fields for analytics:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>transform-for-warehouse.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "transform_type": "jq",
+  "script": ". | {event_id, user_id, timestamp, event_type, properties: .properties | del(.internal_notes, .cost)}"
+}</code></pre>
+</div>
+
+<h2>Error handling</h2>
+<p>Each pipeline has independent <a href="/guides/handling-errors-and-retries">error and retry</a> policies. If one destination fails:</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Isolated failures</div>
+  <div class='alert__body'><p>Events retry only in the failed pipeline; other pipelines continue delivering to their destinations. Use the Events API to monitor each pipeline's delivery status independently.</p></div>
+</div>
+
+<h2>Monitoring fan-out pipelines</h2>
+<p>Check delivery status across all destination pipelines:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>monitor-pipelines.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>for pipeline in "events-to-warehouse" "events-to-analytics" "events-to-operational-db"; do
+  echo "=== $pipeline ==="
+  curl https://api.godzilladocs.dev/v2/events \\
+    -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+    -d "{\"pipeline_id\": \"$pipeline\", \"status\": \"delivered\"}"
+done</code></pre>
+</div>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/recipes/backfill-historical-data'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Backfill historical data</span>
+  </a>
+  <a class='docs-pagination__next' href='/recipes/index'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Recipes</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
