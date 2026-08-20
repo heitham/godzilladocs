@@ -4,7 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Concepts | Godzilla Docs</title>
-  <meta name="description" content="The three core building blocks of Godzilla: pipelines, connectors, and events.">
+  <meta name="description" content="The three core building blocks of Godzilla: pipelines, connectors, and events.&lt;/description&gt;
+&lt;parameter name=&quot;body&quot;&gt;{{ds:component/hero|title=Concepts|subtitle=The three building blocks every Godzilla pipeline is made of.|cta_html=&lt;a href=&quot;{{cms:item/5ac66235-69dc-4092-b430-9d68837e0c76}}&quot;&gt;Start with Pipelines&lt;/a&gt;}}
+
+&lt;section&gt;
+  &lt;p&gt;Godzilla is built from three ideas that compose into everything else in these docs. Understanding how they relate makes the rest of the platform — guides, API reference, SDKs — much easier to follow.&lt;/p&gt;
+
+  {{ds:component/card|href={{cms:item/5ac66235-69dc-4092-b430-9d68837e0c76}}|tag=Concept|title=Pipelines|description=Named, versioned workflows that move data from a source to a destination through optional transforms.}}
+  {{ds:component/card|href={{cms:item/7418c3d6-9ea1-4d1c-8d8f-73136f6b6abb}}|tag=Concept|title=Connectors|description=Pre-built integrations to external systems — sources, destinations, or both.}}
+  {{ds:component/card|href={{cms:item/6277e4fb-3e99-45b0-a7f6-aefe69c5778f}}|tag=Concept|title=Events|description=The atomic unit of data flowing through a pipeline, plus the platform's own lifecycle events.}}
+&lt;/section&gt;
+
+&lt;section&gt;
+  &lt;h2&gt;How they fit together&lt;/h2&gt;
+  &lt;p&gt;A &lt;strong&gt;pipeline&lt;/strong&gt; reads &lt;strong&gt;events&lt;/strong&gt; from a source &lt;strong&gt;connector&lt;/strong&gt;, transforms them, and writes them to a destination connector. Everything else in Godzilla — retries, webhooks, monitoring — is built on top of that single loop.&lt;/p&gt;
+&lt;/section&gt;">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
