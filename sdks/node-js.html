@@ -62,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Node.js SDK <span class='chip chip--primary'>v2</span></h1>
-<p>A thin, typed wrapper around the <a href="/apis/index">v2 REST API</a> for Node.js and TypeScript projects.</p>
+<p>A thin, typed wrapper around the <a href="/api/index">v2 REST API</a> for Node.js and TypeScript projects.</p>
 
 <h2>Install</h2>
 <div class='code-block'>
@@ -81,11 +81,11 @@
     <span class='code-block__lang'>typescript</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>import &#123; Godzilla &#125; from "@godzilla/sdk";\n\nconst godzilla = new Godzilla(&#123; apiKey: process.env.GODZILLA_API_KEY &#125;);</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>import { Godzilla } from "@godzilla/sdk";\n\nconst godzilla = new Godzilla({ apiKey: process.env.GODZILLA_API_KEY });</code></pre>
 </div>
 
 <h2>Create a pipeline</h2>
-<p>Maps directly onto the <a href="/apis/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
+<p>Maps directly onto the <a href="/api/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -93,11 +93,15 @@
     <span class='code-block__lang'>typescript</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>const pipeline = await godzilla.pipelines.create(&#123;\n  name: "ingest-orders",\n  sourceConnectorId: "conn_pg_orders",\n  destinationConnectorId: "conn_snowflake_dw",\n&#125;);</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>const pipeline = await godzilla.pipelines.create({
+  name: "ingest-orders",
+  sourceConnectorId: "conn_pg_orders",
+  destinationConnectorId: "conn_snowflake_dw",
+});</code></pre>
 </div>
 
 <h2>Listening for webhooks</h2>
-<p>The SDK includes a signature-verification helper for <a href="/apis/webhooks">webhook</a> payloads:</p>
+<p>The SDK includes a signature-verification helper for <a href="/api/webhooks">webhook</a> payloads:</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -105,7 +109,7 @@
     <span class='code-block__lang'>typescript</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>import &#123; verifyWebhookSignature &#125; from "@godzilla/sdk";\n\nconst isValid = verifyWebhookSignature(rawBody, signatureHeader, webhookSecret);</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>import { verifyWebhookSignature } from "@godzilla/sdk";\n\nconst isValid = verifyWebhookSignature(rawBody, signatureHeader, webhookSecret);</code></pre>
 </div>
 
 <div class='alert alert--info'>
