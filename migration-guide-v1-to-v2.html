@@ -58,38 +58,23 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2" class="usa-current">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/recipes">Recipes</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2" class="usa-current">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/recipes">Recipes</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li><li class="usa-sidenav__item"><a href="/versions-index">Versions</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Migration guide (v1 → v2) <span class='chip chip--danger'>v1 retired</span></h1>
-<p>v1 reached end of life on 2026-08-01 alongside the <a href="/changelog">webhooks GA changelog entry</a>. This guide covers the three breaking changes you need to handle to move a v1 integration to v2.</p>
-
-<h2>1. Pagination: offset → cursor</h2>
-<p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href="/apis/rate-limits-errors">Rate limits & errors</a> for the exact envelope.</p>
-
-<div class='code-block'>
+<div class='alert alert--info'>
+  <div class='alert__title'>Part of the Versions section</div>
+  <div class='alert__body'><p>This guide is archived version-history material. It's part of the <a href=\"/versions-index\">Versions</a> section, which collects historical release notes and migration guidance.</p></div>
+</div>\n\n<h1>Migration guide (v1 → v2) <span class='chip chip--danger'>v1 retired</span></h1>\n<p>v1 reached end of life on 2026-08-01 alongside the <a href=\"/changelog\">webhooks GA changelog entry</a>. This guide covers the three breaking changes you need to handle to move a v1 integration to v2.</p>\n\n<h2>1. Pagination: offset → cursor</h2>\n<p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href=\"/apis/rate-limits-errors\">Rate limits & errors</a> for the exact envelope.</p>\n\n<div class='code-block'>
   <div class='code-block__header'>
     <span class='code-block__filename'>diff</span>
     <span class='code-block__lang'>diff</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>- GET /v1/pipelines?page=2&per_page=20
-+ GET /v2/pipelines?cursor=eyJvZmZzZXQiOjIwfQ</code></pre>
-</div>
-
-<h2>2. Status checks: polling → webhooks</h2>
-<p>v1 had no push notifications — you polled a pipeline's status endpoint. v2 replaces this with the <a href="/apis/webhooks">Webhooks endpoint</a>: subscribe to <code>pipeline.completed</code> and <code>pipeline.failed</code> instead of polling.</p>
-
-<h2>3. Error shape</h2>
-<p>v1 returned bare error strings. v2 wraps every error in an object with a stable <code>code</code> field. Update any error handling that matched on message text — see <a href="/apis/rate-limits-errors#errors">the error shape reference</a>.</p>
-
-<div class='alert alert--danger'>
+  <pre class='code-block__pre'><code class='code-block__code'>- GET /v1/pipelines?page=2&per_page=20\n+ GET /v2/pipelines?cursor=eyJvZmZzZXQiOjIwfQ</code></pre>
+</div>\n\n<h2>2. Status checks: polling → webhooks</h2>\n<p>v1 had no push notifications — you polled a pipeline's status endpoint. v2 replaces this with the <a href=\"/apis/webhooks\">Webhooks endpoint</a>: subscribe to <code>pipeline.completed</code> and <code>pipeline.failed</code> instead of polling.</p>\n\n<h2>3. Error shape</h2>\n<p>v1 returned bare error strings. v2 wraps every error in an object with a stable <code>code</code> field. Update any error handling that matched on message text — see <a href=\"/apis/rate-limits-errors#errors\">the error shape reference</a>.</p>\n\n<div class='alert alert--danger'>
   <div class='alert__title'>v1 is retired</div>
   <div class='alert__body'><p>v1 endpoints no longer accept requests. If you're seeing 404s on <code>/v1/*</code> paths, that's why — there is no grace-period fallback.</p></div>
-</div>
-
-<h2>Still stuck?</h2>
-<p>Common migration issues are covered in <a href="/troubleshooting">Troubleshooting / FAQ</a>.</p>
+</div>\n\n<h2>Still stuck?</h2>\n<p>Common migration issues are covered in <a href=\"/troubleshooting\">Troubleshooting / FAQ</a>.</p>
 </main>
 
 </div>
