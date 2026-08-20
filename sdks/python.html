@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/sdks/node-js">Node.js SDK</a></li><li class="usa-sidenav__item"><a href="/sdks/python" class="usa-current">Python SDK</a></li><li class="usa-sidenav__item"><a href="/sdks/index">SDKs</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/sdks/go">Go SDK</a></li><li class="usa-sidenav__item"><a href="/sdks/node-js">Node.js SDK</a></li><li class="usa-sidenav__item"><a href="/sdks/python" class="usa-current">Python SDK</a></li><li class="usa-sidenav__item"><a href="/sdks/index">SDKs</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Python SDK <span class='chip chip--primary'>v2</span></h1>
@@ -81,9 +81,7 @@
     <span class='code-block__lang'>python</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>from godzilla import Godzilla
-
-godzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>from godzilla import Godzilla\n\ngodzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
 </div>
 
 <h2>Create a pipeline</h2>
@@ -95,11 +93,7 @@ godzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
     <span class='code-block__lang'>python</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>pipeline = godzilla.pipelines.create(
-    name="ingest-orders",
-    source_connector_id="conn_pg_orders",
-    destination_connector_id="conn_snowflake_dw",
-)</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>pipeline = godzilla.pipelines.create(\n    name="ingest-orders",\n    source_connector_id="conn_pg_orders",\n    destination_connector_id="conn_snowflake_dw",\n)</code></pre>
 </div>
 
 <h2>Replaying dead-lettered events</h2>
