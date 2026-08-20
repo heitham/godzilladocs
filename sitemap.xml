@@ -49,11 +49,15 @@
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/release-notes-archive</loc>
+    <loc>https://localhost:3002/versions/release-notes-archive</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/migration-guide-v1-to-v2</loc>
+    <loc>https://localhost:3002/versions/migration-guide-v1-to-v2</loc>
+    <lastmod>2026-08-20</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:3002/versions/index</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
