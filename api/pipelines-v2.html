@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pipelines endpoint | Godzilla Docs</title>
-  <meta name="description" content="Create, list, and manage pipelines via the v3 REST API.">
+  <title>Pipelines endpoint (v2) | Godzilla Docs</title>
+  <meta name="description" content="Create, list, and manage pipelines via the v2 REST API (archived).">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-api page-pipelines">
+<body class="folder-api page-pipelines-v2">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,19 +58,19 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Pipelines endpoint <span class='chip chip--primary'>v3</span></h1>
-<p>Create and manage <a href="/concepts/pipelines">pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
+<h1>Pipelines endpoint <span class='chip chip--warning'>v2</span> <span class='chip'>Archived</span></h1>
+<p>Create and manage <a href="/concepts/pipelines">pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
 
-<div class='alert alert--success'>
-  <div class='alert__title'>v3 is current</div>
-  <div class='alert__body'><p>v3 ships with improved error handling, batch operations, and enhanced filtering. <a href="/versions/migration-guide-v2-to-v3">Upgrade from v2</a> or <a href="/api/pipelines-v2">view v2 docs</a>.</p></div>
+<div class='alert alert--warning'>
+  <div class='alert__title'>v2 is archived — upgrade to v3</div>
+  <div class='alert__body'><p>v2 is no longer the current API version. <a href="/api/pipelines">View v3 docs (current)</a> or read the <a href="/versions/migration-guide-v2-to-v3">v2 → v3 migration guide</a>.</p></div>
 </div>
 
 <h2 id="create">Create a pipeline</h2>
-<p><code>POST /v3/pipelines</code></p>
+<p><code>POST /v2/pipelines</code></p>
 
 <table class='param-table'>
   <thead>
@@ -81,7 +81,7 @@
       <th>Description</th>
     </tr>
   </thead>
-  <tbody><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable pipeline name, unique per workspace.</td></tr><tr><td><code>source_connector_id</code></td><td>string</td><td>Yes</td><td>ID of the connector events are read from.</td></tr><tr><td><code>destination_connector_id</code></td><td>string</td><td>Yes</td><td>ID of the connector events are written to.</td></tr><tr><td><code>transforms</code></td><td>array</td><td>No</td><td>Ordered list of transform step definitions. Omit for a pass-through copy.</td></tr><tr><td><code>schedule</code></td><td>string</td><td>No</td><td>Cron expression. Omit for event-triggered (streaming) pipelines.</td></tr><tr><td><code>error_handling</code></td><td>object</td><td>No</td><td>Error policy: retry, dlq, or discard. Defaults to retry.</td></tr></tbody>
+  <tbody><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable pipeline name, unique per workspace.</td></tr><tr><td><code>source_connector_id</code></td><td>string</td><td>Yes</td><td>ID of the connector events are read from.</td></tr><tr><td><code>destination_connector_id</code></td><td>string</td><td>Yes</td><td>ID of the connector events are written to.</td></tr><tr><td><code>transforms</code></td><td>array</td><td>No</td><td>Ordered list of transform step definitions. Omit for a pass-through copy.</td></tr><tr><td><code>schedule</code></td><td>string</td><td>No</td><td>Cron expression. Omit for event-triggered (streaming) pipelines.</td></tr></tbody>
 </table>
 
 <div class='code-block'>
@@ -90,25 +90,18 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines \
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "ingest-orders",
     "source_connector_id": "conn_pg_orders",
-    "destination_connector_id": "conn_snowflake_dw",
-    "error_handling": {
-      "policy": "retry",
-      "max_attempts": 3
-    }
+    "destination_connector_id": "conn_snowflake_dw"
   }'</code></pre>
 </div>
 
 <h2 id="list">List pipelines</h2>
-<p><code>GET /v3/pipelines</code> — cursor-paginated with enhanced filter support. See <code>Rate limits & errors</code> for the pagination envelope.</p>
-
-<h2 id="batch">Batch operations</h2>
-<p><code>POST /v3/pipelines/batch</code> — Create or update multiple pipelines in a single request. Available in v3.</p>
+<p><code>GET /v2/pipelines</code> — cursor-paginated, see <code>Rate limits & errors</code> for the pagination envelope.</p>
 
 <h2 id="states">Pipeline states</h2>
 <p>Returned pipelines include a <code>state</code> field of <code>draft</code>, <code>active</code>, or <code>paused</code> — see <a href="/concepts/pipelines">Pipelines</a> for what each means.</p>
@@ -120,7 +113,7 @@
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#create">Create a pipeline</a></li><li><a href="#list">List pipelines</a></li><li><a href="#batch">Batch operations</a></li><li><a href="#states">Pipeline states</a></li></ul>
+  <ul class='docs-toc__list'><li><a href="#create">Create a pipeline</a></li><li><a href="#list">List pipelines</a></li><li><a href="#states">Pipeline states</a></li></ul>
 </nav>
 </main>
 
