@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pipelines endpoint | Godzilla Docs</title>
-  <meta name="description" content="Create, list, and manage pipelines via the v2 REST API.">
+  <title>Pipelines endpoint (v2 – Legacy) | Godzilla Docs</title>
+  <meta name="description" content="Create, list, and manage pipelines via the v2 REST API. ⚠️ Deprecated – use v3 for new integrations.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -58,11 +58,16 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines-v3">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Pipelines endpoint <span class='chip chip--primary'>v2</span></h1>
+<h1>Pipelines endpoint <span class='chip chip--danger'>v2</span> <span class='chip chip--secondary'>Legacy</span></h1>
 <p>Create and manage <a href="/concepts-pipelines">pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>This is v2 — v3 is now current</div>
+  <div class='alert__body'><p><strong>v2 is no longer recommended for new integrations.</strong> v3 includes new features like pipeline tagging. All v2 endpoints remain supported for backward compatibility, but we encourage existing users to migrate to v3. <a href="/apis/pipelines-v3">View v3 documentation</a> or read <a href="#migration-notes">migration notes below</a>.</p></div>
+</div>
 
 <h2 id="create">Create a pipeline</h2>
 <p><code>POST /v2/pipelines</code></p>
@@ -85,14 +90,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '&#123;
-    "name": "ingest-orders",
-    "source_connector_id": "conn_pg_orders",
-    "destination_connector_id": "conn_snowflake_dw"
-  &#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '&#123;\n    "name": "ingest-orders",\n    "source_connector_id": "conn_pg_orders",\n    "destination_connector_id": "conn_snowflake_dw"\n  &#125;'</code></pre>
 </div>
 
 <h2 id="list">List pipelines</h2>
@@ -106,9 +104,17 @@
   <div class='alert__body'><p>Deleting a pipeline does not delete its source or destination connectors, and does not delete events already written to the destination. In-flight runs are allowed to finish before deletion completes.</p></div>
 </div>
 
+<h2 id="migration-notes">Upgrading to v3</h2>
+<p>v3 is backward compatible with v2 but adds:</p>
+<ul>
+  <li><strong>Pipeline tagging:</strong> Organize pipelines with arbitrary metadata tags for easier discovery and filtering.</li>
+  <li><strong>Better filtering:</strong> Filter pipelines by tag using the <code>tag_filter</code> query parameter on <code>GET /v3/pipelines</code>.</li>
+</ul>
+<p>See <a href="/apis/pipelines-v3">the v3 documentation</a> for the full endpoint reference.</p>
+
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#create">Create a pipeline</a></li><li><a href="#list">List pipelines</a></li><li><a href="#states">Pipeline states</a></li></ul>
+  <ul class='docs-toc__list'><li><a href="#create">Create a pipeline</a></li><li><a href="#list">List pipelines</a></li><li><a href="#states">Pipeline states</a></li><li><a href="#migration-notes">Upgrading to v3</a></li></ul>
 </nav>
 </main>
 

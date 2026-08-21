@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>API Reference | Godzilla Docs</title>
-  <meta name="description" content="The Godzilla v2 REST API: pipelines, connectors, events, webhooks, limits, quotas, and errors.">
+  <meta name="description" content="The Godzilla v3 REST API: pipelines, connectors, events, webhooks, limits, quotas, and errors. (v2 docs also available for legacy integrations.)">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -58,24 +58,29 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index" class="usa-current">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index" class="usa-current">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines-v3">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <section class='hero'>
   <div class='hero__inner'>
     <h1 class='hero__title'>API Reference</h1>
-    <p class='hero__subtitle'>Every endpoint in the Godzilla v2 REST API, with request/response examples.</p>
-    <div class='hero__cta'><a href="/apis/pipelines">Start with Pipelines</a></div>
+    <p class='hero__subtitle'>Every endpoint in the Godzilla v3 REST API, with request/response examples.</p>
+    <div class='hero__cta'><a href="/apis/pipelines-v3">Start with Pipelines</a></div>
   </div>
 </section>
 
 <section>
-  <p>All endpoints live under <code>https://api.godzilladocs.dev/v2</code> and require a bearer <a href="#"> API key</a>. New to the API? Read <code>Authentication</code> in Getting Started first.</p>
+  <p>All endpoints live under <code>https://api.godzilladocs.dev/v3</code> and require a bearer <a href="/getting-started-authentication">API key</a>. New to the API? Read <a href="/getting-started-authentication">Authentication</a> in Getting Started first.</p>
 
-  <a class='card' href='/apis/pipelines'>
+  <div class='alert alert--info'>
+  <div class='alert__title'>Version history</div>
+  <div class='alert__body'><p>v3 is the current version. <a href="/apis/pipelines">v2 documentation</a> is available for users still on the previous version.</p></div>
+</div>
+
+  <a class='card' href='/apis/pipelines-v3'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Pipelines</h3>
-  <p class='card__description'>Create, list, and manage pipelines.</p>
+  <p class='card__description'>Create, list, and manage pipelines — with v3 tagging and filtering.</p>
 </a>
   <a class='card' href='/apis/connectors'>
   <span class='card__tag'>Endpoint</span>
@@ -105,8 +110,8 @@
 </section>
 
 <div class='alert alert--info'>
-  <div class='alert__title'>Coming from v1?</div>
-  <div class='alert__body'><p>v2 replaces offset pagination with cursor pagination and adds webhooks in place of polling. See the migration guide before switching a production integration over.</p></div>
+  <div class='alert__title'>Coming from v2?</div>
+  <div class='alert__body'><p>v3 adds pipeline tagging and improved filtering. Existing v2 endpoints remain fully supported. See the <a href="/apis/pipelines">v2 documentation</a> for comparison or if you prefer to stay on v2.</p></div>
 </div>
 </main>
 
