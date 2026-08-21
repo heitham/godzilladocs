@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rate limits &amp; errors | Godzilla Docs</title>
-  <meta name="description" content="Standard-tier rate limits, pagination envelope, and the v2 API's error response shape.">
+  <title>Limits, quotas &amp; errors | Godzilla Docs</title>
+  <meta name="description" content="Standard-tier rate limits, usage quotas, pagination envelope, and the v2 API's error response shape.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -61,7 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors" class="usa-current">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Rate limits &amp; errors <span class='chip chip--primary'>v2</span></h1>
+<h1>Limits, quotas &amp; errors <span class='chip chip--primary'>v2</span></h1>
 
 <div class='stat-card'>
   <div class='stat-card__value'>1,000</div>
@@ -83,7 +83,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"data\": [ &#123; \"id\": \"pl_ingest_orders\" &#125; ],\n  \"next_cursor\": \"eyJvZmZzZXQiOjIwfQ\",\n  \"has_more\": true\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\\n  \\\"data\\\": [ &#123; \\\"id\\\": \\\"pl_ingest_orders\\\" &#125; ],\\n  \\\"next_cursor\\\": \\\"eyJvZmZzZXQiOjIwfQ\\\",\\n  \\\"has_more\\\": true\\n&#125;</code></pre>
 </div>
 
 <h2 id="errors">Error shape</h2>
@@ -93,7 +93,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"error\": &#123;\n    \"code\": \"connector_unauthorized\",\n    \"message\": \"The connector's credentials were rejected by the source system.\",\n    \"request_id\": \"req_c93a10\"\n  &#125;\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\\n  \\\"error\\\": &#123;\\n    \\\"code\\\": \\\"connector_unauthorized\\\",\\n    \\\"message\\\": \\\"The connector's credentials were rejected by the source system.\\\",\\n    \\\"request_id\\\": \\\"req_c93a10\\\"\\n  &#125;\\n&#125;</code></pre>
 </div>
 
 <div class='alert alert--danger'>
