@@ -64,44 +64,13 @@
 <h1>Quickstart</h1>
 <p>The fastest path from zero to a running <a href="/pipelines">pipeline</a>.</p>
 
-<h2>1. Get an API key</h2>
-<p>See <a href="/getting-started-authentication">Authentication</a> if you don't have one yet.</p>
+<p>First, complete the setup steps in <a href="/getting-started-installation">Installation</a> to get an SDK or API key ready.</p>
 
-<h2>2. Create a pipeline</h2>
+<h2>1. Create a pipeline</h2>
 
 <h3>Bash</h3>
-{{ds:component/code-block|filename=terminal|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
-  -d '{\"name\":\"my-first-pipeline\",\"source_connector_id\":\"conn_demo_source\",\"destination_connector_id\":\"conn_demo_dest\"}'}}
-
-<h3>Go</h3>
-{{ds:component/code-block|filename=main.go|language=go|code=package main
-
-import (
-	"context"
-	"log"
-	"os"
-
-	"github.com/godzilla-io/godzilla-go/client"
-)
-
-func main() {
-	apiKey := os.Getenv("GODZILLA_API_KEY")
-	c := client.New(apiKey)
-
-	pipeline, err := c.Pipelines.Create(context.Background(), &client.CreatePipelineRequest{
-		Name:                   "my-first-pipeline",
-		SourceConnectorID:      "conn_demo_source",
-		DestinationConnectorID: "conn_demo_dest",
-	})
-	if err != nil {
-		log.Fatalf("failed to create pipeline: %v", err)
-	}
-
-	log.Printf("created pipeline: %s", pipeline.ID)
-}}}
-
-<h2>3. Watch it run</h2>
+{{ds:component/code-block|filename=terminal|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\\\n  -d '{\\\"name\\\":\\\"my-first-pipeline\\\",\\\"source_connector_id\\\":\\\"conn_demo_source\\\",\\\"destination_connector_id\\\":\\\"conn_demo_dest\\\"}'}}\n\n<h3>Go</h3>
+{{ds:component/code-block|filename=main.go|language=go|code=package main\n\nimport (\n\t\"context\"\n\t\"log\"\n\t\"os\"\n\n\t\"github.com/godzilla-io/godzilla-go/client\"\n)\n\nfunc main() {\n\tapiKey := os.Getenv(\"GODZILLA_API_KEY\")\n\tc := client.New(apiKey)\n\n\tpipeline, err := c.Pipelines.Create(context.Background(), &client.CreatePipelineRequest{\n\t\tName:                   \"my-first-pipeline\",\n\t\tSourceConnectorID:      \"conn_demo_source\",\n\t\tDestinationConnectorID: \"conn_demo_dest\",\n\t})\n\tif err != nil {\n\t\tlog.Fatalf(\"failed to create pipeline: %v\", err)\n\t}\n\n\tlog.Printf(\"created pipeline: %s\", pipeline.ID)\n}}}\n\n<h2>2. Watch it run</h2>
 <p>Subscribe to <code>pipeline.completed</code> via <a href="/apis/webhooks">Webhooks</a>, or poll the <a href="/apis/events">Events endpoint</a> to see events as they're processed.</p>
 
 <div class='alert alert--success'>
