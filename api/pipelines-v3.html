@@ -61,7 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events-v3">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint (v2 — withdrawn)</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines-v3" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-and-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Pipelines endpoint</span></li></ol></nav>
-<h1>Pipelines endpoint <span class='chip chip--primary'>v3</span></h1>
+<h1>Pipelines endpoint <span class='chip chip--primary'>v3</span> <span class='chip chip--success'>Stable</span></h1>
 <p>Create and manage <a href="/concepts/concepts-pipelines">pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
 
 <p><strong>New in v3:</strong> Improved filtering, batch operations, and enhanced transform specifications.</p>
@@ -92,7 +92,18 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '&#123;\n    "name": "ingest-orders",\n    "source_connector_id": "conn_pg_orders",\n    "destination_connector_id": "conn_snowflake_dw",\n    "tags": &#123;\n      "team": "data-eng",\n      "environment": "production"\n    &#125;\n  &#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '&#123;
+    "name": "ingest-orders",
+    "source_connector_id": "conn_pg_orders",
+    "destination_connector_id": "conn_snowflake_dw",
+    "tags": &#123;
+      "team": "data-eng",
+      "environment": "production"
+    &#125;
+  &#125;'</code></pre>
 </div>
 
 <h2 id="list">List pipelines</h2>

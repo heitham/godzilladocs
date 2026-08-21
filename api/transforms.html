@@ -61,7 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events-v3">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint (v2 — withdrawn)</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines-v3">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-and-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms" class="usa-current">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Transforms endpoint</span></li></ol></nav>
-<h1>Transforms endpoint <span class='chip chip--primary'>v2</span></h1>
+<h1>Transforms endpoint <span class='chip chip--primary'>v2</span> <span class='chip chip--success'>Stable</span></h1>
 <p>Create and manage transform steps that manipulate data flowing through <a href=/concepts/concepts-pipelines>pipelines</a>. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
 
 <h2 id=create>Create a transform step</h2>
@@ -85,7 +85,14 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '&#123;\n    "name": "filter-large-orders",\n    "type": "filter",\n    "config": &#123; "condition": "amount > 100" &#125;\n  &#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '&#123;
+    "name": "filter-large-orders",
+    "type": "filter",
+    "config": &#123; "condition": "amount > 100" &#125;
+  &#125;'</code></pre>
 </div>
 
 <h2 id=list>List transform steps</h2>
@@ -97,7 +104,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
 <h2 id=order>Transform execution order</h2>

@@ -61,7 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events-v3">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint (v2 — withdrawn)</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines-v3">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-and-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Connectors endpoint</span></li></ol></nav>
-<h1>Connectors endpoint <span class='chip chip--primary'>v2</span></h1>
+<h1>Connectors endpoint <span class='chip chip--primary'>v2</span> <span class='chip chip--success'>Stable</span></h1>
 <p>Manage <a href="/concepts/concepts-connectors">connectors</a> — the source and destination integrations pipelines read from and write to.</p>
 
 <h2 id="create">Create a connector</h2>
@@ -96,7 +96,7 @@
 </div>
 
 <h2 id="rotate">Rotate credentials</h2>
-<p><code>POST /v2/connectors/&#123;id&#125;/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
+<p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Shared connectors</div>
@@ -104,7 +104,7 @@
 </div>
 
 <h2 id="health">Health status</h2>
-<p><code>GET /v2/connectors/&#123;id&#125;</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
+<p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
