@@ -41,6 +41,10 @@
     <lastmod>2026-08-21</lastmod>
   </url>
   <url>
+    <loc>https://localhost:4310/ghostfix-libs/go</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
     <loc>https://localhost:4310/guides/monitoring-and-alerts</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
@@ -54,10 +58,6 @@
   </url>
   <url>
     <loc>https://localhost:4310/guides/scheduling-and-triggers</loc>
-    <lastmod>2026-08-21</lastmod>
-  </url>
-  <url>
-    <loc>https://localhost:4310/sdks/go</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
   <url>

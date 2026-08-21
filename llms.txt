@@ -41,6 +41,9 @@
 - [Installation](https://localhost:4310/getting-started/getting-started-installation): Install the Godzilla SDK or start calling the REST API directly.
 - [Quickstart](https://localhost:4310/getting-started/getting-started-quickstart): Go from zero to a running pipeline in five minutes.
 
+## ghostfix-libs
+- [Go SDK](https://localhost:4310/ghostfix-libs/go): Install and use the godzilla-go client library to manage pipelines and connectors from Go.
+
 ## guides
 - [Building your first pipeline](https://localhost:4310/guides/building-your-first-pipeline): Create a source connector, a destination connector, and the pipeline that connects them, end to end.
 - [Connecting a data source](https://localhost:4310/guides/connecting-a-data-source): Choose the right connector type and authentication method for a new data source.
@@ -56,7 +59,6 @@
 - [Recipes](https://localhost:4310/recipes/index): Common data pipeline patterns and how to implement them using Godzilla.
 
 ## sdks
-- [Go SDK](https://localhost:4310/sdks/go): Install and use the godzilla-go client library to manage pipelines and connectors from Go.
 - [Node.js SDK](https://localhost:4310/sdks/node-js): Install and use @godzilla/sdk to manage pipelines and connectors from Node.js.
 - [Python SDK](https://localhost:4310/sdks/python): Install and use godzilla-sdk to manage pipelines and connectors from Python.
 - [SDKs](https://localhost:4310/sdks/index): Official Godzilla client libraries for Node.js and Python.
