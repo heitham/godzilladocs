@@ -12,7 +12,6 @@
 - [Godzilla Docs](https://localhost:4310/index): Everything you need to build data pipelines on the Godzilla platform.
 - [Migration guide (v1 → v2)](https://localhost:4310/migration-guide-v1-to-v2): Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.
 - [Pipelines](https://localhost:4310/concepts-pipelines): What a pipeline is in Godzilla: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
-- [Quickstart](https://localhost:4310/getting-started-quickstart): Go from zero to a running pipeline in five minutes.
 - [Release notes archive](https://localhost:4310/release-notes-archive): Older v1-era release notes, superseded by the current changelog.
 - [Schemas](https://localhost:4310/concepts-schemas): How to declare and validate event payload shapes across your pipelines.
 - [Security & compliance overview](https://localhost:4310/security-and-compliance): How Godzilla handles data in transit and at rest, credential storage, and compliance posture.
@@ -31,6 +30,7 @@
 
 ## getting-started
 - [Installation](https://localhost:4310/getting-started/getting-started-installation): Install the Godzilla SDK or start calling the REST API directly.
+- [Quickstart](https://localhost:4310/getting-started/getting-started-quickstart): Go from zero to a running pipeline in five minutes.
 
 ## guides
 - [Building your first pipeline](https://localhost:4310/guides/building-your-first-pipeline): Create a source connector, a destination connector, and the pipeline that connects them, end to end.
