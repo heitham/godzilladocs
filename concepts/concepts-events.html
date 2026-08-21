@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-pipelines">Pipelines</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-schemas">Schemas</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><span>concepts</span></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Events</span></li></ol></nav>
 <h1>Events</h1>
@@ -85,8 +85,8 @@
 </div>
 
 <h2>Payloads and schemas</h2>
-<p>The <code>payload</code> field in every event can be validated against a <a href="/concepts-schemas">schema</a>. A schema is a JSON Schema document that declares the expected structure, types, and constraints of your event payloads. Defining a schema for your pipeline helps catch malformed or unexpected data early, before it silently corrupts downstream systems.</p>
-<p>See <a href="/concepts-schemas">Schemas</a> to learn how to declare one and enforce validation across all events in a pipeline.</p>
+<p>The <code>payload</code> field in every event can be validated against a <a href="/concepts/concepts-schemas">schema</a>. A schema is a JSON Schema document that declares the expected structure, types, and constraints of your event payloads. Defining a schema for your pipeline helps catch malformed or unexpected data early, before it silently corrupts downstream systems.</p>
+<p>See <a href="/concepts/concepts-schemas">Schemas</a> to learn how to declare one and enforce validation across all events in a pipeline.</p>
 
 <h2>Retries and dead-lettering</h2>
 <p>An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how to configure and drain a dead-letter queue.</p>
