@@ -65,16 +65,14 @@
 <p>This guide covers choosing and configuring a source <a href="/concepts-connectors">connector</a> — the first step of any new <a href="/concepts-pipelines">pipeline</a>.</p>
 
 <h2>Choosing a connector type</h2>
-<table class='param-table'>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Required</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody><tr><td><code>postgres</code></td><td>Database</td><td>Yes</td><td>A relational database you can grant replication access to.</td></tr><tr><td><code>s3</code></td><td>Object storage</td><td>Yes</td><td>Files landing in a bucket.</td></tr><tr><td><code>kafka</code></td><td>Stream</td><td>Yes</td><td>An existing event stream.</td></tr><tr><td><code>webhook</code></td><td>Push</td><td>Yes</td><td>A third party that can push to a URL you control.</td></tr></tbody>
+<table>
+  <thead><tr><th>You have</th><th>Use</th></tr></thead>
+  <tbody>
+    <tr><td>A relational database you can grant replication access to</td><td>Postgres</td></tr>
+    <tr><td>Files landing in object storage</td><td>Amazon S3</td></tr>
+    <tr><td>An existing event stream</td><td>Kafka</td></tr>
+    <tr><td>A third party that can push to a URL you control</td><td>Webhook</td></tr>
+  </tbody>
 </table>
 
 <h2>Authenticating</h2>

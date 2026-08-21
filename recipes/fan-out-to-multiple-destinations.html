@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fan-out to multiple destinations | Godzilla Docs</title>
+  <meta name="description" content="Route events from a single source to multiple destination connectors in parallel.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-recipes page-fan-out-to-multiple-destinations">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations" class="usa-current">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Fan-out to multiple destinations</h1>
+
+<p>A common pattern is to take events from a single source and deliver them to multiple destinations in parallel. This recipe shows how to set up and manage a fan-out pipeline.</p>
+
+<h2>Overview</h2>
+
+<p>Fan-out is useful when:</p>
+
+<ul>
+  <li>You need to synchronize data across multiple systems (e.g., data warehouse + analytics platform + CRM)</li>
+  <li>You want independent retry and error handling for each destination</li>
+  <li>You're migrating data across multiple systems simultaneously</li>
+</ul>
+
+<h2>Prerequisites</h2>
+
+<ul>
+  <li>One source connector configured</li>
+  <li>Multiple destination connectors ready to receive events</li>
+  <li>Understanding of <a href=/concepts-pipelines>pipelines and how they route events</a></li>
+</ul>
+
+<h2>Steps</h2>
+
+<h3>1. Create a base pipeline</h3>
+
+<p>Start by creating a pipeline connected to your source and one destination. Test that data flows correctly end-to-end.</p>
+
+<h3>2. Add additional destinations</h3>
+
+<p>In your pipeline configuration, add a second destination connector. Godzilla will automatically fan out events from the source to both destinations.</p>
+
+<h3>3. Configure independent error handling</h3>
+
+<p>Each destination can have its own <a href=/guides/handling-errors-and-retries>error handling and retry policy</a>. If one destination fails, events are still delivered to the others.</p>
+
+<h3>4. Monitor fan-out health</h3>
+
+<p>Use <a href=/guides/monitoring-and-alerts>monitoring and alerts</a> to track the health of each destination independently. Set up webhooks to notify your team of destination-specific failures.</p>
+
+<h3>5. Scale to more destinations</h3>
+
+<p>You can add as many destinations as needed. Each receives events in parallel, so throughput remains consistent regardless of the number of destinations.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
