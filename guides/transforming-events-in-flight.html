@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transforming events in flight | Godzilla Docs</title>
-  <meta name="description" content="Reshape, filter, and enrich events as they pass through a pipeline.">
+  <meta name="description" content="Reshape, filter, and enrich events as they pass through a pipeline using transforms.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -61,131 +61,109 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h2 id="overview">Overview</h2>
+<h1>Transforming events in flight</h1>
 
-<p>As events flow through your Godzilla pipeline, you often need to modify them—reshaping their structure, filtering out unwanted records, or enriching them with additional data. This guide covers the three primary transformation patterns and when to use each one.</p>
+<p>This guide covers using <strong>transforms</strong> to reshape, filter, and enrich events as they flow through a pipeline — allowing you to clean, standardize, and augment data without leaving Godzilla.</p>
 
-<h2 id="reshaping-events">Reshaping events</h2>
+<h2>Overview</h2>
 
-<p>Event reshaping transforms the structure or schema of events as they move from source to destination. Common use cases include:</p>
-
-<ul>
-  <li><strong>Field renaming:</strong> Map source field names to destination conventions</li>
-  <li><strong>Flattening nested structures:</strong> Convert deeply nested JSON into a flat schema</li>
-  <li><strong>Projecting fields:</strong> Select only certain fields from the source event</li>
-  <li><strong>Adding computed fields:</strong> Create new fields based on existing data</li>
-</ul>
-
-<p>In Godzilla, you define reshaping rules in your pipeline's transformation step. Each rule maps source paths to destination paths with optional type conversions:</p>
-
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>reshaping-example.yaml</span>
-    <span class='code-block__lang'>yaml</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>pipeline:
-  transforms:
-    - name: reshape-orders
-      type: map
-      rules:
-        - source: order_id
-          destination: id
-        - source: customer.name
-          destination: customer_name
-        - source: line_items[].sku
-          destination: skus
-          transform: flatten</code></pre>
-</div>
-
-<h2 id="filtering-events">Filtering events</h2>
-
-<p>Filtering removes events from the pipeline based on conditions you define. Use filtering to:</p>
+<p>Transforms run on every event that enters your pipeline, after the source connector has read it but before it reaches the destination. You can use transforms to:</p>
 
 <ul>
-  <li><strong>Exclude sensitive data:</strong> Remove events containing PII before sending to downstream systems</li>
-  <li><strong>Route by event type:</strong> Send only certain event types to specific destinations</li>
-  <li><strong>Reduce volume:</strong> Sample high-traffic event streams or skip test/debug events</li>
-  <li><strong>Enforce data quality:</strong> Drop incomplete or invalid records</li>
+  <li><strong>Reshape</strong> event structure — rename fields, flatten nested objects, or split one event into many.</li>
+  <li><strong>Filter</strong> events — drop rows that don't match your criteria, ensuring only relevant data reaches the destination.</li>
+  <li><strong>Enrich</strong> events — add computed fields, join in reference data, or apply business logic.</li>
 </ul>
 
-<p>Filtering rules use simple comparison operators and boolean logic:</p>
+<h2>Adding a transform to a pipeline</h2>
 
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>filtering-example.yaml</span>
-    <span class='code-block__lang'>yaml</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>pipeline:
-  transforms:
-    - name: exclude-test-events
-      type: filter
-      rules:
-        - field: environment
-          operator: "!="
-          value: test
-        - field: order_total
-          operator: ">="
-          value: 0</code></pre>
-</div>
+<p>When you create or edit a <a href="/concepts-pipelines">pipeline</a>, a transforms section sits between the source and destination. Each transform is applied in order — the output of one becomes the input to the next.</p>
 
-<h2 id="enriching-events">Enriching events</h2>
+<p>Transforms are written as JavaScript functions:</p>
 
-<p>Event enrichment adds new data to events from external sources—reference tables, APIs, or lookups. Common enrichment sources include:</p>
+{{ds:component/code-block|filename=example-transform.js|language=javascript|code=(event) => {
+  return {
+    ...event,
+    timestamp: new Date().toISOString(),
+    status: event.code >= 400 ? 'error' : 'ok',
+  };
+}}}
+
+<p>Your function receives one event object and must return:</p>
 
 <ul>
-  <li><strong>Reference tables:</strong> Join against customer profiles, product catalogs, or geography tables</li>
-  <li><strong>External APIs:</strong> Fetch real-time data like current exchange rates or geocoding</li>
-  <li><strong>Pipeline state:</strong> Add aggregations or counters from earlier in the pipeline</li>
+  <li>An <strong>object</strong> to pass the transformed event downstream.</li>
+  <li><strong>null</strong> or <strong>undefined</strong> to filter out the event (it will not reach the destination).</li>
+  <li>An <strong>array of objects</strong> to split one event into many.</li>
 </ul>
 
-<p>Enrichment is configured by specifying a lookup key and the source to join against:</p>
+<h2>Common patterns</h2>
 
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>enriching-example.yaml</span>
-    <span class='code-block__lang'>yaml</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>pipeline:
-  transforms:
-    - name: enrich-with-customer-tier
-      type: enrich
-      lookup:
-        key: customer_id
-        source: customers-table
-        fields:
-          - customer_tier
-          - lifetime_value</code></pre>
-</div>
+<h3>Renaming fields</h3>
 
-<h2 id="combining-transformations">Combining transformations</h2>
+{{ds:component/code-block|filename=rename-fields.js|language=javascript|code=(event) => ({
+  id: event.user_id,
+  name: event.user_name,
+  email: event.user_email,
+})}}
 
-<p>In practice, you'll often chain multiple transformations. A common pattern is: <strong>reshape</strong> → <strong>filter</strong> → <strong>enrich</strong>. For example:</p>
+<h3>Filtering by value</h3>
 
-<ol>
-  <li>Reshape incoming events to normalize field names and flatten nested structures</li>
-  <li>Filter out any events missing required fields or exceeding size limits</li>
-  <li>Enrich the remaining events with customer or product data</li>
-</ol>
+{{ds:component/code-block|filename=filter-events.js|language=javascript|code=(event) => {
+  // Only pass through successful requests
+  if (event.status_code >= 400) {
+    return null;
+  }
+  return event;
+}}}
 
-<p>Godzilla executes transformations in the order you define them, so plan your pipeline logic accordingly.</p>
+<h3>Adding computed fields</h3>
 
-<h2 id="performance-considerations">Performance considerations</h2>
+{{ds:component/code-block|filename=enrich-events.js|language=javascript|code=(event) => ({
+  ...event,
+  tier: event.spend > 1000 ? 'premium' : 'standard',
+  region_code: event.country.toUpperCase(),
+  processed_at: new Date().toISOString(),
+})}}
 
-<div class='alert alert--info'>
-  <div class='alert__title'>Heads up</div>
-  <div class='alert__body'>Complex transformations and high-cardinality enrichments can impact pipeline throughput. Monitor pipeline latency as you add transformations.</div>
-</div>
+<h3>Splitting one event into many</h3>
+
+{{ds:component/code-block|filename=split-events.js|language=javascript|code=(event) => {
+  // If an event has multiple items, emit one event per item
+  return event.items.map((item) => ({
+    order_id: event.id,
+    item_sku: item.sku,
+    item_qty: item.quantity,
+  }));
+}}}
+
+<h2>Error handling</h2>
+
+<p>If a transform throws an error, the event is moved to the <a href="/guides/handling-errors-and-retries">dead-letter queue</a> and Godzilla attempts to retry it later. Ensure your transforms are robust and handle unexpected data shapes — use optional chaining and defensive checks:</p>
+
+{{ds:component/code-block|filename=defensive-transform.js|language=javascript|code=(event) => ({
+  ...event,
+  email: event.user?.email ?? 'unknown',
+  tags: Array.isArray(event.tags) ? event.tags : [],
+})}}
+
+<h2>Performance considerations</h2>
+
+<p>Transforms run synchronously in the pipeline's event loop, so keep them fast:</p>
 
 <ul>
-  <li><strong>Reshape is fast:</strong> Local field mapping has minimal overhead; use reshape liberally.</li>
-  <li><strong>Filter is efficient:</strong> Filtering is applied before expensive operations like enrichment.</li>
-  <li><strong>Enrich can be slow:</strong> External lookups and API calls add latency. Cache reference tables when possible.</li>
+  <li>Avoid complex loops or expensive computations inside a transform.</li>
+  <li>Don't make network calls — use <a href="/guides/handling-errors-and-retries">enrichment pipelines</a> or a separate lookup service if you need external data.</li>
+  <li>Keep the output event size reasonable — large transformed objects may slow downstream operations.</li>
 </ul>
 
-<p>Use /guides/handling-errors-and-retries to understand how failed enrichments are retried and dead-lettered.</p>
+<h2>Monitoring transforms</h2>
+
+<p>Use the pipeline detail view to see how many events passed through each transform, how many were filtered, and how many hit errors. Dead-lettered events are logged with the transform name and error details, making it easy to debug.</p>
+
+<h2>Next steps</h2>
+
+<p>With transforms in place, explore <a href="/guides/handling-errors-and-retries">error handling and retries</a> to understand how Godzilla keeps your pipeline resilient.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>

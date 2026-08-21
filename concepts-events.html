@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Events</h1>
@@ -71,7 +71,13 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"id\": \"evt_8f2c1a90\",\n  \"type\": \"order.created\",\n  \"occurred_at\": \"2026-08-18T09:12:44Z\",\n  \"source\": \"connector_postgres_orders\",\n  \"payload\": &#123; \"order_id\": \"ord_4471\", \"amount_cents\": 4899 &#125;\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "id": "evt_8f2c1a90",
+  "type": "order.created",
+  "occurred_at": "2026-08-18T09:12:44Z",
+  "source": "connector_postgres_orders",
+  "payload": &#123; "order_id": "ord_4471", "amount_cents": 4899 &#125;
+&#125;</code></pre>
 </div>
 
 <h2>User data events vs. platform events</h2>
@@ -85,9 +91,6 @@
   <div class='alert__title'>Ordering</div>
   <div class='alert__body'><p>Events are delivered in-order per source partition, not globally. Two events from different source partitions may be processed out of order relative to each other.</p></div>
 </div>
-
-<h2>Event validation and schemas</h2>
-<p>Every event payload conforms to a <strong>schema</strong> — a formal definition of the payload's shape, types, and constraints. Schemas let you validate events at ingestion and catch structural errors before they propagate downstream. Learn more in <a href="/concepts-schemas">Schemas</a>.</p>
 
 <h2>Retries and dead-lettering</h2>
 <p>An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how to configure and drain a dead-letter queue.</p>
