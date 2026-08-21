@@ -73,13 +73,13 @@
 
 <h2>Built-in connector catalog</h2>
 <table>
-  <thead><tr><th>Connector</th><th>Direction</th><th>Auth</th></tr></thead>
+  <thead><tr><th>Connector</th><th>Direction</th><th>Auth</th><th>Incremental reads</th></tr></thead>
   <tbody>
-    <tr><td>Postgres</td><td>Source</td><td>Connection string + replication slot</td></tr>
-    <tr><td>Amazon S3</td><td>Source / Destination</td><td>IAM role or access key</td></tr>
-    <tr><td>Snowflake</td><td>Destination</td><td>Key-pair auth</td></tr>
-    <tr><td>Kafka</td><td>Source / Destination</td><td>SASL/SSL</td></tr>
-    <tr><td>Webhook</td><td>Source / Destination</td><td>Signed request or bearer token</td></tr>
+    <tr><td>Postgres</td><td>Source</td><td>Connection string + replication slot</td><td>Yes</td></tr>
+    <tr><td>Amazon S3</td><td>Source / Destination</td><td>IAM role or access key</td><td>Yes</td></tr>
+    <tr><td>Snowflake</td><td>Destination</td><td>Key-pair auth</td><td>—</td></tr>
+    <tr><td>Kafka</td><td>Source / Destination</td><td>SASL/SSL</td><td>Yes</td></tr>
+    <tr><td>Webhook</td><td>Source / Destination</td><td>Signed request or bearer token</td><td>—</td></tr>
   </tbody>
 </table>
 
@@ -92,7 +92,7 @@
 <p>Each connector reports a health status independent of any single pipeline: <span class="chip-inline">healthy</span>, <span class="chip-inline">degraded</span>, or <span class="chip-inline">down</span>. A connector shared across multiple pipelines only needs to be fixed once — every pipeline referencing it recovers automatically.</p>
 
 <h2>See also</h2>
-<p>Connectors are configured per pipeline in the <a href="/guides/connecting-a-data-source">Connecting a data source</a> guide, and referenced directly in the <a href="/api/connectors">Connectors endpoint</a> of the API reference.</p>
+<p>Connectors are configured per pipeline in the <a href=/guides/connecting-a-data-source>Connecting a data source</a> guide, and referenced directly in the <a href=/api/connectors>Connectors endpoint</a> of the API reference.</p>
 </main>
 
 </div>
