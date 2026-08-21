@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events endpoint | Godzilla Docs</title>
+  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v3 REST API.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-api-v3 page-events">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v3/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/events" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/v3/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/v3/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v3/" class="usa-breadcrumb__link"><span>v3</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Events endpoint</span></li></ol></nav>
+<h1>Events endpoint <span class='chip chip--success'>v3</span></h1>
+<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--success'>Stable</span></p>
+
+<p>Query and replay <a href="/concepts/concepts-events">events</a> that have flowed through <a href="/concepts/concepts-pipelines">pipelines</a>. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
+
+<p><strong>v3 is the current API version.</strong> The v2 events endpoint has been withdrawn. If you're still on v2, see the <a href="/api/v2/index">v2→v3 migration guide</a> to upgrade.</p>
+
+<h2 id=query>Query events</h2>
+<p><code>GET /v3/pipelines/{pipeline_id}/events</code> — cursor-paginated event search with optional filtering by timestamp and status.</p>
+
+<p><strong>Query parameters:</strong></p>
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody><tr><td><code>status</code></td><td>string</td><td>No</td><td>Filter by <code>success</code>, <code>failed</code>, or <code>pending</code>.</td></tr><tr><td><code>since</code></td><td>ISO 8601 timestamp</td><td>No</td><td>Events after this timestamp.</td></tr><tr><td><code>until</code></td><td>ISO 8601 timestamp</td><td>No</td><td>Events before this timestamp.</td></tr><tr><td><code>page_size</code></td><td>integer</td><td>No</td><td>1–100, defaults to 20.</td></tr><tr><td><code>cursor</code></td><td>string</td><td>No</td><td>Opaque pagination cursor from a previous response's <code>next_cursor</code>.</td></tr></tbody>
+</table>
+
+<p><strong>Response:</strong></p>
+{{ds:component/code-block|filename=response.json|language=json|code={
+  "data": [
+    {
+      "id": "evt_8f2c1a90",
+      "type": "order.created",
+      "status": "success",
+      "occurred_at": "2026-08-18T09:12:44Z",
+      "payload": { "order_id": "ord_4471" }
+    }
+  ],
+  "next_cursor": "eyJvZmZzZXQiOjIwfQ"
+}}}
+
+<h2 id=replay>Replay an event</h2>
+<p><code>POST /v3/pipelines/{pipeline_id}/events/{event_id}/replay</code> — reprocess a single event through the pipeline from scratch.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href=#query>Query events</a></li><li><a href=#replay>Replay an event</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
