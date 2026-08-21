@@ -49,11 +49,11 @@
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/release-notes-archive</loc>
+    <loc>https://localhost:3002/versions/release-notes-archive</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/migration-guide-v1-to-v2</loc>
+    <loc>https://localhost:3002/versions/migration-guide-v1-to-v2</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
@@ -65,27 +65,31 @@
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/getting-started-quickstart</loc>
+    <loc>https://localhost:3002/getting-started/quickstart</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/getting-started-installation</loc>
+    <loc>https://localhost:3002/getting-started/installation</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/getting-started-authentication</loc>
+    <loc>https://localhost:3002/getting-started/authentication</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/concepts-pipelines</loc>
+    <loc>https://localhost:3002/concepts/pipelines</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/concepts-events</loc>
+    <loc>https://localhost:3002/concepts/events</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/concepts-connectors</loc>
+    <loc>https://localhost:3002/concepts/connectors</loc>
+    <lastmod>2026-08-20</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:3002/concepts/schemas</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>

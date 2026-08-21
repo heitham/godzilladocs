@@ -58,11 +58,11 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started/authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started/installation">Installation</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started/quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li><li class="usa-sidenav__item"><a href="/versions/index">Versions</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started/authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts/connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started/installation">Installation</a></li><li class="usa-sidenav__item"><a href="/concepts/pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started/quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li><li class="usa-sidenav__item"><a href="/versions/index">Versions</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Schemas</h1>
-<p>A <strong>schema</strong> defines the expected shape and structure of an <a href="/concepts-events">event</a>'s payload. Schemas allow you to declare what fields an event should contain, what types they should be, and which fields are required. Godzilla validates incoming events against their schema and can route invalid events to your pipeline's dead-letter queue.</p>
+<p>A <strong>schema</strong> defines the expected shape and structure of an <a href="/concepts/events">event</a>'s payload. Schemas allow you to declare what fields an event should contain, what types they should be, and which fields are required. Godzilla validates incoming events against their schema and can route invalid events to your pipeline's dead-letter queue.</p>
 
 <h2>Schema definition</h2>
 <p>Schemas are declared as JSON Schema documents. Each schema specifies the properties expected in an event's <code>payload</code> field, plus validation constraints.</p>
@@ -106,7 +106,7 @@
 </div>
 
 <h2>Assigning schemas to event types</h2>
-<p>Schemas are assigned to <a href="/concepts-events">event types</a> at the pipeline level. An event type like <code>order.created</code> can be validated against a specific schema version, and you can update the schema independently when your data model evolves.</p>
+<p>Schemas are assigned to <a href="/concepts/events">event types</a> at the pipeline level. An event type like <code>order.created</code> can be validated against a specific schema version, and you can update the schema independently when your data model evolves.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>

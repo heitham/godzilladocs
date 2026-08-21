@@ -3,17 +3,18 @@
 > Everything you need to build data pipelines on the Godzilla platform.
 
 ## Pages
-- [Authentication](https://localhost:3002/getting-started-authentication): Authenticate API requests with a bearer API key.
+- [Authentication](https://localhost:3002/getting-started/authentication): Authenticate API requests with a bearer API key.
 - [Changelog](https://localhost:3002/changelog): Recent changes to the Godzilla API and platform.
 - [Concepts](https://localhost:3002/concepts): The three core building blocks of Godzilla: pipelines, connectors, and events.
-- [Connectors](https://localhost:3002/concepts-connectors): What a connector is in Godzilla: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
-- [Events](https://localhost:3002/concepts-events): What an event is in Godzilla: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.
+- [Connectors](https://localhost:3002/concepts/connectors): What a connector is in Godzilla: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
+- [Events](https://localhost:3002/concepts/events): What an event is in Godzilla: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.
 - [Glossary](https://localhost:3002/glossary): Definitions for Godzilla's core terms, each linking to its full explanation.
 - [Godzilla Docs](https://localhost:3002/index): Everything you need to build data pipelines on the Godzilla platform.
-- [Installation](https://localhost:3002/getting-started-installation): Install the Godzilla SDK or start calling the REST API directly.
-- [Pipelines](https://localhost:3002/concepts-pipelines): What a pipeline is in Godzilla: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
+- [Installation](https://localhost:3002/getting-started/installation): Install the Godzilla SDK or start calling the REST API directly.
+- [Pipelines](https://localhost:3002/concepts/pipelines): What a pipeline is in Godzilla: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
 - [Quotas & billing](https://localhost:3002/quotas-and-billing): Plan tiers, rate limits, and what happens when your account exceeds its quota.
-- [Quickstart](https://localhost:3002/getting-started-quickstart): Go from zero to a running pipeline in five minutes.
+- [Quickstart](https://localhost:3002/getting-started/quickstart): Go from zero to a running pipeline in five minutes.
+- [Schemas](https://localhost:3002/concepts/schemas): How event payload shapes are declared and validated in Godzilla: schema definition, validation rules, and error handling.
 - [Security & compliance overview](https://localhost:3002/security-and-compliance): How Godzilla handles data in transit and at rest, credential storage, and compliance posture.
 - [Support / Contact](https://localhost:3002/support): How to reach the Godzilla team for support, sales, or security reports.
 - [Troubleshooting / FAQ](https://localhost:3002/troubleshooting): Common problems and fixes across pipelines, connectors, and webhooks.

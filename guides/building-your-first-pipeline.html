@@ -62,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Building your first pipeline</h1>
-<p>This guide walks through creating a <a href="/concepts-pipelines">pipeline</a> end to end: a source connector, a destination connector, and the pipeline that ties them together.</p>
+<p>This guide walks through creating a <a href="/concepts/pipelines">pipeline</a> end to end: a source connector, a destination connector, and the pipeline that ties them together.</p>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Before you start</div>
@@ -70,7 +70,7 @@
 </div>
 
 <h2>1. Create a source connector</h2>
-<p>We'll pull orders from Postgres. See <a href="/concepts-connectors">Connectors</a> for the full catalog of types.</p>
+<p>We'll pull orders from Postgres. See <a href="/concepts/connectors">Connectors</a> for the full catalog of types.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -80,7 +80,7 @@
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '{\"type\":\"postgres\",\"direction\":\"source\",\"config\":{\"connection_string\":\"postgres://...\"}}'</code></pre>
+  -d '{"type":"postgres","direction":"source","config":{"connection_string":"postgres://..."}}'</code></pre>
 </div>
 
 <h2>2. Create a destination connector</h2>
@@ -94,7 +94,7 @@
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '{\"type\":\"snowflake\",\"direction\":\"destination\",\"config\":{\"account\":\"...\"}}'</code></pre>
+  -d '{"type":"snowflake","direction":"destination","config":{"account":"..."}}'</code></pre>
 </div>
 
 <h2>3. Create the pipeline</h2>
@@ -108,7 +108,7 @@
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '{\"name\":\"ingest-orders\",\"source_connector_id\":\"conn_pg_orders\",\"destination_connector_id\":\"conn_snowflake_dw\"}'</code></pre>
+  -d '{"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"}'</code></pre>
 </div>
 
 <p>The pipeline starts in <code>draft</code> state. Activate it once you're ready to start processing events.</p>

@@ -62,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Monitoring &amp; alerts</h1>
-<p>Keep an eye on a running <a href="/concepts-pipelines">pipeline</a> without babysitting it manually.</p>
+<p>Keep an eye on a running <a href="/concepts/pipelines">pipeline</a> without babysitting it manually.</p>
 
 <h2>Connector health</h2>
 <p>Poll a connector's <code>health</code> field via the <a href="/api/connectors">Connectors endpoint</a>, or better, subscribe to <code>connector.error</code> so you're notified the moment it degrades.</p>
@@ -78,7 +78,7 @@
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/webhooks \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '{\"url\":\"https://you.example.com/hooks/godzilla\",\"events\":[\"pipeline.failed\",\"connector.error\"]}'</code></pre>
+  -d '{"url":"https://you.example.com/hooks/godzilla","events":["pipeline.failed","connector.error"]}'</code></pre>
 </div>
 
 <div class='alert alert--success'>
