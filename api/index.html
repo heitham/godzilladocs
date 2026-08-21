@@ -64,51 +64,59 @@
 <section class='hero'>
   <div class='hero__inner'>
     <h1 class='hero__title'>API Reference</h1>
-    <p class='hero__subtitle'>The current Godzilla v3 REST API with every endpoint, request/response examples, and migration info.</p>
-    <div class='hero__cta'><a href=/api/v3/pipelines>Start with v3 Pipelines</a></div>
+    <p class='hero__subtitle'>Every endpoint in the Godzilla v2 REST API, with request/response examples.</p>
+    <div class='hero__cta'><a href="/api/v2/pipelines">Start with Pipelines</a></div>
   </div>
 </section>
 
 <section>
-  <p>All endpoints live under <code>https://api.godzilladocs.dev/v3</code> and require a bearer <a href=#>API key</a>. New to the API? Read <code>Authentication</code> in Getting Started first.</p>
+  <p>All endpoints live under <code>https://api.godzilladocs.dev/v2</code> and require a bearer <a href="#">API key</a>. New to the API? Read <code>Authentication</code> in Getting Started first.</p>
 
-  <h2>v3 Current Version</h2>
-  
-  <a class='card' href='/api/v3/pipelines'>
+  <a class='card' href='/api/v2/pipelines'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Pipelines</h3>
   <p class='card__description'>Create, list, and manage pipelines.</p>
 </a>
-  <a class='card' href='/api/v3/connectors'>
+  <a class='card' href='/api/v2/connectors'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Connectors</h3>
   <p class='card__description'>Create, list, and rotate credentials for connectors.</p>
 </a>
-  <a class='card' href='/api/v3/transforms'>
+  <a class='card' href='/api/v2/transforms'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Transforms</h3>
   <p class='card__description'>Create and list transform steps that reshape and enrich events.</p>
 </a>
-  <a class='card' href='/api/v3/events'>
+  <a class='card' href='/api/v2/events'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Events</h3>
   <p class='card__description'>Query and replay events that have flowed through a pipeline.</p>
 </a>
-  <a class='card' href='/api/v3/webhooks'>
+  <a class='card' href='/api/v2/webhooks'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Webhooks</h3>
   <p class='card__description'>Subscribe to platform lifecycle events over outbound HTTP.</p>
 </a>
-  <a class='card' href='/api/v3/rate-limits-errors'>
+  <a class='card' href='/api/quotas-billing'>
   <span class='card__tag'>Reference</span>
-  <h3 class='card__title'>Limits, quotas &amp; errors</h3>
-  <p class='card__description'>Standard-tier limits, quotas, pagination, and the error response shape.</p>
+  <h3 class='card__title'>Quotas &amp; billing</h3>
+  <p class='card__description'>Plan tiers, monthly quotas, and billing behavior.</p>
+</a>
+  <a class='card' href='/api/v2/rate-limits'>
+  <span class='card__tag'>Reference</span>
+  <h3 class='card__title'>Rate limits</h3>
+  <p class='card__description'>Standard-tier rate limits, quotas, and pagination.</p>
+</a>
+  <a class='card' href='/api/v2/error-reference'>
+  <span class='card__tag'>Reference</span>
+  <h3 class='card__title'>Error reference</h3>
+  <p class='card__description'>Error response shape and details.</p>
 </a>
 </section>
 
 <div class='alert alert--info'>
-  <div class='alert__title'>Coming from v2?</div>
-  <div class='alert__body'><p>The v2 API is still supported. <a href=/api/v2/index>View v2 docs here</a>. The main improvements in v3: richer error details with field-level validation, configurable pagination page sizes, new pipeline state transitions, and enhanced webhooks. <a href=#>See migration guide</a>.</p></div>
+  <div class='alert__title'>Coming from v1?</div>
+  <div class='alert__body'><p>v2 replaces offset pagination with cursor pagination and adds webhooks in place of polling. See the migration guide before switching a production integration over.</p></div>
 </div>
 </main>
 
