@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Migration guide (v2 → v3) | Godzilla Docs</title>
+  <meta name="description" content="Move from the v2 API to v3 with updated endpoints, error handling, and pagination.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-versions page-migration-guide-v2-to-v3">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/versions/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v2-to-v3" class="usa-current">Migration guide (v2 → v3)</a></li><li class="usa-sidenav__item"><a href="/versions/release-notes-archive">Release notes archive</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Migration guide (v2 → v3)</h1>
+
+<p><strong>v3 is the current API version.</strong> v2 will no longer accept requests. This guide covers the key breaking changes between v2 and v3, with focus on the deprecated events endpoint.</p>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>v2 is no longer supported</div>
+  <div class='alert__body'><p>The v2 API has been fully deprecated. All v2 endpoints are now offline. Migrate immediately to avoid service interruptions.</p></div>
+</div>
+
+<h2 id=overview>Overview of changes</h2>
+
+<p>v3 introduces three major improvements:</p>
+
+<ul>
+  <li><strong>Unified endpoint paths:</strong> All resource endpoints now follow the pattern <code>/v3/{resource}/{id}</code> consistently.</li>
+  <li><strong>Enhanced events support:</strong> Event filtering via <code>status</code> (success/failed/pending) instead of <code>type</code>, with clearer replay semantics.</li>
+  <li><strong>Better error responses:</strong> Structured error objects with stable <code>code</code> fields and detailed descriptions.</li>
+</ul>
+
+<h2 id=events>Events endpoint migration</h2>
+
+<p>The events endpoint is where most users will notice changes. v3 improves filtering and requires the pipeline ID in the replay path.</p>
+
+<h3>Query events</h3>
+
+<p><strong>v2:</strong></p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>v2.bash</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -H "Authorization: Bearer $API_KEY" \\\n  'https://api.godzilladocs.dev/v2/pipelines/pipe_abc123/events?type=order.created&since=2026-08-01T00:00:00Z'</code></pre>
+</div>
+
+<p><strong>v3:</strong></p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>v3.bash</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -H "Authorization: Bearer $API_KEY" \\\n  'https://api.godzilladocs.dev/v3/pipelines/pipe_abc123/events?status=success&since=2026-08-01T00:00:00Z'</code></pre>
+</div>
+
+<p><strong>Key differences:</strong></p>
+
+<ul>
+  <li>Parameter <code>type</code> is removed — filter by <code>status</code> instead (success, failed, or pending).</li>
+  <li>New <code>until</code> parameter for upper-bound timestamp filtering.</li>
+  <li>New <code>page_size</code> parameter for configurable pagination (1–100, default 20).</li>
+  <li><code>occurred_at</code> is replaced by <code>since</code> and <code>until</code> for clearer range filtering.</li>
+</ul>
+
+<h3>Replay an event</h3>
+
+<p><strong>v2:</strong></p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>v2.bash</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST -H "Authorization: Bearer $API_KEY" \\\n  'https://api.godzilladocs.dev/v2/events/evt_8f2c1a90/replay'</code></pre>
+</div>
+
+<p><strong>v3:</strong></p>
+{{ds:component/code-block|filename=v3.bash|language=bash|code=curl -X POST -H "Authorization: Bearer $API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{}' \\\n  'https://api.godzilladocs.dev/v3/pipelines/pipe_abc123/events/evt_8f2c1a90/replay'}}
+
+<p><strong>Key differences:</strong></p>
+
+<ul>
+  <li>Replay path now includes the pipeline ID: <code>/v3/pipelines/{pipeline_id}/events/{event_id}/replay</code>.</li>
+  <li>The endpoint expects a JSON body (can be an empty object <code>{}</code>).</li>
+  <li>v3 returns the replayed event object immediately; v2 had no response body.</li>
+</ul>
+
+<h2 id=other-endpoints>Other endpoint changes</h2>
+
+<p>All endpoints follow the same pattern updates as events. Base URL moves from <code>/v2/</code> to <code>/v3/</code>, and paths are consistent.</p>
+
+<h3>Pagination</h3>
+
+<p>Both v2 and v3 use cursor-based pagination. The only change is the addition of <code>page_size</code> in v3:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>pagination.bash</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -H "Authorization: Bearer $API_KEY" \\\n  'https://api.godzilladocs.dev/v3/pipelines?page_size=50&cursor=eyJvZmZzZXQiOjUwfQ'</code></pre>
+</div>
+
+<h3>Error handling</h3>
+
+<p>v3 improves error response structure. Both versions return error objects, but v3 adds a <code>request_id</code> for debugging.</p>
+
+<p><strong>v2 error:</strong></p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>v2-error.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"code\": \"PIPELINE_NOT_FOUND\",\n  \"message\": \"Pipeline not found\"\n</code></pre>
+</div>}
+
+<p><strong>v3 error:</strong></p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>v3-error.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"code\": \"PIPELINE_NOT_FOUND\",\n  \"message\": \"Pipeline with ID 'pipe_xyz' does not exist\",\n  \"request_id\": \"req_a1b2c3d4e5f6\"\n</code></pre>
+</div>}
+
+<h2 id=checklist>Migration checklist</h2>
+
+<p>Before deploying v3 code to production:</p>
+
+<ul>
+  <li>☐ Update all <code>/v2/</code> paths to <code>/v3/</code>.</li>
+  <li>☐ For events queries: replace <code>type</code> filter with <code>status</code> (success/failed/pending).</li>
+  <li>☐ For event replay: add the pipeline ID to the path and include a JSON request body.</li>
+  <li>☐ Add <code>request_id</code> capture in error handlers for better debugging (v3 includes this).</li>
+  <li>☐ Test pagination with the new <code>page_size</code> parameter if needed.</li>
+  <li>☐ Update SDKs to v3 versions (see <a href=/sdks/index>SDKs page</a> for details).</li>
+</ul>
+
+<div class='alert alert--success'>
+  <div class='alert__title'>Ready to migrate?</div>
+  <div class='alert__body'><p>See the <a href=/api/v3/index>v3 API Reference</a> for complete endpoint documentation. Visit <a href=/troubleshooting>Troubleshooting / FAQ</a> for common migration issues.</p></div>
+</div>
+
+<h2 id=support>Still have questions?</h2>
+
+<p>Check the <a href=/changelog>Changelog</a> for the full v2 → v3 release notes, or visit <a href=/troubleshooting>Troubleshooting / FAQ</a> for common problems and solutions.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href=#overview>Overview of changes</a></li><li><a href=#events>Events endpoint migration</a></li><li><a href=#other-endpoints>Other endpoint changes</a></li><li><a href=#checklist>Migration checklist</a></li><li><a href=#support>Still have questions?</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

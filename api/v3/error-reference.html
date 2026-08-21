@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error reference | Godzilla Docs</title>
+  <meta name="description" content="Error response codes and details for the v3 API.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-api-v3 page-error-reference">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v3/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/error-reference" class="usa-current">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/v3/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/v3/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v3/" class="usa-breadcrumb__link"><span>v3</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Error reference</span></li></ol></nav>
+<h1>Error reference <span class='chip chip--success'>v3</span></h1>
+
+<p><strong>v3 is the current API version.</strong> <a href="/api/v2/rate-limits-errors">v2 docs remain available</a> for users still on the previous version.</p>
+
+<h2 id="error-responses">Error responses</h2>
+<p>Errors are returned with a non-2xx status and include:</p>
+
+{{ds:component/code-block|language=json|code={\n  "error": {\n    "code": "VALIDATION_ERROR",\n    "message": "Request failed validation",\n    "details": {\n      "fields": {\n        "name": "Pipeline name is required"\n      }\n    }\n  }\n}}}
+
+<p>Common error codes:</p>
+<ul>
+  <li><code>VALIDATION_ERROR</code> (400) — Request body failed validation</li>
+  <li><code>NOT_FOUND</code> (404) — Resource does not exist</li>
+  <li><code>CONFLICT</code> (409) — Resource already exists (e.g., duplicate pipeline name)</li>
+  <li><code>RATE_LIMITED</code> (429) — Rate limit exceeded; retry after the <code>Retry-After</code> header</li>
+  <li><code>INTERNAL_ERROR</code> (500) — Unexpected server error</li>
+</ul>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#error-responses">Error responses</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

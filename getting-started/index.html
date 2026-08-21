@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started | Godzilla Docs</title>
+  <meta name="description" content="Get up and running with Godzilla in three steps.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-getting-started page-index">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/getting-started/index" class="usa-current">Getting Started</a></li><li class="usa-sidenav__item"><a href="/getting-started/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/getting-started/getting-started-quickstart">Quickstart</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<section class='hero'>
+  <div class='hero__inner'>
+    <h1 class='hero__title'>Getting Started</h1>
+    <p class='hero__subtitle'>Get up and running with Godzilla in three steps.</p>
+    <div class='hero__cta'></div>
+  </div>
+</section>\n\n<section>\n  <h2>Essential steps</h2>\n  <a class='card' href='/getting-started/getting-started-installation'>
+  <span class='card__tag'></span>
+  <h3 class='card__title'>Installation</h3>
+  <p class='card__description'>Install the Godzilla SDK or start calling the REST API directly.</p>
+</a>\n  <a class='card' href='/getting-started/getting-started-quickstart'>
+  <span class='card__tag'></span>
+  <h3 class='card__title'>Quickstart</h3>
+  <p class='card__description'>Go from zero to a running pipeline in five minutes.</p>
+</a>\n  <a class='card' href='/getting-started/getting-started-authentication'>
+  <span class='card__tag'></span>
+  <h3 class='card__title'>Authentication</h3>
+  <p class='card__description'>Authenticate API requests with a bearer API key.</p>
+</a>\n</section>"
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
