@@ -65,19 +65,19 @@
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#reshaping">Reshaping events</a></li><li><a href="#filtering">Filtering events</a></li><li><a href="#enriching">Enriching with external data</a></li><li><a href="#chaining">Chaining transforms</a></li><li><a href="#monitoring">Monitoring transform failures</a></li></ul>
+  <ul class='docs-toc__list'><li><a href=#reshaping>Reshaping events</a></li><li><a href=#filtering>Filtering events</a></li><li><a href=#enriching>Enriching with external data</a></li><li><a href=#chaining>Chaining transforms</a></li><li><a href=#monitoring>Monitoring transform failures</a></li></ul>
 </nav>
 
-<p>Once events enter your <a href="/pipelines">pipeline</a>, you can reshape them, filter out unwanted records, or add enrichment data from external sources — all before they reach their destination.</p>
+<p>Once events enter your <a href=/pipelines>pipeline</a>, you can reshape them, filter out unwanted records, or add enrichment data from external sources — all before they reach their destination.</p>
 
-<h2 id="reshaping">Reshaping events</h2>
+<h2 id=reshaping>Reshaping events</h2>
 <p>Use a transform to extract, rename, or restructure fields from incoming events. Transforms are JavaScript functions that receive an event and return a modified version of it.</p>
 
-{{ds:component/code-block|filename=transform.js|language=javascript|code=export default function transform(event) {\n  return {\n    user_id: event.customer_id,\n    name: event.first_name + ' ' + event.last_name,\n    email: event.contact_email,\n    created_at: new Date(event.signup_timestamp).toISOString()\n  };\n}}}
+{{ds:component/code-block|filename=transform.js|language=javascript|code=export default function transform(event) {\\n  return {\\n    user_id: event.customer_id,\\n    name: event.first_name + ' ' + event.last_name,\\n    email: event.contact_email,\\n    created_at: new Date(event.signup_timestamp).toISOString()\\n  };\\n}}}
 
-<p>Return <code>null</code> from a transform to drop an event entirely, or throw an error to send it to the <a href="/guides/handling-errors-and-retries">dead-letter queue</a>.</p>
+<p>Return <code>null</code> from a transform to drop an event entirely, or throw an error to send it to the <a href=/guides/handling-errors-and-retries>dead-letter queue</a>.</p>
 
-<h2 id="filtering">Filtering events</h2>
+<h2 id=filtering>Filtering events</h2>
 <p>Add a filter condition to your transform to block unwanted records at the source. A filter that returns <code>false</code> discards the event; <code>true</code> passes it through.</p>
 
 <div class='code-block'>
@@ -86,7 +86,7 @@
     <span class='code-block__lang'>javascript</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>export default function filter(event) {\n  // Only pass through events from paying customers\n  return event.plan_type !== 'free';\n</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>export default function filter(event) {\\n  // Only pass through events from paying customers\\n  return event.plan_type !== 'free';\\n</code></pre>
 </div>}
 
 <div class='alert alert--info'>
@@ -94,21 +94,21 @@
   <div class='alert__body'><p>Filtering in the pipeline is cheaper than transforming and sending to a destination, then filtering downstream. Apply filters early.</p></div>
 </div>
 
-<h2 id="enriching">Enriching with external data</h2>
+<h2 id=enriching>Enriching with external data</h2>
 <p>Your transform can call out to external APIs or databases to add data to each event. Be mindful of rate limits and latency — every enrichment call adds milliseconds to pipeline throughput.</p>
 
-{{ds:component/code-block|filename=enrich.js|language=javascript|code=export default async function enrich(event) {\n  const response = await fetch(`https://api.example.com/users/${event.user_id}`);\n  const userData = await response.json();\n  \n  return {\n    ...event,\n    user_tier: userData.tier,\n    account_balance: userData.balance\n  };\n}}}
+{{ds:component/code-block|filename=enrich.js|language=javascript|code=export default async function enrich(event) {\\n  const response = await fetch(`https://api.example.com/users/${event.user_id}`);\\n  const userData = await response.json();\\n  \\n  return {\\n    ...event,\\n    user_tier: userData.tier,\\n    account_balance: userData.balance\\n  };\\n}}}
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Async transforms add latency</div>
-  <div class='alert__body'><p>Each external call blocks the pipeline for that event. Use with caution on high-throughput pipelines or consider batching lookups with a <a href="/guides/scheduling-and-triggers">scheduled task</a> instead.</p></div>
+  <div class='alert__body'><p>Each external call blocks the pipeline for that event. Use with caution on high-throughput pipelines or consider batching lookups with a <a href=/guides/scheduling-and-triggers>scheduled task</a> instead.</p></div>
 </div>
 
-<h2 id="chaining">Chaining transforms</h2>
+<h2 id=chaining>Chaining transforms</h2>
 <p>A single transform stage can run multiple functions in sequence. The output of one becomes the input to the next.</p>
 
-<h2 id="monitoring">Monitoring transform failures</h2>
-<p>If a transform throws, the event is retried according to your <a href="/guides/handling-errors-and-retries">retry policy</a>. Watch transform error rates in <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a>.</p>
+<h2 id=monitoring>Monitoring transform failures</h2>
+<p>If a transform throws, the event is retried according to your <a href=/guides/handling-errors-and-retries>retry policy</a>. Watch transform error rates in <a href=/guides/monitoring-and-alerts>Monitoring & alerts</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
@@ -117,7 +117,7 @@
   </a>
   <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
     <span class='docs-pagination__direction'>Next</span>
-    <span class='docs-pagination__label'>Handling errors & retries</span>
+    <span class='docs-pagination__label'>Error handling & recovery</span>
   </a>
 </nav>
 </main>
