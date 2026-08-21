@@ -64,6 +64,11 @@
 <h1>Webhooks endpoint <span class='chip chip--primary'>v2</span> <span class='chip chip--success'>Stable</span></h1>
 <p>Subscribe to platform lifecycle events — such as <code>pipeline.completed</code> or <code>connector.error</code> — as outbound HTTP requests to a URL you control. This is the v2 replacement for v1's polling-only status checks; see the <a href="/versions/migration-guide-v1-to-v2">Migration guide</a> if you're moving off v1.</p>
 
+<div class='alert alert--info'>
+  <div class='alert__title'>v3 available for pipelines and events</div>
+  <div class='alert__body'><p><strong>Pipelines and Events endpoints now have v3 versions</strong> with improved filtering, batch operations, and enhanced type support. See the <a href="/api/pipelines-v3">v3 Pipelines endpoint</a> and <a href="/api/events-v3">v3 Events endpoint</a>. The Webhooks endpoint remains at v2.</p></div>
+</div>
+
 <h2 id="create">Create a webhook subscription</h2>
 <p><code>POST /v2/webhooks</code></p>
 
@@ -76,7 +81,7 @@
       <th>Description</th>
     </tr>
   </thead>
-  <tbody><tr><td><code>url</code></td><td>string</td><td>Yes</td><td>HTTPS endpoint Godzilla will POST events to.</td></tr><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>List of event types to subscribe to, e.g. <code>[\"pipeline.failed\"]</code>.</td></tr><tr><td><code>secret</code></td><td>string</td><td>No</td><td>Shared secret used to sign the <code>X-Godzilla-Signature</code> header. Auto-generated if omitted.</td></tr></tbody>
+  <tbody><tr><td><code>url</code></td><td>string</td><td>Yes</td><td>HTTPS endpoint Godzilla will POST events to.</td></tr><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>List of event types to subscribe to, e.g. <code>[\\\"pipeline.failed\\\"]</code>.</td></tr><tr><td><code>secret</code></td><td>string</td><td>No</td><td>Shared secret used to sign the <code>X-Godzilla-Signature</code> header. Auto-generated if omitted.</td></tr></tbody>
 </table>
 
 <div class='code-block'>
@@ -85,7 +90,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"id\": \"evt_wh_2091\",\n  \"type\": \"pipeline.failed\",\n  \"occurred_at\": \"2026-08-18T09:14:02Z\",\n  \"data\": &#123; \"pipeline_id\": \"pl_ingest_orders\", \"error\": \"destination_timeout\" &#125;\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\\n  \\\"id\\\": \\\"evt_wh_2091\\\",\\n  \\\"type\\\": \\\"pipeline.failed\\\",\\n  \\\"occurred_at\\\": \\\"2026-08-18T09:14:02Z\\\",\\n  \\\"data\\\": &#123; \\\"pipeline_id\\\": \\\"pl_ingest_orders\\\", \\\"error\\\": \\\"destination_timeout\\\" &#125;\\n&#125;</code></pre>
 </div>
 
 <div class='alert alert--warning'>

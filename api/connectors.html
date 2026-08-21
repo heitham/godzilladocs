@@ -64,6 +64,11 @@
 <h1>Connectors endpoint <span class='chip chip--primary'>v2</span> <span class='chip chip--success'>Stable</span></h1>
 <p>Manage <a href="/concepts/concepts-connectors">connectors</a> — the source and destination integrations pipelines read from and write to.</p>
 
+<div class='alert alert--info'>
+  <div class='alert__title'>v3 available</div>
+  <div class='alert__body'><p><strong>Pipelines and Events endpoints now have v3 versions</strong> with improved filtering, batch operations, and enhanced type support. See the <a href="/api/pipelines-v3">v3 Pipelines endpoint</a> and <a href="/api/events-v3">v3 Events endpoint</a>. The Connectors endpoint remains at v2.</p></div>
+</div>
+
 <h2 id="create">Create a connector</h2>
 <p><code>POST /v2/connectors</code></p>
 
@@ -85,10 +90,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '&#123;\n    \"type\": \"postgres\",\n    \"direction\": \"source\",\n    \"config\": &#123; \"connection_string\": \"postgres://...\" &#125;\n  &#125;'</code></pre>
-</div>
-
-<h2 id="rotate">Rotate credentials</h2>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\\\\n  -H \\\"Authorization: Bearer $GODZILLA_API_KEY\\\" \\\\\\n  -H \\\"Content-Type: application/json\\\" \\\\\\n  -d '&#123;\\n    \\\"type\\\": \\\"postgres\\\",\\n    \\\"direction\\\": \\\"source\\\",\\n    \\\"config\\\": &#123; \\\"connection_string\\\": \\\"postgres://...\\\" &#125;\\n  &#125;'</code></pre>
+</div>\n\n<h2 id="rotate">Rotate credentials</h2>
 <p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
 
 <div class='alert alert--warning'>
