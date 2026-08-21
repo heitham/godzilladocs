@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Handling errors &amp; retries | Godzilla Docs</title>
+  <title>Error handling &amp; recovery | Godzilla Docs</title>
   <meta name="description" content="How Godzilla retries failed events, when they're dead-lettered, and how to replay them.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
@@ -58,31 +58,24 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries" class="usa-current">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries" class="usa-current">Error handling &amp; recovery</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Handling errors &amp; retries</h1>
-<p>Every <a href="/concepts-events">event</a> that fails a transform or a destination write is retried automatically. This guide covers how that works and what to do when retries run out.</p>
 
-<h2>Automatic retries</h2>
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#automatic-retries">Automatic retries</a></li><li><a href="#dead-lettering">Dead-lettering</a></li><li><a href="#replaying-events">Replaying events</a></li><li><a href="#watching-for-failures">Watching for failures</a></li></ul>
+</nav>
+
+<p>Every <a href="/concepts/concepts-events">event</a> that fails a transform or a destination write is retried automatically. This guide covers how that works and what to do when retries run out.</p>
+
+<h2 id="automatic-retries">Automatic retries</h2>
 <p>Failed events retry with exponential backoff — 1s, 2s, 4s, up to a per-pipeline configurable ceiling. Most transient failures (a destination hiccup, a rate-limited third party) resolve within the first few attempts.</p>
 
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>pipeline-retry-config.json</span>
-    <span class='code-block__lang'>json</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "retry_policy": &#123;
-    "max_attempts": 5,
-    "backoff": "exponential",
-    "initial_delay_ms": 1000
-  &#125;
-&#125;</code></pre>
-</div>
+{{ds:component/code-block|filename=pipeline-retry-config.json|language=json|code={\n  \"retry_policy\": {\n    \"max_attempts\": 5,\n    \"backoff\": \"exponential\",\n    \"initial_delay_ms\": 1000\n  }\n}}}
 
-<h2>Dead-lettering</h2>
+<h2 id="dead-lettering">Dead-lettering</h2>
 <p>An event that exhausts its retries is moved to that pipeline's dead-letter queue rather than dropped silently.</p>
 
 <div class='alert alert--danger'>
@@ -90,8 +83,8 @@
   <div class='alert__body'><p>Once in the dead-letter queue, an event stays there until you replay it or explicitly discard it — it will not retry again on its own.</p></div>
 </div>
 
-<h2>Replaying events</h2>
-<p>Use the <a href="/apis/events">Events endpoint</a>'s replay action to re-run a specific dead-lettered event once the underlying issue is fixed.</p>
+<h2 id="replaying-events">Replaying events</h2>
+<p>Use the <a href="/api/events">Events endpoint</a>'s replay action to re-run a specific dead-lettered event once the underlying issue is fixed.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -99,21 +92,21 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/events/evt_8f2c1a90/replay \
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/events/evt_8f2c1a90/replay \\
   -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
-<h2>Watching for failures</h2>
-<p>Subscribe to <code>pipeline.failed</code> via <a href="/apis/webhooks">Webhooks</a> so you find out about dead-lettered events before a customer does. See also <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a>.</p>
+<h2 id="watching-for-failures">Watching for failures</h2>
+<p>Subscribe to <code>pipeline.failed</code> via <a href="/api/webhooks">Webhooks</a> so you find out about dead-lettered events before a customer does. See also <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
     <span class='docs-pagination__direction'>Previous</span>
     <span class='docs-pagination__label'>Connecting a data source</span>
   </a>
-  <a class='docs-pagination__next' href='/guides/scheduling-and-triggers'>
+  <a class='docs-pagination__next' href='/guides/transforming-events-in-flight'>
     <span class='docs-pagination__direction'>Next</span>
-    <span class='docs-pagination__label'>Scheduling & triggers</span>
+    <span class='docs-pagination__label'>Transforming events in flight</span>
   </a>
 </nav>
 </main>

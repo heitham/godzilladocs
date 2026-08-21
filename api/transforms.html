@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforms endpoint | Godzilla Docs</title>
+  <meta name="description" content="Create and list transform steps that reshape, filter, and enrich events in a pipeline via the v2 REST API.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-api page-transforms">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms" class="usa-current">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Transforms endpoint</span></li></ol></nav>
+<h1>Transforms endpoint <span class='chip chip--danger'>Deprecated</span></h1>
+<p>Manage <a href="/guides/transforming-events-in-flight">transform steps</a> — inline data reshaping, filtering, and enrichment operations that run on events as they flow through a pipeline.</p>
+
+<h2 id="create">Create a transform step</h2>
+<p><code>POST /v2/transforms</code></p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody><tr><td><code>pipeline_id</code></td><td>string</td><td>Yes</td><td>ID of the pipeline this transform belongs to.</td></tr><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable name for the transform step.</td></tr><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>filter</code>, <code>map</code>, <code>enrich</code>, or <code>custom</code>.</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific transformation logic, e.g. a filter expression or mapping template.</td></tr><tr><td><code>order</code></td><td>integer</td><td>Yes</td><td>Position in the transform chain (0-indexed). Transforms run in ascending order.</td></tr></tbody>
+</table>
+
+{{ds:component/code-block|filename=create-transform.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/transforms \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "pipeline_id": "pipe_ingest_orders",
+    "name": "Filter inactive users",
+    "type": "filter",
+    "config": { "expression": "event.user_status == \"active\"" },
+    "order": 0
+  }'}}
+
+<h2 id="list">List transform steps</h2>
+<p><code>GET /v2/pipelines/{pipeline_id}/transforms</code> — returns a list of all transform steps for a given pipeline, ordered by execution order.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>list-transforms.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines/pipe_ingest_orders/transforms \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+</div>
+
+<h2 id="order">Transform execution order</h2>
+<p>Transforms within a pipeline execute in ascending <code>order</code> value. When creating multiple transforms at once, assign sequential <code>order</code> values to ensure consistent behavior. Reordering transforms mid-pipeline does not affect events already in flight.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Order matters</div>
+  <div class='alert__body'><p>Transforms are applied in sequence to each event. A filter in position 0 may prevent events from reaching an enrichment step in position 1. Plan your transform chain carefully.</p></div>
+</div>
+
+<h2 id="types">Transform types</h2>
+<ul>
+  <li><strong>filter</strong> — exclude events matching a condition; dropped events are counted separately and not written to the destination.</li>
+  <li><strong>map</strong> — reshape event fields using a template; useful for normalizing source formats to match destination schema.</li>
+  <li><strong>enrich</strong> — fetch and merge external data into events; requires connectors with catalog support.</li>
+  <li><strong>custom</strong> — run user-supplied JavaScript or SQL logic; incurs additional latency.</li>
+</ul>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href=#create>Create a transform step</a></li><li><a href=#list>List transform steps</a></li><li><a href=#order>Transform execution order</a></li><li><a href=#types>Transform types</a></li></ul>
+</nav>
+
+<p style="margin-top: 2rem; font-size: 0.875rem; color: #6b625c;"><strong>Last reviewed:</strong> 2026-09-01</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
