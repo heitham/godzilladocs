@@ -137,10 +137,6 @@
     <lastmod>2026-08-21</lastmod>
   </url>
   <url>
-    <loc>https://localhost:4310/apis/rate-limits-errors</loc>
-    <lastmod>2026-08-21</lastmod>
-  </url>
-  <url>
     <loc>https://localhost:4310/getting-started/index</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
@@ -154,6 +150,10 @@
   </url>
   <url>
     <loc>https://localhost:4310/api/pipelines</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:4310/api/rate-limits-errors</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
 </urlset>
