@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pipelines endpoint | Godzilla Docs</title>
-  <meta name="description" content="Manage pipelines via the REST API. v3 is current; v2 is deprecated.">
+  <meta name="description" content="Create, list, and manage pipelines via the REST API. v3 is current; v2 is deprecated.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -63,19 +63,19 @@
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Pipelines endpoint</span></li></ol></nav>
 <h1>Pipelines endpoint</h1>
 
-<p>Create and manage <a href=/concepts/concepts-pipelines>pipelines</a> programmatically. Choose your API version below.</p>
+<p>Create and manage <a href="/concepts/concepts-pipelines">pipelines</a> programmatically. Choose your API version below.</p>
 
 <div class='alert alert--success'>
   <div class='alert__title'>Use v3 (current)</div>
-  <div class='alert__body'><p><strong><a href=/api/v3/pipelines>View v3 documentation →</a></strong></p><p>v3 is the current version with batch operations, advanced filtering, and improved error messages.</p></div>
+  <div class='alert__body'><p><strong><a href="/api/v3/pipelines">View v3 documentation →</a></strong></p><p>v3 is the current version with batch operations, advanced filtering, and improved error messages.</p></div>
 </div>
 
-<h2 id=versions>API versions</h2>
+<h2 id="versions">API versions</h2>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
   <div>
     <h3><span class='chip chip--primary'>v3</span> Current version</h3>
-    <p><a href=/api/v3/pipelines>Pipelines v3 documentation</a></p>
+    <p><a href="/api/v3/pipelines">Pipelines v3 documentation</a></p>
     <ul>
       <li>Batch operations</li>
       <li>Advanced filtering (name, state, tags)</li>
@@ -85,8 +85,7 @@
   </div>
   <div>
     <h3><span class='chip chip--warning'>v2</span> Deprecated</h3>
-    <p><a href=/api/v2/pipelines>Pipelines v2 documentation</a></p>
-    <p><em>Still supported for existing integrations. <a href=/api/v3/pipelines>Migrate to v3</a>.</em></p>
+    <p><em>This endpoint is deprecated. <a href="/api/v3/pipelines">Migrate to v3</a> immediately using the <a href="/versions/migration-guide-v2-to-v3">v2 → v3 migration guide</a>.</em></p>
   </div>
 </div>
 </main>
