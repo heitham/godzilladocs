@@ -75,14 +75,32 @@
 
 <h2>Declaring a schema</h2>
 <p>Schemas are authored in JSON Schema format (draft 2020-12). A typical schema for <a href="/concepts/concepts-events">user data events</a> looks like this:</p>
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>order-schema.json</span>
-    <span class='code-block__lang'>json</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,\n  &quot;title&quot;: &quot;Order Created Event&quot;,\n  &quot;type&quot;: &quot;object&quot;,\n  &quot;properties&quot;: &#123;\n    &quot;order_id&quot;: &#123; &quot;type&quot;: &quot;string&quot;, &quot;pattern&quot;: &quot;^ord_[0-9a-z]+$&quot; &#125;,\n    &quot;customer_id&quot;: &#123; &quot;type&quot;: &quot;string&quot; &#125;,\n    &quot;amount_cents&quot;: &#123; &quot;type&quot;: &quot;integer&quot;, &quot;minimum&quot;: 0 &#125;,\n    &quot;items&quot;: &#123;\n      &quot;type&quot;: &quot;array&quot;,\n      &quot;items&quot;: &#123;\n        &quot;type&quot;: &quot;object&quot;,\n        &quot;properties&quot;: &#123;\n          &quot;sku&quot;: &#123; &quot;type&quot;: &quot;string&quot; &#125;,\n          &quot;qty&quot;: &#123; &quot;type&quot;: &quot;integer&quot;, &quot;minimum&quot;: 1 &#125;\n        &#125;,\n        &quot;required&quot;: [&quot;sku&quot;, &quot;qty&quot;]\n      &#125;\n    &#125;,\n    &quot;created_at&quot;: &#123; &quot;type&quot;: &quot;string&quot;, &quot;format&quot;: &quot;date-time&quot; &#125;\n  &#125;,\n  &quot;required&quot;: [&quot;order_id&quot;, &quot;customer_id&quot;, &quot;amount_cents&quot;, &quot;created_at&quot;],\n  &quot;additionalProperties&quot;: false\n&#125;</code></pre>
-</div>\n<p>This schema defines:</p>
+{{ds:component/code-block|filename=order-schema.json|language=json|code={
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Order Created Event",
+  "type": "object",
+  "properties": {
+    "order_id": { "type": "string", "pattern": "^ord_[0-9a-z]+$" },
+    "customer_id": { "type": "string" },
+    "amount_cents": { "type": "integer", "minimum": 0 },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sku": { "type": "string" },
+          "qty": { "type": "integer", "minimum": 1 }
+        },
+        "required": ["sku", "qty"]
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "required": ["order_id", "customer_id", "amount_cents", "created_at"],
+  "additionalProperties": false
+}}}
+
+<p>This schema defines:</p>
 <ul>
   <li><strong>Required fields:</strong> <code>order_id</code>, <code>customer_id</code>, <code>amount_cents</code>, and <code>created_at</code> must be present on every event.</li>
   <li><strong>Type constraints:</strong> <code>order_id</code> is a string; <code>amount_cents</code> is a non-negative integer.</li>

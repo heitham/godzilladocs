@@ -68,12 +68,14 @@
 
 <h2>1. Create a pipeline</h2>
 
-{{ds:component/code-block|filename=terminal|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -d '{"name":"my-first-pipeline","source_connector_id":"conn_demo_source","destination_connector_id":"conn_demo_dest"}'}}
+{{ds:component/code-block|filename=terminal|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -d '{"name":"my-first-pipeline","source_connector_id":"conn_demo_source","destination_connector_id":"conn_demo_dest"}'}}
 
-{{ds:component/code-block|filename=main.go|language=go|code=package main\n\nimport (\n\t"context"\n\t"log"\n\n\t"github.com/godzilladev/godzilla-go"\n)\n\nfunc main() {\n\tclient := godzilla.NewClient(\n\t\tgodzilla.WithAPIKey(os.Getenv("GODZILLA_API_KEY")),\n\t)\n\n\tpipeline, err := client.Pipelines.Create(context.Background(), &godzilla.CreatePipelineRequest{\n\t\tName:                    "my-first-pipeline",\n\t\tSourceConnectorID:       "conn_demo_source",\n\t\tDestinationConnectorID: "conn_demo_dest",\n\t})\n\tif err != nil {\n\t\tlog.Fatalf("failed to create pipeline: %v", err)\n\t}\n\tlog.Printf("Created pipeline: %s\n", pipeline.ID)\n}}}
+{{ds:component/code-block|filename=main.go|language=go|code=package main\n\nimport (\n\t"context"\n\t"log"\n\n\t"github.com/godzilladev/godzilla-go"\n)\n\nfunc main() {\n\tclient := godzilla.NewClient(\n\t\tgodzilla.WithAPIKey(os.Getenv("GODZILLA_API_KEY")),\n\t)\n\n\tpipeline, err := client.Pipelines.Create(context.Background(), &godzilla.CreatePipelineRequest{\n\t\tName:                    "my-first-pipeline",\n\t\tSourceConnectorID:       "conn_demo_source",\n\t\tDestinationConnectorID: "conn_demo_dest",\n\t})\n\tif err != nil {\n\t\tlog.Fatalf("failed to create pipeline: %v", err)\n\t}\n\tlog.Printf("Created pipeline: %s\n", pipeline.ID)\n}}
 
 <h2>2. Watch it run</h2>
-<p>Subscribe to <code>pipeline.completed</code> via <a href="/api/webhooks">Webhooks</a>, or poll the <a href="/api/events">Events endpoint</a> to see events as they're processed.</p>
+<p>Subscribe to <code>pipeline.completed</code> via <a href="/api/webhooks">Webhooks</a>, or poll the <a href="/api/events-v3">Events endpoint</a> to see events as they're processed.</p>
 
 <div class='alert alert--success'>
   <div class='alert__title'>That's it</div>

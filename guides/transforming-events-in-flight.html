@@ -86,7 +86,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{\"transforms\": [{\"type\": \"reshape\", \"mappings\": {\"user.id\": \"user_id\", \"user.email\": \"email\", \"event_time\": \"created_at\"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{"transforms": [{"type": "reshape", "mappings": {"user.id": "user_id", "user.email": "email", "event_time": "created_at"</code></pre>
 </div>]}}}
 
 <h2 id="filtering-events">Filtering events</h2>
@@ -97,9 +97,9 @@
   <li>Drop events that fail validation or have missing required fields</li>
 </ul>
 
-<p>Filters use simple boolean expressions: <code>field == value</code>, <code>field &gt; 100</code>, or <code>field IN (a, b, c)</code>.</p>
+<p>Filters use simple boolean expressions: <code>field == value</code>, <code>field > 100</code>, or <code>field IN (a, b, c)</code>.</p>
 
-{{ds:component/code-block|filename=pipeline.config.json|language=json|code={\"transforms\": [{\"type\": \"filter\", \"condition\": \"environment != 'test' AND user_id IS NOT NULL\"}]}}}
+{{ds:component/code-block|filename=pipeline.config.json|language=json|code={"transforms": [{"type": "filter", "condition": "environment != 'test' AND user_id IS NOT NULL"}]}}}
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Filter early</div>
@@ -116,12 +116,12 @@
 
 <p>Enrichments are cached to avoid hammering external sources on every event. Failed lookups can be configured to drop the event or pass it through with a <code>null</code> enrichment field.</p>
 
-{{ds:component/code-block|filename=pipeline.config.json|language=json|code={\"transforms\": [{\"type\": \"enrich\", \"source\": \"postgres_reference\", \"join_key\": \"product_id\", \"lookup_field\": \"sku\", \"cache_ttl_seconds\": 3600, \"fields_to_add\": [\"category\", \"vendor\"]}]}}}
+{{ds:component/code-block|filename=pipeline.config.json|language=json|code={"transforms": [{"type": "enrich", "source": "postgres_reference", "join_key": "product_id", "lookup_field": "sku", "cache_ttl_seconds": 3600, "fields_to_add": ["category", "vendor"]}]}}}
 
 <h2 id="chaining-transformations">Chaining transformations</h2>
 <p>Combine multiple transformations in sequence. The pipeline processes them left to right, so the output of one stage becomes the input to the next:</p>
 
-{{ds:component/code-block|filename=pipeline.config.json|language=json|code={\"transforms\": [{\"type\": \"filter\", \"condition\": \"environment != 'test'\"}, {\"type\": \"reshape\", \"mappings\": {\"user.id\": \"user_id\"}}, {\"type\": \"enrich\", \"source\": \"lookups\", \"join_key\": \"user_id\"}]}}}
+{{ds:component/code-block|filename=pipeline.config.json|language=json|code={"transforms": [{"type": "filter", "condition": "environment != 'test'"}, {"type": "reshape", "mappings": {"user.id": "user_id"}}, {"type": "enrich", "source": "lookups", "join_key": "user_id"}]}}}
 
 <h2 id="monitoring-transformation-health">Monitoring transformation health</h2>
 <p>Watch for transformation failures in the pipeline health dashboard:</p>

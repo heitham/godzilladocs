@@ -65,7 +65,7 @@
 <p>Every request to the <a href="/api/index">Godzilla API</a> is authenticated with a bearer API key.</p>
 
 <h2>Getting an API key</h2>
-<p>Generate one from your workspace settings. Keys are scoped to a single workspace and inherit the standard rate limit described in <a href="/api/rate-limits-errors">Rate limits & errors</a>.</p>
+<p>Generate one from your workspace settings. Keys are scoped to a single workspace and inherit the standard rate limit described in <a href="/api/rate-limits">Rate limits & errors</a>.</p>
 
 <h2>Using the key</h2>
 
@@ -75,17 +75,11 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>main.go</span>
-    <span class='code-block__lang'>go</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>package main\n\nimport (\n	"context"\n	"log"\n	"os"\n\n	"github.com/godzilladev/godzilla-go"\n)\n\nfunc main() &#123;\n	client := godzilla.NewClient(\n		godzilla.WithAPIKey(os.Getenv("GODZILLA_API_KEY")),\n	)\n\n	pipelines, err := client.Pipelines.List(context.Background())\n	if err != nil &#123;\n		log.Fatalf("failed to list pipelines: %v", err)\n	&#125;\n	log.Printf("Found %d pipelines\n", len(pipelines))\n&#125;</code></pre>
-</div>
+{{ds:component/code-block|filename=main.go|language=go|code=package main\n\nimport (\n\t"context"\n\t"log"\n\t"os"\n\n\t"github.com/godzilladev/godzilla-go"\n)\n\nfunc main() {\n\tclient := godzilla.NewClient(\n\t\tgodzilla.WithAPIKey(os.Getenv("GODZILLA_API_KEY")),\n\t)\n\n\tpipelines, err := client.Pipelines.List(context.Background())\n\tif err != nil {\n\t\tlog.Fatalf("failed to list pipelines: %v", err)\n\t}\n\tlog.Printf("Found %d pipelines\n", len(pipelines))\n}}}
 
 <div class='alert alert--danger'>
   <div class='alert__title'>Never expose a key client-side</div>
