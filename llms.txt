@@ -3,7 +3,6 @@
 > Everything you need to build data pipelines on the Godzilla platform.
 
 ## Pages
-- [Authentication](https://localhost:4310/getting-started-authentication): Authenticate API requests with a bearer API key.
 - [Changelog](https://localhost:4310/changelog): Recent changes to the Godzilla API and platform.
 - [Concepts](https://localhost:4310/concepts): The three core building blocks of Godzilla: pipelines, connectors, and events.
 - [Connectors](https://localhost:4310/concepts-connectors): What a connector is in Godzilla: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
@@ -29,6 +28,7 @@
 - [Webhooks endpoint](https://localhost:4310/apis/webhooks): Subscribe to Godzilla platform lifecycle events over outbound HTTP via the v2 REST API.
 
 ## getting-started
+- [Authentication](https://localhost:4310/getting-started/getting-started-authentication): Authenticate API requests with a bearer API key.
 - [Installation](https://localhost:4310/getting-started/getting-started-installation): Install the Godzilla SDK or start calling the REST API directly.
 - [Quickstart](https://localhost:4310/getting-started/getting-started-quickstart): Go from zero to a running pipeline in five minutes.
 
