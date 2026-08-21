@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforms endpoint | Godzilla Docs</title>
+  <meta name="description" content="Create and list transform steps that filter, map, and enrich events in a pipeline via the v2 REST API.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-apis page-transforms">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms" class="usa-current">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforms endpoint <span class='chip chip--primary'>v2</span></h1>
+<p>Define and manage <a href=#>transforms</a> — the data shaping operations that filter, map, and enrich events as they flow through a pipeline.</p>
+
+<h2 id=create>Create a transform step</h2>
+<p><code>POST /v2/transforms</code></p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody><tr><td><code>pipeline_id</code></td><td>string</td><td>Yes</td><td>ID of the pipeline this transform belongs to.</td></tr><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable transform name, unique within the pipeline.</td></tr><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>filter</code>, <code>map</code>, <code>enrich</code>, or <code>aggregate</code>.</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific configuration: filter expression, mapping rules, or enrichment source.</td></tr><tr><td><code>position</code></td><td>integer</td><td>No</td><td>Order in the transform chain (0-indexed). If omitted, appended to the end.</td></tr></tbody>
+</table>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-transform.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '&#123;\n    "pipeline_id": "pipe_orders_dw",\n    "name": "filter-high-value",\n    "type": "filter",\n    "config": &#123; "expression": "$.amount > 1000" &#125;\n  &#125;'</code></pre>
+</div>
+
+<h2 id=list>List transforms in a pipeline</h2>
+<p><code>GET /v2/pipelines/&#123;pipeline_id&#125;/transforms</code> — returns the ordered array of transform steps for a pipeline.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>list-transforms.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_dw/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+</div>
+
+<h2 id=ordering>Transform ordering and evaluation</h2>
+<p>Transforms are evaluated left-to-right in the order specified by the <code>position</code> field. Output from one transform feeds into the next. If a <code>filter</code> drops an event, subsequent transforms do not run on it.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Transform composition</div>
+  <div class='alert__body'><p>Use <code>position</code> when updating a pipeline to reorder steps without recreating them. The system automatically adjusts the chain and validates that the output schema of one step is compatible with the input of the next.</p></div>
+</div>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Schema validation</div>
+  <div class='alert__body'><p>When you add or reorder a transform, the pipeline validates the data flowing through it. If an intermediate step's output does not match the next step's expected input, the pipeline enters a <code>degraded</code> state until fixed.</p></div>
+</div>
+
+<h2 id=types>Transform types</h2>
+
+<h3>Filter</h3>
+<p>A <code>filter</code> transform drops events that do not match a condition, using JSONPath expressions. Config requires an <code>expression</code> field with a valid JSONPath selector.</p>
+
+<h3>Map</h3>
+<p>A <code>map</code> transform shapes the event payload by extracting, renaming, or projecting fields. Config specifies <code>field_mappings</code>, an object where keys are the new field names and values are JSONPath expressions selecting from the input event.</p>
+
+<h3>Enrich</h3>
+<p>An <code>enrich</code> transform augments the event with data from an external source (HTTP endpoint or lookup table). Config includes the <code>source_url</code> and optional <code>cache_ttl_seconds</code>.</p>
+
+<h3>Aggregate</h3>
+<p>An <code>aggregate</code> transform groups events by a key and produces summary statistics. Config specifies the <code>group_by_field</code> and <code>aggregations</code> (e.g., count, sum, average).</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href=#create>Create a transform step</a></li><li><a href=#list>List transforms in a pipeline</a></li><li><a href=#ordering>Transform ordering and evaluation</a></li><li><a href=#types>Transform types</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
