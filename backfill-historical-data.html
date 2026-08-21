@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backfill historical data | Godzilla Docs</title>
+  <meta name="description" content="Load historical data into your destination connector using batch operations and replay capabilities.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-backfill-historical-data">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/backfill-historical-data" class="usa-current">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/recipes-index">Recipes</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Backfill historical data</h1><p>This recipe shows you how to load historical data into your destination connector using Godzilla's batch operations and event replay capabilities.</p><h2>Overview</h2><p>Backfilling historical data is a common task when setting up a new data pipeline. You may want to:</p><ul><li>Migrate existing data from a legacy system</li><li>Initialize a new destination with historical records</li><li>Recover from a pipeline failure by replaying events</li></ul><h2>Getting started</h2><p>To backfill data, you'll need:</p><ul><li>A source connector with historical data available</li><li>A destination connector ready to receive events</li><li>Access to the Godzilla API to manage the pipeline</li></ul><h2>Step 1: Prepare your source</h2><p>Ensure your source connector has all the historical data you want to backfill. Most connectors support pagination or cursor-based iteration to retrieve older records.</p><h2>Step 2: Create or update your pipeline</h2><p>Set up a pipeline that connects your source to your destination. You can do this through the Godzilla UI or via the API.</p><h2>Step 3: Backfill data</h2><p>Once your pipeline is configured, trigger a full sync to backfill all historical data. Depending on your connector, this might happen automatically on first run or require explicit triggering.</p><h2>Step 4: Monitor progress</h2><p>Use the Godzilla monitoring dashboard to track the progress of your backfill operation. Events will flow through your pipeline transforms and into your destination.</p><h2>Best practices</h2><ul><li><strong>Start small:</strong> Test with a small subset of historical data first to ensure your pipeline is configured correctly.</li><li><strong>Handle duplicates:</strong> Design your destination to handle potential duplicate records, as replay or retries may send the same event multiple times.</li><li><strong>Monitor throughput:</strong> Be aware of rate limits on both your source and destination connectors.</li><li><strong>Plan for large backfills:</strong> If you're backfilling a very large amount of data, consider breaking it into smaller batches.</li></ul>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
