@@ -61,7 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/apis/events" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines-v3">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint (v2 – Legacy)</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Events endpoint <span class='chip chip--primary'>v3</span></h1>
+<h1>Events endpoint <span class='chip chip--primary'>v3</span> <span class='chip chip--success'>Stable</span></h1>
 <p>Query and replay <a href="/concepts-events">events</a> that have flowed through a pipeline.</p>
 
 <h2 id="list">List events</h2>
@@ -79,7 +79,14 @@
   <tbody><tr><td><code>type</code></td><td>string</td><td>No</td><td>Filter to a single event type, e.g. <code>order.created</code>.</td></tr><tr><td><code>status</code></td><td>string</td><td>No</td><td>Filter by event status: <code>success</code>, <code>failed</code>, <code>pending</code>.</td></tr><tr><td><code>since</code></td><td>string</td><td>No</td><td>ISO-8601 timestamp lower bound on <code>occurred_at</code>.</td></tr><tr><td><code>cursor</code></td><td>string</td><td>No</td><td>Opaque pagination cursor from a previous response's <code>next_cursor</code>.</td></tr></tbody>
 </table>
 
-{{ds:component/code-block|filename=event.json|language=json|code={\n  "id": "evt_8f2c1a90",\n  "type": "order.created",\n  "status": "success",\n  "occurred_at": "2026-08-18T09:12:44Z",\n  "processed_at": "2026-08-18T09:12:45Z",\n  "payload": { "order_id": "ord_4471" }\n}}}
+{{ds:component/code-block|filename=event.json|language=json|code={
+  "id": "evt_8f2c1a90",
+  "type": "order.created",
+  "status": "success",
+  "occurred_at": "2026-08-18T09:12:44Z",
+  "processed_at": "2026-08-18T09:12:45Z",
+  "payload": { "order_id": "ord_4471" }
+}}}
 
 <h2 id="replay">Replay an event</h2>
 <p><code>POST /v3/events/{id}/replay</code> — re-runs an event that failed or exhausted retries. v3 allows selective replays for any event, not just dead-lettered ones, with automatic retry logic.</p>
