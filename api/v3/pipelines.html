@@ -64,7 +64,7 @@
 <h1>Pipelines endpoint <span class='chip chip--success'>v3</span></h1>
 <p>Create and manage <a href=/concepts/concepts-pipelines>pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
 
-<p><strong>v3 is the current API version.</strong> <a href=/api/pipelines>v2 docs remain available</a> for users still on the previous version.</p>
+<p><strong>v3 is the current API version.</strong> <a href=/api/v2/pipelines>v2 docs remain available</a> for users still on the previous version.</p>
 
 <h2 id=whats-new>What's new in v3</h2>
 <ul>
@@ -92,7 +92,7 @@
 {{ds:component/code-block|filename=create-pipeline.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v3/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "name": "ingest-orders",\n    "source_connector_id": "conn_pg_orders",\n    "destination_connector_id": "conn_snowflake_dw",\n    "initial_state": "draft"\n  }'}}
 
 <h2 id=list>List pipelines</h2>
-<p><code>GET /v3/pipelines</code> — cursor-paginated. Supports optional <code>page_size</code> parameter (1–100, defaults to 20). See <a href=/api/rate-limits-errors>Rate limits &amp; errors</a> for the pagination envelope.</p>
+<p><code>GET /v3/pipelines</code> — cursor-paginated. Supports optional <code>page_size</code> parameter (1–100, defaults to 20). See <a href=/api/v2/rate-limits-errors>Rate limits &amp; errors</a> for the pagination envelope.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>

@@ -89,7 +89,7 @@ client := godzilla.NewClient(os.Getenv("GODZILLA_API_KEY"))</code></pre>
 </div>
 
 <h2>Create a pipeline</h2>
-<p>Maps directly onto the <a href="/api/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
+<p>Maps directly onto the <a href="/api/v2/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
 
 {{ds:component/code-block|filename=create_pipeline.go|language=go|code=pipeline, err := client.Pipelines.Create(ctx, &godzilla.CreatePipelineRequest{\n    Name:                   "ingest-orders",\n    SourceConnectorID:      "conn_pg_orders",\n    DestinationConnectorID: "conn_snowflake_dw",\n})}}
 
