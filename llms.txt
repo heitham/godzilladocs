@@ -23,11 +23,11 @@
 - [Limits, quotas & errors](https://localhost:4310/api/rate-limits-errors): Standard-tier limits, quotas, pagination envelope, and the v2 API's error response shape.
 - [Pipelines endpoint](https://localhost:4310/api/pipelines): Create, list, and manage pipelines via the v2 REST API.
 - [Transforms endpoint](https://localhost:4310/api/transforms): Create and list transform steps that manipulate data within pipelines via the v2 REST API.
+- [Webhooks endpoint](https://localhost:4310/api/webhooks): Subscribe to Godzilla platform lifecycle events over outbound HTTP via the v2 REST API.
 
 ## apis
 - [Events endpoint](https://localhost:4310/apis/events): Query and replay events that have flowed through a pipeline via the v2 REST API.
 - [Quotas & billing](https://localhost:4310/apis/quotas-and-billing): Plan tiers, request quotas, and handling quota exceedances.
-- [Webhooks endpoint](https://localhost:4310/apis/webhooks): Subscribe to Godzilla platform lifecycle events over outbound HTTP via the v2 REST API.
 
 ## getting-started
 - [Authentication](https://localhost:4310/getting-started/getting-started-authentication): Authenticate API requests with a bearer API key.

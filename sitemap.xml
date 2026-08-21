@@ -61,10 +61,6 @@
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:4310/apis/webhooks</loc>
-    <lastmod>2026-08-20</lastmod>
-  </url>
-  <url>
     <loc>https://localhost:4310/guides/monitoring-and-alerts</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
@@ -154,6 +150,10 @@
   </url>
   <url>
     <loc>https://localhost:4310/api/connectors</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:4310/api/webhooks</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
 </urlset>
