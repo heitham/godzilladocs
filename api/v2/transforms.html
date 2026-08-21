@@ -61,13 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v2/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v2/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/v2/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/v2/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/v2/transforms" class="usa-current">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v2/" class="usa-breadcrumb__link"><span>v2</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Transforms endpoint</span></li></ol></nav>
-<h1>Transforms endpoint <span class='chip chip--primary'>v2</span></h1>
-<p>Manage transform steps that <a href="/guides/transforming-events-in-flight">reshape, filter, and enrich events</a> as they pass through a <a href="/api/v2/pipelines">pipeline</a>. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
-
-<h2 id="create">Create a transform step</h2>
-<p><code>POST /v2/transforms</code></p>
-
-<table class='param-table'>
+<h1>Transforms endpoint <span class='chip chip--primary'>v2</span></h1>\n<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--danger'>Deprecated</span></p>\n\n<p>Manage transform steps that <a href=/guides/transforming-events-in-flight>reshape, filter, and enrich events</a> as they pass through a <a href=/api/v2/pipelines>pipeline</a>. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>\n\n<h2 id=create>Create a transform step</h2>\n<p><code>POST /v2/transforms</code></p>\n\n<table class='param-table'>
   <thead>
     <tr>
       <th>Name</th>
@@ -77,47 +71,26 @@
     </tr>
   </thead>
   <tbody><tr><td><code>pipeline_id</code></td><td>string</td><td>Yes</td><td>ID of the pipeline this transform will be part of.</td></tr><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable transform name, unique within the pipeline.</td></tr><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>Transform type: <code>filter</code>, <code>map</code>, <code>enrich</code>, or <code>flatten</code>.</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific configuration details, e.g. filter conditions or mapping rules.</td></tr><tr><td><code>position</code></td><td>integer</td><td>No</td><td>Position in the pipeline's transform chain (0-indexed). Defaults to appending at the end.</td></tr></tbody>
-</table>
-
-<div class='code-block'>
+</table>\n\n<div class='code-block'>
   <div class='code-block__header'>
     <span class='code-block__filename'>create-transform.sh</span>
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '&#123;\n    "pipeline_id": "pipe_orders_to_dw",\n    "name": "normalize-currency",\n    "type": "map",\n    "config": &#123; "rules": &#91; &#123; "field": "amount", "operation": "convert_currency" &#125; &#93; &#125;\n  &#125;'</code></pre>
-</div>
-
-<h2 id="list">List transforms</h2>
-<p><code>GET /v2/pipelines/&#123;pipeline_id&#125;/transforms</code> — cursor-paginated, see <a href="/api/v2/rate-limits-errors">Rate limits & errors</a> for the pagination envelope.</p>
-
-<p>Returns an ordered array of transform steps for a pipeline in their execution sequence.</p>
-
-<div class='code-block'>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/transforms \\\\\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\\\\n  -H \"Content-Type: application/json\" \\\\\\n  -d '&#123;\\n    \"pipeline_id\": \"pipe_orders_to_dw\",\\n    \"name\": \"normalize-currency\",\\n    \"type\": \"map\",\\n    \"config\": &#123; \"rules\": &#91; &#123; \"field\": \"amount\", \"operation\": \"convert_currency\" &#125; &#93; &#125;\\n  &#125;'</code></pre>
+</div>\n\n<h2 id=list>List transforms</h2>\n<p><code>GET /v2/pipelines/{pipeline_id}/transforms</code> — cursor-paginated, see <a href=/api/v2/rate-limits-errors>Rate limits & errors</a> for the pagination envelope.</p>\n\n<p>Returns an ordered array of transform steps for a pipeline in their execution sequence.</p>\n\n<div class='code-block'>
   <div class='code-block__header'>
     <span class='code-block__filename'>list-transforms.sh</span>
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_to_dw/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
-</div>
-
-<h2 id="update">Update a transform step</h2>
-<p><code>PATCH /v2/transforms/&#123;id&#125;</code> — modify the configuration of an existing transform without reordering.</p>
-
-<p>Only the <code>config</code> field may be updated. To reorder transforms within a pipeline, delete and recreate them at the desired position.</p>
-
-<h2 id="delete">Delete a transform step</h2>
-<p><code>DELETE /v2/transforms/&#123;id&#125;</code> — remove a transform from the pipeline. Other transforms shift positions automatically.</p>
-
-<div class='alert alert--info'>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_to_dw/transforms \\\\\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\"</code></pre>
+</div>\n\n<h2 id=update>Update a transform step</h2>\n<p><code>PATCH /v2/transforms/{id}</code> — modify the configuration of an existing transform without reordering.</p>\n\n<p>Only the <code>config</code> field may be updated. To reorder transforms within a pipeline, delete and recreate them at the desired position.</p>\n\n<h2 id=delete>Delete a transform step</h2>\n<p><code>DELETE /v2/transforms/{id}</code> — remove a transform from the pipeline. Other transforms shift positions automatically.</p>\n\n<div class='alert alert--info'>
   <div class='alert__title'>Pipeline redeployment</div>
   <div class='alert__body'><p>Modifying, creating, or deleting transforms triggers an automatic pipeline redeployment. In-flight events continue on the previous transform sequence; the new configuration takes effect on the next scheduled run or incoming trigger.</p></div>
-</div>
-
-<nav class='docs-toc' aria-label='On this page'>
+</div>\n\n<nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#create">Create a transform step</a></li><li><a href="#list">List transforms</a></li><li><a href="#update">Update a transform step</a></li><li><a href="#delete">Delete a transform step</a></li></ul>
+  <ul class='docs-toc__list'><li><a href=#create>Create a transform step</a></li><li><a href=#list>List transforms</a></li><li><a href=#update>Update a transform step</a></li><li><a href=#delete>Delete a transform step</a></li></ul>
 </nav>
 </main>
 

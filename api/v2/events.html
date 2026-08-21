@@ -61,38 +61,13 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v2/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v2/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/v2/events" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/v2/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/v2/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v2/" class="usa-breadcrumb__link"><span>v2</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Events endpoint</span></li></ol></nav>
-<h1>Events endpoint <span class='chip chip--danger'>v2 withdrawn</span></h1>
-
-<div class='alert alert--danger'>
+<h1>Events endpoint <span class='chip chip--danger'>v2 withdrawn</span></h1>\n<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--danger'>Deprecated</span></p>\n\n<div class='alert alert--danger'>
   <div class='alert__title'>v2 is no longer supported</div>
   <div class='alert__body'><p><strong>The v2 events endpoint has been withdrawn and is no longer available.</strong> v2 no longer accepts requests to this endpoint.</p><p>If you're currently using v2 events, migrate to the <a href=/api/v3/events>v3 events endpoint</a> immediately. See the <a href=/api/v2/index>v2→v3 migration guide</a> for detailed upgrade steps.</p></div>
-</div>
-
-<h2>Migrating from v2 events</h2>
-
-<p>The v2 events endpoint allowed you to query and replay events through <code>GET /v2/pipelines/{pipeline_id}/events</code> and <code>POST /v2/events/{id}/replay</code>.</p>
-
-<p>v3 replaces both endpoints under a simpler, more consistent path structure:</p>
-
-<ul>
-  <li><code>GET /v2/pipelines/{pipeline_id}/events</code> → <code>GET /v3/pipelines/{pipeline_id}/events</code></li>
-  <li><code>POST /v2/events/{id}/replay</code> → <code>POST /v3/pipelines/{pipeline_id}/events/{event_id}/replay</code></li>
-</ul>
-
-<p>Key differences:</p>
-
-<ul>
-  <li><strong>Filtering:</strong> v2 filtered by <code>type</code> and <code>occurred_at</code>. v3 filters by <code>status</code> (success/failed/pending) and timestamp range (<code>since</code>/<code>until</code>).</li>
-  <li><strong>Event status:</strong> v3 includes a <code>status</code> field on each event, making it clearer what happened during processing.</li>
-  <li><strong>Replay path:</strong> v3 requires the pipeline ID in the replay endpoint for better API clarity.</li>
-</ul>
-
-<div class='alert alert--info'>
+</div>\n\n<h2>Migrating from v2 events</h2>\n\n<p>The v2 events endpoint allowed you to query and replay events through <code>GET /v2/pipelines/{pipeline_id}/events</code> and <code>POST /v2/events/{id}/replay</code>.</p>\n\n<p>v3 replaces both endpoints under a simpler, more consistent path structure:</p>\n\n<ul>\n  <li><code>GET /v2/pipelines/{pipeline_id}/events</code> → <code>GET /v3/pipelines/{pipeline_id}/events</code></li>\n  <li><code>POST /v2/events/{id}/replay</code> → <code>POST /v3/pipelines/{pipeline_id}/events/{event_id}/replay</code></li>\n</ul>\n\n<p>Key differences:</p>\n\n<ul>\n  <li><strong>Filtering:</strong> v2 filtered by <code>type</code> and <code>occurred_at</code>. v3 filters by <code>status</code> (success/failed/pending) and timestamp range (<code>since</code>/<code>until</code>).</li>\n  <li><strong>Event status:</strong> v3 includes a <code>status</code> field on each event, making it clearer what happened during processing.</li>\n  <li><strong>Replay path:</strong> v3 requires the pipeline ID in the replay endpoint for better API clarity.</li>\n</ul>\n\n<div class='alert alert--info'>
   <div class='alert__title'>Need help migrating?</div>
   <div class='alert__body'><p>Full migration details and code examples are in the <a href=/api/v2/index>v2→v3 migration guide</a>. Visit <a href=/troubleshooting>Troubleshooting / FAQ</a> for common issues.</p></div>
-</div>
-
-<p><a href=/api/v3/events>View the v3 Events endpoint documentation →</a></p>
+</div>\n\n<p><a href=/api/v3/events>View the v3 Events endpoint documentation →</a></p>
 </main>
 
 </div>

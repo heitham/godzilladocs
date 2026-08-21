@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Reference | Godzilla Docs</title>
-  <meta name="description" content="The Godzilla v3 REST API: pipelines, connectors, events, webhooks, limits, quotas, and errors.">
+  <title>API Reference (v3 current) | Godzilla Docs</title>
+  <meta name="description" content="The Godzilla v3 REST API: pipelines, connectors, events, webhooks, limits, quotas, and errors. (Current version)">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-api-v3 page-index">
+<body class="folder-api page-index">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,46 +58,46 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v3/index" class="usa-current">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/v3/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/v3/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index" class="usa-current">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/quotas-billing">Quotas &amp; billing</a></li></ul></nav></aside>
 <main class="cms-main-content">
-<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v3/" class="usa-breadcrumb__link"><span>v3</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>API Reference</span></li></ol></nav>
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>API Reference (v3 current)</span></li></ol></nav>
 <section class='hero'>
   <div class='hero__inner'>
     <h1 class='hero__title'>API Reference</h1>
-    <p class='hero__subtitle'>Every endpoint in the Godzilla v3 REST API, with request/response examples.</p>
-    <div class='hero__cta'><a href=/api/v3/pipelines>Start with Pipelines</a></div>
+    <p class='hero__subtitle'>Every endpoint in the Godzilla v2 REST API, with request/response examples.</p>
+    <div class='hero__cta'><a href=/api/v2/pipelines>Start with Pipelines</a></div>
   </div>
-</section>\n\n<p style="margin-bottom: var(--space-lg); display: flex; align-items: center; gap: var(--space-sm);"><strong>Stability:</strong> <span class='chip chip--success'>Stable</span></p>\n\n<section>\n  <p>All endpoints live under <code>https://api.godzilladocs.dev/v3</code> and require a bearer <a href=#>API key</a>. New to the API? Read <code>Authentication</code> in Getting Started first.</p>\n\n  <a class='card' href='/api/v3/pipelines'>
+</section>\n\n<p style="margin-bottom: var(--space-lg); display: flex; align-items: center; gap: var(--space-sm);"><strong>Stability:</strong> <span class='chip chip--danger'>Deprecated</span></p>\n\n<section>\n  <p>All endpoints live under <code>https://api.godzilladocs.dev/v2</code> and require a bearer <a href=#>API key</a>. New to the API? Read <code>Authentication</code> in Getting Started first.</p>\n\n  <a class='card' href='/api/v2/pipelines'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Pipelines</h3>
   <p class='card__description'>Create, list, and manage pipelines.</p>
-</a>\n  <a class='card' href='/api/v3/connectors'>
+</a>\n  <a class='card' href='/api/v2/connectors'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Connectors</h3>
   <p class='card__description'>Create, list, and rotate credentials for connectors.</p>
-</a>\n  <a class='card' href='/api/v3/transforms'>
+</a>\n  <a class='card' href='/api/v2/transforms'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Transforms</h3>
   <p class='card__description'>Create and list transform steps that reshape and enrich events.</p>
-</a>\n  <a class='card' href='/api/v3/events'>
+</a>\n  <a class='card' href='/api/v2/events'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Events</h3>
   <p class='card__description'>Query and replay events that have flowed through a pipeline.</p>
-</a>\n  <a class='card' href='/api/v3/webhooks'>
+</a>\n  <a class='card' href='/api/v2/webhooks'>
   <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Webhooks</h3>
   <p class='card__description'>Subscribe to platform lifecycle events over outbound HTTP.</p>
-</a>\n  <a class='card' href='/api/v3/rate-limits'>
+</a>\n  <a class='card' href='/api/quotas-billing'>
   <span class='card__tag'>Reference</span>
-  <h3 class='card__title'>Rate limits</h3>
-  <p class='card__description'>Standard-tier rate limits, quotas, and pagination.</p>
-</a>\n  <a class='card' href='/api/v3/error-reference'>
+  <h3 class='card__title'>Quotas &amp; billing</h3>
+  <p class='card__description'>Plan tiers, monthly quotas, and billing behavior.</p>
+</a>\n  <a class='card' href='/api/v2/rate-limits-errors'>
   <span class='card__tag'>Reference</span>
-  <h3 class='card__title'>Error reference</h3>
-  <p class='card__description'>Error response codes and details.</p>
+  <h3 class='card__title'>Limits, quotas &amp; errors</h3>
+  <p class='card__description'>Standard-tier limits, quotas, pagination, and the error response shape.</p>
 </a>\n</section>\n\n<div class='alert alert--info'>
-  <div class='alert__title'>Coming from v2?</div>
-  <div class='alert__body'><p>Check out our <a href=/api/v2/index>v2 API docs</a> if you're still on the previous version. The main changes in v3: improved error details, configurable pagination page size, and enhanced webhooks.</p></div>
+  <div class='alert__title'>Coming from v1?</div>
+  <div class='alert__body'><p>v2 replaces offset pagination with cursor pagination and adds webhooks in place of polling. See the migration guide before switching a production integration over.</p></div>
 </div>
 </main>
 
