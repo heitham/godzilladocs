@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events endpoint | Godzilla Docs</title>
+  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v3 REST API.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-api page-events-v3">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events-v3" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines-v3">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-and-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Events endpoint</span></li></ol></nav>
+<h1>Events endpoint <span class='chip chip--primary'>v3</span></h1>
+<p>Query and replay <a href="/concepts/concepts-events">events</a> that have flowed through a pipeline. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
+
+<p><strong>New in v3:</strong> Enhanced filtering by event attributes, batch operations, and improved replay capabilities.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>v2 withdrawn</div>
+  <div class='alert__body'><p>v2 is no longer supported and will not accept new requests. All integrations must migrate to v3. See the <a href="/versions/migration-guide-v1-to-v2">migration guide</a> for upgrade instructions.</p></div>
+</div>
+
+<h2 id="list">List events</h2>
+<p><code>GET /v3/pipelines/{pipeline_id}/events</code> — cursor-paginated with enhanced filtering by event attributes.</p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody><tr><td><code>type</code></td><td>string</td><td>No</td><td>Filter to a single event type, e.g. <code>order.created</code>.</td></tr><tr><td><code>since</code></td><td>string</td><td>No</td><td>ISO-8601 timestamp lower bound on <code>occurred_at</code>.</td></tr><tr><td><code>until</code></td><td>string</td><td>No</td><td>ISO-8601 timestamp upper bound on <code>occurred_at</code> (new in v3).</td></tr><tr><td><code>status</code></td><td>string</td><td>No</td><td>Filter by event status: <code>pending</code>, <code>delivered</code>, <code>failed</code>, or <code>dead-lettered</code> (new in v3).</td></tr><tr><td><code>cursor</code></td><td>string</td><td>No</td><td>Opaque pagination cursor from a previous response's <code>next_cursor</code>.</td></tr></tbody>
+</table>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>event.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "id": "evt_8f2c1a90",
+  "type": "order.created",
+  "occurred_at": "2026-08-18T09:12:44Z",
+  "status": "delivered",
+  "payload": &#123; "order_id": "ord_4471" &#125;
+&#125;</code></pre>
+</div>
+
+<h2 id="replay">Replay a dead-lettered event</h2>
+<p><code>POST /v3/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> guide for when to use this versus reprocessing an entire time range.</p>
+
+<h2 id="batch-replay">Batch replay</h2>
+<p><code>POST /v3/pipelines/{pipeline_id}/events/replay-batch</code> — replay multiple dead-lettered events matching a filter (new in v3).</p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody><tr><td><code>type</code></td><td>string</td><td>No</td><td>Replay only events of this type.</td></tr><tr><td><code>since</code></td><td>string</td><td>No</td><td>Replay events from this ISO-8601 timestamp onward.</td></tr><tr><td><code>until</code></td><td>string</td><td>No</td><td>Replay events up to this ISO-8601 timestamp.</td></tr></tbody>
+</table>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Platform events</div>
+  <div class='alert__body'><p>Lifecycle notifications like <code>pipeline.started</code> and <code>connector.error</code> are not returned by this endpoint — subscribe to them through the Webhooks endpoint instead.</p></div>
+</div>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#list">List events</a></li><li><a href="#replay">Replay a dead-lettered event</a></li><li><a href="#batch-replay">Batch replay</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
