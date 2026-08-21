@@ -85,7 +85,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\\\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\\\\n  -d '&#123;"type":"postgres","direction":"source","config":&#123;"connection_string":"postgres://..."&#125;&#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\\\\\\\\\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\\\\\\\\\\n  -d '&#123;"type":"postgres","direction":"source","config":&#123;"connection_string":"postgres://..."&#125;&#125;'</code></pre>
 </div>
 
 <h3>Using Go</h3>
@@ -95,7 +95,7 @@
     <span class='code-block__lang'>go</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>package main\\n\\nimport (\\n\\t"context"\\n\\t"fmt"\\n\\t"os"\\n\\n\\t"github.com/godzilla-sh/godzilla-go"\\n)\\n\\nfunc main() &#123;\\n\\tclient := godzilla.NewClient(\\n\\t\\tos.Getenv("GODZILLA_API_KEY"),\\n\\t)\\n\\n\\tconnector, err := client.Connectors.Create(context.Background(), &godzilla.CreateConnectorRequest&#123;\\n\\t\\tType:      "postgres",\\n\\t\\tDirection: "source",\\n\\t\\tConfig: map[string]interface()&#123;\\n\\t\\t\\t"connection_string": "postgres://...",\\n\\t\\t&#125;,\\n\\t&#125;)\\n\\tif err != nil &#123;\\n\\t\\tfmt.Fprintf(os.Stderr, "Error: %v\\n", err)\\n\\t\\tos.Exit(1)\\n\\t&#125;\\n\\n\\tfmt.Printf("Created source connector: %s\\n", connector.ID)\\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>package main\\\\n\\\\nimport (\\\\n\\\\t"context"\\\\n\\\\t"fmt"\\\\n\\\\t"os"\\\\n\\\\n\\\\t"github.com/godzilla-sh/godzilla-go"\\\\n)\\\\n\\\\nfunc main() &#123;\\\\n\\\\tclient := godzilla.NewClient(\\\\n\\\\t\\\\tos.Getenv("GODZILLA_API_KEY"),\\\\n\\\\t)\\\\n\\\\n\\\\tconnector, err := client.Connectors.Create(context.Background(), &godzilla.CreateConnectorRequest&#123;\\\\n\\\\t\\\\tType:      "postgres",\\\\n\\\\t\\\\tDirection: "source",\\\\n\\\\t\\\\tConfig: map[string]interface()&#123;\\\\n\\\\t\\\\t\\\\t"connection_string": "postgres://...",\\\\n\\\\t\\\\t&#125;,\\\\n\\\\t&#125;)\\\\n\\\\tif err != nil &#123;\\\\n\\\\t\\\\tfmt.Fprintf(os.Stderr, "Error: %v\\\\n", err)\\\\n\\\\t\\\\tos.Exit(1)\\\\n\\\\t&#125;\\\\n\\\\n\\\\tfmt.Printf("Created source connector: %s\\\\n", connector.ID)\\\\n&#125;</code></pre>
 </div>
 
 <h2 id="create-a-destination-connector">2. Create a destination connector</h2>
@@ -108,7 +108,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\\\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\\\\n  -d '&#123;"type":"snowflake","direction":"destination","config":&#123;"account":"..."&#125;&#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\\\\\\\\\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\\\\\\\\\\n  -d '&#123;"type":"snowflake","direction":"destination","config":&#123;"account":"..."&#125;&#125;'</code></pre>
 </div>
 
 <h3>Using Go</h3>
@@ -118,7 +118,7 @@
     <span class='code-block__lang'>go</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>package main\\n\\nimport (\\n\\t"context"\\n\\t"fmt"\\n\\t"os"\\n\\n\\t"github.com/godzilla-sh/godzilla-go"\\n)\\n\\nfunc main() &#123;\\n\\tclient := godzilla.NewClient(\\n\\t\\tos.Getenv("GODZILLA_API_KEY"),\\n\\t)\\n\\n\\tconnector, err := client.Connectors.Create(context.Background(), &godzilla.CreateConnectorRequest&#123;\\n\\t\\tType:      "snowflake",\\n\\t\\tDirection: "destination",\\n\\t\\tConfig: map[string]interface()&#123;\\n\\t\\t\\t"account": "...",\\n\\t\\t&#125;,\\n\\t&#125;)\\n\\tif err != nil &#123;\\n\\t\\tfmt.Fprintf(os.Stderr, "Error: %v\\n", err)\\n\\t\\tos.Exit(1)\\n\\t&#125;\\n\\n\\tfmt.Printf("Created destination connector: %s\\n", connector.ID)\\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>package main\\\\n\\\\nimport (\\\\n\\\\t"context"\\\\n\\\\t"fmt"\\\\n\\\\t"os"\\\\n\\\\n\\\\t"github.com/godzilla-sh/godzilla-go"\\\\n)\\\\n\\\\nfunc main() &#123;\\\\n\\\\tclient := godzilla.NewClient(\\\\n\\\\t\\\\tos.Getenv("GODZILLA_API_KEY"),\\\\n\\\\t)\\\\n\\\\n\\\\tconnector, err := client.Connectors.Create(context.Background(), &godzilla.CreateConnectorRequest&#123;\\\\n\\\\t\\\\tType:      "snowflake",\\\\n\\\\t\\\\tDirection: "destination",\\\\n\\\\t\\\\tConfig: map[string]interface()&#123;\\\\n\\\\t\\\\t\\\\t"account": "...",\\\\n\\\\t\\\\t&#125;,\\\\n\\\\t&#125;)\\\\n\\\\tif err != nil &#123;\\\\n\\\\t\\\\tfmt.Fprintf(os.Stderr, "Error: %v\\\\n", err)\\\\n\\\\t\\\\tos.Exit(1)\\\\n\\\\t&#125;\\\\n\\\\n\\\\tfmt.Printf("Created destination connector: %s\\\\n", connector.ID)\\\\n&#125;</code></pre>
 </div>
 
 <h2 id="create-the-pipeline">3. Create the pipeline</h2>
@@ -131,7 +131,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\\\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\\\\n  -d '&#123;"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"&#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\\\\\\\\\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\\\\\\\\\\n  -d '&#123;"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"&#125;'</code></pre>
 </div>
 
 <h3>Using Go</h3>
@@ -141,7 +141,7 @@
     <span class='code-block__lang'>go</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>package main\\n\\nimport (\\n\\t"context"\\n\\t"fmt"\\n\\t"os"\\n\\n\\t"github.com/godzilla-sh/godzilla-go"\\n)\\n\\nfunc main() &#123;\\n\\tclient := godzilla.NewClient(\\n\\t\\tos.Getenv("GODZILLA_API_KEY"),\\n\\t)\\n\\n\\tpipeline, err := client.Pipelines.Create(context.Background(), &godzilla.CreatePipelineRequest&#123;\\n\\t\\tName:                    "ingest-orders",\\n\\t\\tSourceConnectorID:       "conn_pg_orders",\\n\\t\\tDestinationConnectorID: "conn_snowflake_dw",\\n\\t&#125;)\\n\\tif err != nil &#123;\\n\\t\\tfmt.Fprintf(os.Stderr, "Error: %v\\n", err)\\n\\t\\tos.Exit(1)\\n\\t&#125;\\n\\n\\tfmt.Printf("Created pipeline: %s (state: %s)\\n", pipeline.ID, pipeline.State)\\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>package main\\\\n\\\\nimport (\\\\n\\\\t"context"\\\\n\\\\t"fmt"\\\\n\\\\t"os"\\\\n\\\\n\\\\t"github.com/godzilla-sh/godzilla-go"\\\\n)\\\\n\\\\nfunc main() &#123;\\\\n\\\\tclient := godzilla.NewClient(\\\\n\\\\t\\\\tos.Getenv("GODZILLA_API_KEY"),\\\\n\\\\t)\\\\n\\\\n\\\\tpipeline, err := client.Pipelines.Create(context.Background(), &godzilla.CreatePipelineRequest&#123;\\\\n\\\\t\\\\tName:                    "ingest-orders",\\\\n\\\\t\\\\tSourceConnectorID:       "conn_pg_orders",\\\\n\\\\t\\\\tDestinationConnectorID: "conn_snowflake_dw",\\\\n\\\\t&#125;)\\\\n\\\\tif err != nil &#123;\\\\n\\\\t\\\\tfmt.Fprintf(os.Stderr, "Error: %v\\\\n", err)\\\\n\\\\t\\\\tos.Exit(1)\\\\n\\\\t&#125;\\\\n\\\\n\\\\tfmt.Printf("Created pipeline: %s (state: %s)\\\\n", pipeline.ID, pipeline.State)\\\\n&#125;</code></pre>
 </div>
 
 <p>The pipeline starts in <code>draft</code> state. Activate it once you're ready to start processing events.</p>
@@ -154,7 +154,7 @@
     <span class='docs-pagination__direction'>Previous</span>
     <span class='docs-pagination__label'>Guides</span>
   </a>
-  <a class='docs-pagination__next' href='/guides/connecting-a-data-source'>
+  <a class='docs-pagination__next' href='#'>
     <span class='docs-pagination__direction'>Next</span>
     <span class='docs-pagination__label'>Connecting a data source</span>
   </a>

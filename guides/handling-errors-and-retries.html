@@ -73,7 +73,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  "retry_policy": &#123;\n    "max_attempts": 5,\n    "backoff": "exponential",\n    "initial_delay_ms": 1000\n  &#125;\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\\n  "retry_policy": &#123;\\n    "max_attempts": 5,\\n    "backoff": "exponential",\\n    "initial_delay_ms": 1000\\n  &#125;\\n&#125;</code></pre>
 </div>
 
 <h2>Dead-lettering</h2>
@@ -93,7 +93,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/events/evt_8f2c1a90/replay \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/events/evt_8f2c1a90/replay \\\\\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
 <h2>Watching for failures</h2>
