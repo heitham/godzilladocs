@@ -73,15 +73,14 @@
     <span class='code-block__lang'>diff</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>- GET /v1/pipelines?page=2&per_page=20
-+ GET /v2/pipelines?cursor=eyJvZmZzZXQiOjIwfQ</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>- GET /v1/pipelines?page=2&per_page=20\n+ GET /v2/pipelines?cursor=eyJvZmZzZXQiOjIwfQ</code></pre>
 </div>
 
 <h2>2. Status checks: polling → webhooks</h2>
 <p>v1 had no push notifications — you polled a pipeline's status endpoint. v2 replaces this with the <a href="/apis/webhooks">Webhooks endpoint</a>: subscribe to <code>pipeline.completed</code> and <code>pipeline.failed</code> instead of polling.</p>
 
 <h2>3. Error shape</h2>
-<p>v1 returned bare error strings. v2 wraps every error in an object with a stable <code>code</code> field. Update any error handling that matched on message text — see <a href="/apis/rate-limits-errors#errors">the error shape reference</a>.</p>
+<p>v1 returned bare error strings. v2 wraps every error in an object with a stable <code>code</code> field. Update any error handling that matched on message text — see <a href="/apis/rate-limits-errors">the error shape reference</a>.</p>
 
 <div class='alert alert--danger'>
   <div class='alert__title'>v1 is retired</div>
