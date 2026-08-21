@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang=\"en\">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset=\"UTF-8\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
   <title>Connectors endpoint | Godzilla Docs</title>
-  <meta name="description" content="Create, list, and rotate credentials for connectors via the v2 REST API.">
-  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <meta name=\"description\" content=\"Create, list, and rotate credentials for connectors via the v2 REST API.\">
+  <link rel=\"stylesheet\" href=\"/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css\">
   <style>
     /* Page body — remove browser default margin so header sits flush.
        DSes that use position:fixed headers must set --cms-header-height on :root
@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-apis page-connectors">
+<body class=\"folder-apis page-connectors\">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -57,14 +57,14 @@
     <nav class='site-header__nav'></nav>
   </div>
 </header>
-<div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
-<main class="cms-main-content">
+<div class=\"cms-page-container cms-has-left-nav\">
+<aside class=\"cms-left-nav\"><nav aria-label=\"Side navigation\"><ul class=\"usa-sidenav\"><li class=\"usa-sidenav__item\"><a href=\"/apis/index\">API Reference</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/connectors\" class=\"usa-current\">Connectors endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/events\">Events endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/pipelines\">Pipelines endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/transforms\">Transforms endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/rate-limits-errors\">Rate limits &amp; errors</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/webhooks\">Webhooks endpoint</a></li></ul></nav></aside>
+<main class=\"cms-main-content\">
 
 <h1>Connectors endpoint <span class='chip chip--primary'>v2</span></h1>
-<p>Manage <a href="/concepts-connectors">connectors</a> — the source and destination integrations pipelines read from and write to.</p>
+<p>Manage <a href=\"/concepts-connectors\">connectors</a> — the source and destination integrations pipelines read from and write to.</p>
 
-<h2 id="create">Create a connector</h2>
+<h2 id=\"create\">Create a connector</h2>
 <p><code>POST /v2/connectors</code></p>
 
 <table class='param-table'>
@@ -86,29 +86,29 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -H "Content-Type: application/json" \
+  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \
+  -H \"Content-Type: application/json\" \
   -d '&#123;
-    "type": "postgres",
-    "direction": "source",
-    "config": &#123; "connection_string": "postgres://..." &#125;
+    \"type\": \"postgres\",
+    \"direction\": \"source\",
+    \"config\": &#123; \"connection_string\": \"postgres://...\" &#125;
   &#125;'</code></pre>
 </div>
 
-<h2 id="rotate">Rotate credentials</h2>
-<p><code>POST /v2/connectors/&#123;id&#125;/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
+<h2 id=\"rotate\">Rotate credentials</h2>
+<p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Shared connectors</div>
   <div class='alert__body'><p>A connector referenced by multiple pipelines is rotated once, for all of them. Check a connector's <code>pipeline_count</code> field before rotating during a busy window.</p></div>
 </div>
 
-<h2 id="health">Health status</h2>
-<p><code>GET /v2/connectors/&#123;id&#125;</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
+<h2 id=\"health\">Health status</h2>
+<p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#create">Create a connector</a></li><li><a href="#rotate">Rotate credentials</a></li><li><a href="#health">Health status</a></li></ul>
+  <ul class='docs-toc__list'><li><a href=\"#create\">Create a connector</a></li><li><a href=\"#rotate\">Rotate credentials</a></li><li><a href=\"#health\">Health status</a></li></ul>
 </nav>
 </main>
 
@@ -120,4 +120,4 @@
   </div>
 </footer>
 </body>
-</html>
+</html>"
