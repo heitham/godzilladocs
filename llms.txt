@@ -29,6 +29,7 @@
 
 ## getting-started
 - [Authentication](https://localhost:4310/getting-started/getting-started-authentication): Authenticate API requests with a bearer API key.
+- [Getting Started](https://localhost:4310/getting-started/index): Everything you need to start building with Godzilla: installation, authentication, and your first pipeline in minutes.
 - [Installation](https://localhost:4310/getting-started/getting-started-installation): Install the Godzilla SDK or start calling the REST API directly.
 - [Quickstart](https://localhost:4310/getting-started/getting-started-quickstart): Go from zero to a running pipeline in five minutes.
 

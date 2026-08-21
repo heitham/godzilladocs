@@ -152,4 +152,8 @@
     <loc>https://localhost:4310/getting-started/getting-started-authentication</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
+  <url>
+    <loc>https://localhost:4310/getting-started/index</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
 </urlset>
