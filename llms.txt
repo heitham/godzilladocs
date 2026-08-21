@@ -9,7 +9,6 @@
 - [Events](https://localhost:4310/concepts-events): What an event is in Godzilla: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.
 - [Glossary](https://localhost:4310/glossary): Definitions for Godzilla's core terms, each linking to its full explanation.
 - [Godzilla Docs](https://localhost:4310/index): Everything you need to build data pipelines on the Godzilla platform.
-- [Migration guide (v1 → v2)](https://localhost:4310/migration-guide-v1-to-v2): Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.
 - [Pipelines](https://localhost:4310/concepts-pipelines): What a pipeline is in Godzilla: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
 - [Schemas](https://localhost:4310/concepts-schemas): How to declare and validate event payload shapes across your pipelines.
 - [Security & compliance overview](https://localhost:4310/security-and-compliance): How Godzilla handles data in transit and at rest, credential storage, and compliance posture.
@@ -53,4 +52,5 @@
 - [SDKs](https://localhost:4310/sdks/index): Official Godzilla client libraries for Node.js and Python.
 
 ## versions
+- [Migration guide (v1 → v2)](https://localhost:4310/versions/migration-guide-v1-to-v2): Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.
 - [Release notes archive](https://localhost:4310/versions/release-notes-archive): Older v1-era release notes, superseded by the current changelog.
