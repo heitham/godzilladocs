@@ -63,10 +63,22 @@
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Rate limits</span></li></ol></nav>
 <h1>Rate limits <span class='chip chip--danger'>Deprecated</span></h1>
 
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
 <div class='stat-card'>
   <div class='stat-card__value'>1,000</div>
   <div class='stat-card__label'>requests / minute</div>
   <p class='stat-card__description'>Default rate limit for standard-tier API keys, per workspace.</p>
+</div>
+<div class='stat-card'>
+  <div class='stat-card__value'>429</div>
+  <div class='stat-card__label'>status code</div>
+  <p class='stat-card__description'>Returned when rate limit is exceeded.</p>
+</div>
+<div class='stat-card'>
+  <div class='stat-card__value'>60</div>
+  <div class='stat-card__label'>second window</div>
+  <p class='stat-card__description'>Rate limit window duration.</p>
+</div>
 </div>
 
 <p><strong>Account quotas and billing:</strong> See <a href="/apis/quotas-billing">Quotas &amp; billing</a> for plan tiers, monthly event quotas, storage limits, and what happens when you exceed them.</p>
@@ -77,11 +89,7 @@
 <h2 id="pagination">Pagination</h2>
 <p>List endpoints (<a href="/concepts/concepts-pipelines">Pipelines</a>, Connectors, <a href="/concepts/concepts-events">Events</a>) use cursor-based pagination — a departure from v1's offset-based pagination.</p>
 
-{{ds:component/code-block|filename=list-response.json|language=json|code={
-  "data": [ { "id": "pl_ingest_orders" } ],
-  "next_cursor": "eyJvZmZzZXQiOjIwfQ",
-  "has_more": true
-}}}
+{{ds:component/code-block|filename=list-response.json|language=json|code={\n  \"data\": [ { \"id\": \"pl_ingest_orders\" } ],\n  \"next_cursor\": \"eyJvZmZzZXQiOjIwfQ\",\n  \"has_more\": true\n}}}
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
