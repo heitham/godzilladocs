@@ -69,11 +69,13 @@
   <p class='stat-card__description'>Default rate limit for standard-tier API keys, per workspace.</p>
 </div>
 
+<p><strong>Account quotas and billing:</strong> See <a href="/apis/quotas-billing">Quotas &amp; billing</a> for plan tiers, monthly event quotas, storage limits, and what happens when you exceed them.</p>
+
 <h2 id="headers">Rate limit headers</h2>
 <p>Every response includes <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code>. A request over the limit returns <code>429 Too Many Requests</code> with a <code>Retry-After</code> header.</p>
 
 <h2 id="pagination">Pagination</h2>
-<p>List endpoints (<a href="/concepts-pipelines#list">Pipelines</a>, Connectors, <a href="/concepts-events">Events</a>) use cursor-based pagination — a departure from v1's offset-based pagination.</p>
+<p>List endpoints (<a href="/concepts-pipelines">Pipelines</a>, Connectors, <a href="/concepts-events">Events</a>) use cursor-based pagination — a departure from v1's offset-based pagination.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -81,11 +83,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "data": [ &#123; "id": "pl_ingest_orders" &#125; ],
-  "next_cursor": "eyJvZmZzZXQiOjIwfQ",
-  "has_more": true
-&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"data\": [ &#123; \"id\": \"pl_ingest_orders\" &#125; ],\n  \"next_cursor\": \"eyJvZmZzZXQiOjIwfQ\",\n  \"has_more\": true\n&#125;</code></pre>
 </div>
 
 <h2 id="errors">Error shape</h2>
@@ -95,13 +93,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "error": &#123;
-    "code": "connector_unauthorized",
-    "message": "The connector's credentials were rejected by the source system.",
-    "request_id": "req_c93a10"
-  &#125;
-&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"error\": &#123;\n    \"code\": \"connector_unauthorized\",\n    \"message\": \"The connector's credentials were rejected by the source system.\",\n    \"request_id\": \"req_c93a10\"\n  &#125;\n&#125;</code></pre>
 </div>
 
 <div class='alert alert--danger'>
