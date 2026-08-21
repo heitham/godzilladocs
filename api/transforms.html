@@ -61,7 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms" class="usa-current">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Transforms endpoint</span></li></ol></nav>
-<h1>Transforms endpoint <span class='chip chip--primary'>v2</span></h1>
+<h1>Transforms endpoint <span class='chip chip--danger'>Deprecated</span></h1>
 <p>Manage <a href="/guides/transforming-events-in-flight">transform steps</a> — inline data reshaping, filtering, and enrichment operations that run on events as they flow through a pipeline.</p>
 
 <h2 id="create">Create a transform step</h2>
@@ -79,7 +79,16 @@
   <tbody><tr><td><code>pipeline_id</code></td><td>string</td><td>Yes</td><td>ID of the pipeline this transform belongs to.</td></tr><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable name for the transform step.</td></tr><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>filter</code>, <code>map</code>, <code>enrich</code>, or <code>custom</code>.</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific transformation logic, e.g. a filter expression or mapping template.</td></tr><tr><td><code>order</code></td><td>integer</td><td>Yes</td><td>Position in the transform chain (0-indexed). Transforms run in ascending order.</td></tr></tbody>
 </table>
 
-{{ds:component/code-block|filename=create-transform.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "pipeline_id": "pipe_ingest_orders",\n    "name": "Filter inactive users",\n    "type": "filter",\n    "config": { "expression": "event.user_status == \"active\"" },\n    "order": 0\n  }'}}
+{{ds:component/code-block|filename=create-transform.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/transforms \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "pipeline_id": "pipe_ingest_orders",
+    "name": "Filter inactive users",
+    "type": "filter",
+    "config": { "expression": "event.user_status == \"active\"" },
+    "order": 0
+  }'}}
 
 <h2 id="list">List transform steps</h2>
 <p><code>GET /v2/pipelines/{pipeline_id}/transforms</code> — returns a list of all transform steps for a given pipeline, ordered by execution order.</p>
@@ -90,7 +99,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines/pipe_ingest_orders/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines/pipe_ingest_orders/transforms \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
 <h2 id="order">Transform execution order</h2>
@@ -111,7 +121,7 @@
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#create">Create a transform step</a></li><li><a href="#list">List transform steps</a></li><li><a href="#order">Transform execution order</a></li><li><a href="#types">Transform types</a></li></ul>
+  <ul class='docs-toc__list'><li><a href=#create>Create a transform step</a></li><li><a href=#list>List transform steps</a></li><li><a href=#order>Transform execution order</a></li><li><a href=#types>Transform types</a></li></ul>
 </nav>
 </main>
 

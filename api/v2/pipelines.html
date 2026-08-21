@@ -61,14 +61,14 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v2/pipelines" class="usa-current">Pipelines endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><span>v2</span></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Pipelines endpoint</span></li></ol></nav>
-<h1>Pipelines endpoint <span class='chip chip--warning'>v2</span></h1>
+<h1>Pipelines endpoint <span class='chip chip--danger'>Deprecated</span></h1>
 
 <div class='alert alert--danger'>
   <div class='alert__title'>v2 is deprecated</div>
-  <div class='alert__body'><p>The v2 API is no longer the current version. <strong><a href=/concepts/concepts-pipelines>Switch to v3</a></strong>, which includes batch operations, improved filtering, and better error messages. See the migration guide to upgrade your integrations.</p></div>
+  <div class='alert__body'><p>The v2 API is no longer the current version. <strong><a href="/concepts/concepts-pipelines">Switch to v3</a></strong>, which includes batch operations, improved filtering, and better error messages. See the migration guide to upgrade your integrations.</p></div>
 </div>
 
-<p>Create and manage <a href=/concepts/concepts-pipelines>pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
+<p>Create and manage <a href="/concepts/concepts-pipelines">pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
 
 <h2 id=create>Create a pipeline</h2>
 <p><code>POST /v2/pipelines</code></p>
@@ -85,20 +85,20 @@
   <tbody><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable pipeline name, unique per workspace.</td></tr><tr><td><code>source_connector_id</code></td><td>string</td><td>Yes</td><td>ID of the connector events are read from.</td></tr><tr><td><code>destination_connector_id</code></td><td>string</td><td>Yes</td><td>ID of the connector events are written to.</td></tr><tr><td><code>transforms</code></td><td>array</td><td>No</td><td>Ordered list of transform step definitions. Omit for a pass-through copy.</td></tr><tr><td><code>schedule</code></td><td>string</td><td>No</td><td>Cron expression. Omit for event-triggered (streaming) pipelines.</td></tr></tbody>
 </table>
 
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>create-pipeline.sh</span>
-    <span class='code-block__lang'>bash</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '&#123;\n    "name": "ingest-orders",\n    "source_connector_id": "conn_pg_orders",\n    "destination_connector_id": "conn_snowflake_dw"\n  &#125;'</code></pre>
-</div>
+{{ds:component/code-block|filename=create-pipeline.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "ingest-orders",
+    "source_connector_id": "conn_pg_orders",
+    "destination_connector_id": "conn_snowflake_dw"
+  }'}}
 
 <h2 id=list>List pipelines</h2>
 <p><code>GET /v2/pipelines</code> — cursor-paginated, see <code>Rate limits & errors</code> for the pagination envelope.</p>
 
 <h2 id=states>Pipeline states</h2>
-<p>Returned pipelines include a <code>state</code> field of <code>draft</code>, <code>active</code>, or <code>paused</code> — see <a href=/concepts/concepts-pipelines>Pipelines</a> for what each means.</p>
+<p>Returned pipelines include a <code>state</code> field of <code>draft</code>, <code>active</code>, or <code>paused</code> — see <a href="/concepts/concepts-pipelines">Pipelines</a> for what each means.</p>
 
 <div class='alert alert--danger'>
   <div class='alert__title'>Deleting a pipeline</div>
