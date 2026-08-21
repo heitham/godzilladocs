@@ -63,9 +63,14 @@
 
 <h1>Transforming events in flight</h1>
 
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#overview">Overview</a></li><li><a href="#reshaping-events">Reshaping events</a></li><li><a href="#filtering-events">Filtering events</a></li><li><a href="#enriching-events">Enriching events</a></li><li><a href="#chaining-transformations">Chaining transformations</a></li><li><a href="#monitoring-transformed-events">Monitoring transformed events</a></li></ul>
+</nav>
+
 <p>As events flow through your Godzilla pipeline, you often need to modify them to match downstream system requirements, remove sensitive data, or add context. This guide walks you through the transformation patterns available in Godzilla.</p>
 
-<h2>Overview</h2>
+<h2 id="overview">Overview</h2>
 
 <p>Event transformation happens at three key points in a pipeline:</p>
 
@@ -75,7 +80,7 @@
   <li><strong>At the destination:</strong> Format the event for the target system</li>
 </ul>
 
-<h2>Reshaping events</h2>
+<h2 id="reshaping-events">Reshaping events</h2>
 
 <p>Reshaping allows you to restructure event payloads—flattening nested objects, combining fields, or splitting a single event into multiple events. Use the transformation builder to:</p>
 
@@ -85,7 +90,7 @@
   <li>Flatten or nest objects as needed</li>
 </ul>
 
-<h2>Filtering events</h2>
+<h2 id="filtering-events">Filtering events</h2>
 
 <p>Filters determine which events proceed through the pipeline and which are dropped. Apply conditions based on:</p>
 
@@ -97,7 +102,7 @@
 
 <p>Filtered-out events are tracked in your pipeline metrics so you can monitor whether your filter rules are working as expected.</p>
 
-<h2>Enriching events</h2>
+<h2 id="enriching-events">Enriching events</h2>
 
 <p>Enrichment adds context to events using external data sources or internal lookups. Common enrichment patterns include:</p>
 
@@ -109,11 +114,11 @@
 
 <p>Enrichment happens synchronously—the pipeline waits for the lookup to complete before forwarding the event.</p>
 
-<h2>Chaining transformations</h2>
+<h2 id="chaining-transformations">Chaining transformations</h2>
 
 <p>Transformations can be stacked to apply multiple operations to a single event. The order matters: filters typically come first (to avoid processing events you don't need), followed by reshaping, then enrichment.</p>
 
-<h2>Monitoring transformed events</h2>
+<h2 id="monitoring-transformed-events">Monitoring transformed events</h2>
 
 <p>After applying transformations, use the pipeline inspector to:</p>
 

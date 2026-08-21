@@ -62,9 +62,15 @@
 <main class="cms-main-content">
 
 <h1>Connecting a data source</h1>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#choosing-a-connector-type">Choosing a connector type</a></li><li><a href="#authenticating">Authenticating</a></li><li><a href="#verifying-the-connection">Verifying the connection</a></li><li><a href="#next-steps">Next steps</a></li></ul>
+</nav>
+
 <p>This guide covers choosing and configuring a source <a href="/concepts/concepts-connectors">connector</a> — the first step of any new <a href="/concepts/concepts-pipelines">pipeline</a>.</p>
 
-<h2>Choosing a connector type</h2>
+<h2 id="choosing-a-connector-type">Choosing a connector type</h2>
 <table>
   <thead><tr><th>You have</th><th>Use</th></tr></thead>
   <tbody>
@@ -75,7 +81,7 @@
   </tbody>
 </table>
 
-<h2>Authenticating</h2>
+<h2 id="authenticating">Authenticating</h2>
 <p>Each connector type has its own credential shape — see the <a href="/api/v2/connectors">Connectors endpoint</a> for the full parameter list per type.</p>
 
 <div class='alert alert--warning'>
@@ -83,10 +89,10 @@
   <div class='alert__body'><p>Grant the connector only the access it needs — read-only replication for Postgres sources, a scoped IAM role for S3, never a superuser or admin credential.</p></div>
 </div>
 
-<h2>Verifying the connection</h2>
+<h2 id="verifying-the-connection">Verifying the connection</h2>
 <p>A newly created connector reports <code>health: degraded</code> until its first successful read or write, then flips to <code>healthy</code>. If it goes straight to <code>down</code>, double check credentials before opening a support ticket.</p>
 
-<h2>Next steps</h2>
+<h2 id="next-steps">Next steps</h2>
 <p>With a source connected, follow <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> to wire it into a full pipeline.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
