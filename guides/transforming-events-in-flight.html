@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforming events in flight | Godzilla Docs</title>
+  <meta name="description" content="Reshape, filter, and enrich events as they pass through your pipeline.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-transforming-events-in-flight">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforming events in flight</h1>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#reshaping-events">Reshaping events</a></li><li><a href="#filtering-events">Filtering events</a></li><li><a href="#enriching-events">Enriching events</a></li><li><a href="#chaining-transforms">Chaining transforms</a></li><li><a href="#monitoring-transformations">Monitoring transformations</a></li></ul>
+</nav>
+
+<p>Once events enter a pipeline, you can reshape their structure, filter out unwanted records, and enrich them with data from external sources — all before they reach the destination. This guide covers the three main transformation patterns.</p>
+
+<h2 id="reshaping-events">Reshaping events</h2>
+<p>A reshape transformation maps fields from the source schema into a new output schema. This is useful when your destination expects a different structure than your source provides, or when you want to rename or reorganize fields.</p>
+
+{{ds:component/code-block|filename=reshape-transform.json|language=json|code={\n  \"type\": \"reshape\",\n  \"input_schema\": {\n    \"customer_id\": \"string\",\n    \"order_amount\": \"number\",\n    \"timestamp\": \"string\"\n  },\n  \"mappings\": {\n    \"customer_id\": \"customerId\",\n    \"order_amount\": \"totalPrice\",\n    \"timestamp\": \"createdAt\"\n  }\n}}}
+
+<p>You can also project only a subset of fields, drop sensitive data before it reaches the destination, or flatten nested structures.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Type coercion</div>
+  <div class='alert__body'>Reshape transformations can perform basic type conversion: string to number, epoch milliseconds to ISO timestamp, and boolean from string "true"/"false".</div>
+</div>
+
+<h2 id="filtering-events">Filtering events</h2>
+<p>A filter transformation passes events through a condition and drops any that don't match. This prevents your destination from filling up with irrelevant records.</p>
+
+{{ds:component/code-block|filename=filter-transform.json|language=json|code={\n  \"type\": \"filter\",\n  \"condition\": {\n    \"field\": \"order_amount\",\n    \"operator\": \"gte\",\n    \"value\": 100\n  }\n}}}
+
+<p>Filters support comparison operators (<code>eq</code>, <code>neq</code>, <code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code>), string operations (<code>contains</code>, <code>starts_with</code>, <code>ends_with</code>), and logical combinations using <code>and</code>, <code>or</code>, and <code>not</code>.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Filtered events are dropped</div>
+  <div class='alert__body'>An event that fails a filter is silently discarded — it doesn't retry, doesn't go to the dead-letter queue, and is not sent to the destination. Use filters when you're confident you want to discard non-matching records.</div>
+</div>
+
+<h2 id="enriching-events">Enriching events</h2>
+<p>An enrichment transformation fetches additional data from an external source (a database, API, or reference table) and adds it to the event payload. This is useful for adding context that the source system doesn't provide.</p>
+
+{{ds:component/code-block|filename=enrich-transform.json|language=json|code={\n  \"type\": \"enrich\",\n  \"source\": {\n    \"type\": \"http\",\n    \"url\": \"https://api.example.com/customers/{customer_id}\",\n    \"auth\": \"bearer\"\n  },\n  \"output_field\": \"customer_details\"\n}}}
+
+<p>Enrichments extract fields from the event (like a customer ID) to look up external data, then add the response to the event before sending it downstream. If an enrichment request fails or times out, the event retries with the standard backoff policy — see <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> for details.</p>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>Enrichment adds latency</div>
+  <div class='alert__body'>Every enrichment HTTP call adds network round-trip time to event processing. For high-volume pipelines, keep enrichment APIs fast or batch-request multiple records at once.</div>
+</div>
+
+<h2 id="chaining-transforms">Chaining transforms</h2>
+<p>You can apply multiple transforms to a single pipeline in sequence: reshape first to normalize fields, then enrich to add context, then filter to drop unwanted records before they reach the destination.</p>
+
+<p>Transforms execute in the order you define them, and any error in a transform (including enrichment failures) triggers the standard retry logic. A successful transform passes its output to the next transform in the chain.</p>
+
+<h2 id="monitoring-transformations">Monitoring transformations</h2>
+<p>Track the success rate and latency of each transform in your <a href="/guides/monitoring-and-alerts">pipeline's monitoring dashboard</a>. Filter drops are counted separately from errors so you can distinguish between discarded events (which are intentional) and actual failures (which may need attention).</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/handling-errors-and-retries'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Error handling & recovery</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/scheduling-and-triggers'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Scheduling & triggers</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

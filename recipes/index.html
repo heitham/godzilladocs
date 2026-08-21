@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SDKs | Godzilla Docs</title>
-  <meta name="description" content="Official Godzilla client libraries for Node.js and Python.">
+  <title>Recipes | Godzilla Docs</title>
+  <meta name="description" content="Common data pipeline patterns and how to implement them using Godzilla.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-sdks page-index">
+<body class="folder-recipes page-index">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,36 +58,29 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/sdks/go">Go SDK</a></li><li class="usa-sidenav__item"><a href="/sdks/node-js">Node.js SDK</a></li><li class="usa-sidenav__item"><a href="/sdks/python">Python SDK</a></li><li class="usa-sidenav__item"><a href="/sdks/index" class="usa-current">SDKs</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index" class="usa-current">Recipes</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <section class='hero'>
   <div class='hero__inner'>
-    <h1 class='hero__title'>SDKs</h1>
-    <p class='hero__subtitle'>Official client libraries for the Godzilla v2 API.</p>
-    <div class='hero__cta'><a href="/sdks/node-js">Node.js SDK</a></div>
+    <h1 class='hero__title'>Recipes</h1>
+    <p class='hero__subtitle'>Common data pipeline patterns and how to implement them using Godzilla.</p>
+    <div class='hero__cta'><a href="/recipes/backfill-historical-data">Explore recipes</a></div>
   </div>
 </section>
 
 <section>
-  <a class='card' href='/sdks/node-js'>
-  <span class='card__tag'>SDK</span>
-  <h3 class='card__title'>Node.js</h3>
-  <p class='card__description'>Typed client for Node.js and TypeScript — npm install @godzilla/sdk.</p>
+  <a class='card' href='/recipes/backfill-historical-data'>
+  <span class='card__tag'>Recipe</span>
+  <h3 class='card__title'>Backfill historical data</h3>
+  <p class='card__description'>Load historical data into a new destination, handling large volumes and resumable transfers.</p>
 </a>
-  <a class='card' href='/sdks/python'>
-  <span class='card__tag'>SDK</span>
-  <h3 class='card__title'>Python</h3>
-  <p class='card__description'>Typed client for Python 3.9+ — pip install godzilla-sdk.</p>
-</a>
-  <a class='card' href='/sdks/go'>
-  <span class='card__tag'>SDK</span>
-  <h3 class='card__title'>Go</h3>
-  <p class='card__description'>Typed client for Go 1.18+ — go get github.com/godzilla/sdk-go.</p>
+  <a class='card' href='/recipes/fan-out-to-multiple-destinations'>
+  <span class='card__tag'>Recipe</span>
+  <h3 class='card__title'>Fan-out to multiple destinations</h3>
+  <p class='card__description'>Send a single data stream to multiple destinations with different transformation rules.</p>
 </a>
 </section>
-
-<p>Prefer raw HTTP? Every SDK method maps one-to-one onto the <a href="/api/index">REST API reference</a>.</p>
 </main>
 
 </div>

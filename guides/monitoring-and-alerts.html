@@ -58,28 +58,21 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts" class="usa-current">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts" class="usa-current">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Monitoring &amp; alerts</h1>
-<p>Keep an eye on a running <a href="/concepts-pipelines">pipeline</a> without babysitting it manually.</p>
+<p>Keep an eye on a running <a href="/concepts/concepts-pipelines">pipeline</a> without babysitting it manually.</p>
 
 <h2>Connector health</h2>
-<p>Poll a connector's <code>health</code> field via the <a href="/apis/connectors">Connectors endpoint</a>, or better, subscribe to <code>connector.error</code> so you're notified the moment it degrades.</p>
+<p>Poll a connector's <code>health</code> field via the <a href="/api/connectors">Connectors endpoint</a>, or better, subscribe to <code>connector.error</code> so you're notified the moment it degrades.</p>
 
 <h2>Subscribing to pipeline lifecycle events</h2>
-<p>The most reliable way to monitor a pipeline is a <a href="/apis/webhooks">webhook</a> subscription on <code>pipeline.failed</code> and <code>connector.error</code>.</p>
+<p>The most reliable way to monitor a pipeline is a <a href="/api/webhooks">webhook</a> subscription on <code>pipeline.failed</code> and <code>connector.error</code>.</p>
 
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>subscribe.sh</span>
-    <span class='code-block__lang'>bash</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/webhooks \
+{{ds:component/code-block|filename=subscribe.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/webhooks \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '&#123;"url":"https://you.example.com/hooks/godzilla","events":["pipeline.failed","connector.error"]&#125;'</code></pre>
-</div>
+  -d '{"url":"https://you.example.com/hooks/godzilla","events":["pipeline.failed","connector.error"]}'}}
 
 <div class='alert alert--success'>
   <div class='alert__title'>Recommended baseline</div>
@@ -87,7 +80,7 @@
 </div>
 
 <h2>Dead-letter queue depth</h2>
-<p>A growing dead-letter queue is an early warning sign, not just a symptom — see <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how events end up there and how to drain them.</p>
+<p>A growing dead-letter queue is an early warning sign, not just a symptom — see <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> for how events end up there and how to drain them.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/guides/scheduling-and-triggers'>
