@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Schemas</h1>
@@ -74,7 +74,7 @@
 <p>Schemas act as a contract. You declare the expected structure once, and Godzilla validates every event against it. Invalid events are caught immediately and reported rather than propagating errors downstream.</p>
 
 <h2>Declaring a schema</h2>
-<p>Schemas are authored in JSON Schema format (draft 2020-12). A typical schema for <a href="/concepts-events">user data events</a> looks like this:</p>
+<p>Schemas are authored in JSON Schema format (draft 2020-12). A typical schema for <a href="/concepts/concepts-events">user data events</a> looks like this:</p>
 <div class='code-block'>
   <div class='code-block__header'>
     <span class='code-block__filename'>order-schema.json</span>
@@ -92,7 +92,7 @@
 </ul>
 
 <h2>Assigning schemas to a pipeline</h2>
-<p>Once you've defined a schema, you attach it to a pipeline's payload type during pipeline creation or configuration. When you do, Godzilla validates the payload of every event (the <code>payload</code> field in each <a href="/concepts-events">event object</a>) against that schema.</p>
+<p>Once you've defined a schema, you attach it to a pipeline's payload type during pipeline creation or configuration. When you do, Godzilla validates the payload of every event (the <code>payload</code> field in each <a href="/concepts/concepts-events">event object</a>) against that schema.</p>
 <p>If an event payload fails validation, the event is rejected with a validation error rather than being silently corrupted. You can inspect validation failures in the pipeline's error logs and metrics, and decide whether to:</p>
 <ul>
   <li>Fix the schema if your data model evolved and the schema is stale.</li>
@@ -124,7 +124,7 @@
 
 <h2>Related concepts</h2>
 <ul>
-  <li><a href="/concepts-events">Events</a> — the data flowing through your pipeline and the structure they must conform to.</li>
+  <li><a href="/concepts/concepts-events">Events</a> — the data flowing through your pipeline and the structure they must conform to.</li>
   <li><a href="/concepts/concepts-pipelines">Pipelines</a> — where schemas are attached and enforced.</li>
   <li><a href="/guides/transforming-events-in-flight">Transforming events in flight</a> — how to reshape or normalize data within a pipeline.</li>
   <li><a href="/guides/handling-errors-and-retries">Handling errors & retries</a> — what happens to invalid events and how to replay them.</li>
