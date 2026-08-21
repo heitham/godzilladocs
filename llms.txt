@@ -19,6 +19,7 @@
 
 ## api
 - [API Reference](https://localhost:4310/api/index): The Godzilla v2 REST API: pipelines, connectors, events, webhooks, and limits & quotas.
+- [Transforms endpoint](https://localhost:4310/api/transforms): Create and list transform steps that manipulate data within pipelines via the v2 REST API.
 
 ## apis
 - [Connectors endpoint](https://localhost:4310/apis/connectors): Create, list, and rotate credentials for connectors via the v2 REST API.
@@ -26,7 +27,6 @@
 - [Limits, quotas & errors](https://localhost:4310/apis/rate-limits-errors): Standard-tier limits, quotas, pagination envelope, and the v2 API's error response shape.
 - [Pipelines endpoint](https://localhost:4310/apis/pipelines): Create, list, and manage pipelines via the v2 REST API.
 - [Quotas & billing](https://localhost:4310/apis/quotas-and-billing): Plan tiers, request quotas, and handling quota exceedances.
-- [Transforms endpoint](https://localhost:4310/apis/transforms): Create and list transform steps that manipulate data within pipelines via the v2 REST API.
 - [Webhooks endpoint](https://localhost:4310/apis/webhooks): Subscribe to Godzilla platform lifecycle events over outbound HTTP via the v2 REST API.
 
 ## getting-started
