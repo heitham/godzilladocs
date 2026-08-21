@@ -57,7 +57,7 @@
     <nav class='site-header__nav'></nav>
   </div>
 </header>
-<div class="cms-page-container cms-has-left-nav">
+<div class="cms-page-container cms-has-left-nav cms-has-right-nav">
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline" class="usa-current">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
@@ -81,7 +81,7 @@
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '{\"type\":\"postgres\",\"direction\":\"source\",\"config\":{\"connection_string\":\"postgres://...\"}}'</code></pre>
+  -d '{"type":"postgres","direction":"source","config":{"connection_string":"postgres://..."}}'</code></pre>
 </div>
 
 <h3>Go</h3>
@@ -126,7 +126,7 @@ func main() {
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '{\"type\":\"snowflake\",\"direction\":\"destination\",\"config\":{\"account\":\"...\"}}'</code></pre>
+  -d '{"type":"snowflake","direction":"destination","config":{"account":"..."}}'</code></pre>
 </div>
 
 <h3>Go</h3>
@@ -171,7 +171,7 @@ func main() {
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '{\"name\":\"ingest-orders\",\"source_connector_id\":\"conn_pg_orders\",\"destination_connector_id\":\"conn_snowflake_dw\"}'</code></pre>
+  -d '{"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"}'</code></pre>
 </div>
 
 <h3>Go</h3>
@@ -218,6 +218,17 @@ func main() {
   </a>
 </nav>
 </main>
+
+<aside class="cms-right-nav">
+<nav class='docs-toc' aria-label='On this page'>
+  <ul>
+    <li><a href='#1-create-a-source-connector'>1. Create a source connector</a></li>
+    <li><a href='#2-create-a-destination-connector'>2. Create a destination connector</a></li>
+    <li><a href='#3-create-the-pipeline'>3. Create the pipeline</a></li>
+    <li><a href='#next-steps'>Next steps</a></li>
+  </ul>
+</nav>
+</aside>
 
 </div>
 <footer class='site-footer'>
