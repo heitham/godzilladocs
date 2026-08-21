@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforming events in flight | Godzilla Docs</title>
+  <meta name="description" content="Reshape, filter, and enrich events as they pass through a pipeline using transformations.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-transforming-events-in-flight">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforming events in flight</h1>
+<p>This guide covers reshaping, filtering, and enriching events as they pass through your <a href="/concepts-pipelines">pipeline</a> — turning raw input into business-ready data.</p>
+
+<h2>Why transform?</h2>
+<p>Raw events from a source often need modification before reaching their destination: flattening nested structures, dropping sensitive fields, adding context from external APIs, or routing based on event content. Transformations let you express this logic declaratively without writing custom code.</p>
+
+<h2>Reshaping events</h2>
+<p>Use projection to select and rename fields from your input events. For example, if a source emits:</p>
+
+{{ds:component/code-block|language=json|code={\n  "user_id": 123,\n  "first_name": "Alice",\n  "last_name": "Smith",\n  "internal_rank": "VIP",\n  "billing_address": { ... }\n}}}
+
+<p>You can project down to just the fields you need in the destination:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'></span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  "id": "$.user_id",\n  "name": "$.first_name + ' ' + $.last_name",\n  "vip": "$.internal_rank == 'VIP'"\n</code></pre>
+</div>}
+
+<p>The result:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'></span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  "id": 123,\n  "name": "Alice Smith",\n  "vip": true\n</code></pre>
+</div>}
+
+<h2>Filtering events</h2>
+<p>Not every event needs to reach your destination. Use filters to drop events that don't meet criteria. Common patterns include:</p>
+
+<ul>
+  <li><strong>Skip internal events:</strong> <code>$.event_type != "internal_debug"</code></li>
+  <li><strong>Only high-value records:</strong> <code>$.order_total > 100</code></li>
+  <li><strong>Require non-null fields:</strong> <code>$.customer_email != null</code></li>
+</ul>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Filtered events aren't lost</div>
+  <div class='alert__body'>Dropped events are tracked but not written to the destination. You can query them in the pipeline's dead-letter queue if needed.</div>
+</div>
+
+<h2>Enriching events</h2>
+<p>Add context by looking up data from external sources or databases during the transformation phase. For example, enrich user events with account tier from a customer database:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>Transform rule</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  "user_id": "$.user_id",\n  "email": "$.email",\n  "account_tier": "lookup('customer_db', $.user_id, 'tier')"\n</code></pre>
+</div>}
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Enrichment adds latency</div>
+  <div class='alert__body'>Each external lookup during transformation slows the pipeline. Use sparingly and consider caching or denormalizing data in the source if latency becomes an issue.</div>
+</div>
+
+<h2>Combining transformations</h2>
+<p>You can apply reshape, filter, and enrichment rules in sequence. The pipeline evaluates them in order:</p>
+
+<ol>
+  <li>Filter out unwanted events</li>
+  <li>Reshape fields</li>
+  <li>Enrich with external data</li>
+  <li>Write to destination</li>
+</ol>
+
+<h2>Debugging transformations</h2>
+<p>When transformations produce unexpected output, use the pipeline's test mode to replay events with verbose logging. You'll see each transformation step and where data might be lost or renamed.</p>
+
+<h2>Next steps</h2>
+<p>With transformed events flowing to your destination, explore <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> to ensure resilience when downstream systems fail.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Connecting a data source</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Handling errors & retries</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

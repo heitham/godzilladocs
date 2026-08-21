@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries" class="usa-current">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries" class="usa-current">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Handling errors &amp; retries</h1>
@@ -73,13 +73,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "retry_policy": &#123;
-    "max_attempts": 5,
-    "backoff": "exponential",
-    "initial_delay_ms": 1000
-  &#125;
-&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"retry_policy\": &#123;\n    \"max_attempts\": 5,\n    \"backoff\": \"exponential\",\n    \"initial_delay_ms\": 1000\n  &#125;\n&#125;</code></pre>
 </div>
 
 <h2>Dead-lettering</h2>
@@ -99,17 +93,16 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/events/evt_8f2c1a90/replay \
-  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/events/evt_8f2c1a90/replay \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\"</code></pre>
 </div>
 
 <h2>Watching for failures</h2>
 <p>Subscribe to <code>pipeline.failed</code> via <a href="/apis/webhooks">Webhooks</a> so you find out about dead-lettered events before a customer does. See also <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
-  <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
+  <a class='docs-pagination__prev' href='/guides/transforming-events-in-flight'>
     <span class='docs-pagination__direction'>Previous</span>
-    <span class='docs-pagination__label'>Connecting a data source</span>
+    <span class='docs-pagination__label'>Transforming events in flight</span>
   </a>
   <a class='docs-pagination__next' href='/guides/scheduling-and-triggers'>
     <span class='docs-pagination__direction'>Next</span>
