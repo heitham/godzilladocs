@@ -73,10 +73,9 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "schedule": "0 */4 * * *"
-&#125;</code></pre>
-</div>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "schedule": "0 */4 * * *"</code></pre>
+</div>}
 
 <h2>Event-triggered pipelines</h2>
 <p>Omit <code>schedule</code> and the pipeline instead runs continuously, processing events as its source connector emits them — the right choice for sources like Kafka or a Webhook connector where near-real-time matters.</p>
@@ -87,16 +86,16 @@
 </div>
 
 <h2>Pausing and resuming</h2>
-<p>A <code>paused</code> pipeline skips scheduled ticks entirely and buffers nothing for event-triggered sources — resuming picks up new events going forward, not a backlog. To reprocess a time range instead, see the replay flow in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>.</p>
+<p>A <code>paused</code> pipeline skips scheduled ticks entirely and buffers nothing for event-triggered sources — resuming picks up new events going forward, not a backlog. To reprocess a time range instead, see the replay flow in <a href="/guides/handling-errors-and-retries">Error handling & recovery</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
-  <a class='docs-pagination__prev' href='/guides/handling-errors-and-retries'>
+  <a class='docs-pagination__prev' href='/guides/transforming-events-in-flight'>
     <span class='docs-pagination__direction'>Previous</span>
-    <span class='docs-pagination__label'>Handling errors & retries</span>
+    <span class='docs-pagination__label'>Transforming events in flight</span>
   </a>
-  <a class='docs-pagination__next' href='/guides/monitoring-and-alerts'>
+  <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
     <span class='docs-pagination__direction'>Next</span>
-    <span class='docs-pagination__label'>Monitoring & alerts</span>
+    <span class='docs-pagination__label'>Error handling & recovery</span>
   </a>
 </nav>
 </main>
