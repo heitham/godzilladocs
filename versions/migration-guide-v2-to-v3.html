@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Migration guide (v2 → v3) | Godzilla Docs</title>
-  <meta name="description" content="Move an existing v2 integration to the v3 API: event retention control and improved compliance features.">
+  <meta name="description" content="Move your v2 integration to v3: the Events endpoint v2 support has ended. v3 adds event retention control and improved compliance features.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -61,21 +61,26 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/versions/index">Versions</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v2-to-v3" class="usa-current">Migration guide (v2 → v3)</a></li><li class="usa-sidenav__item"><a href="/versions/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/versions/release-notes-archive">Release notes archive</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Migration guide (v2 → v3) <span class='chip chip--success'>Recommended</span></h1>
-<p>v3 ships with event retention configuration — a simple but powerful feature for compliance-driven pipelines. The migration is minimal: the endpoint remains backward-compatible, so you can upgrade at your own pace.</p>
+<h1>Migration guide (v2 → v3) <span class='chip chip--danger'>Required</span></h1>
+<p><strong>v2 support has ended.</strong> You must migrate to v3 immediately. v3 ships with event retention configuration and compliance-focused query features. The endpoints are straightforward to upgrade.</p>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>v2 support withdrawn</div>
+  <div class='alert__body'><p>v2 of the Events endpoint is no longer supported as of this release. All v2 clients must upgrade to v3 to continue using the platform. Requests to v2 endpoints will be rejected.</p></div>
+</div>
 
 <h2 id="overview">What's new in v3</h2>
-<p>v3 adds a single new optional parameter to pipeline creation and updates:</p>
+<p>v3 adds critical compliance and observability features:</p>
 
 <ul>
   <li><strong><code>retention_days</code></strong> — Control how long events are kept in each pipeline (1–365 days, default: 30). Allows fine-grained control over data lifecycle and compliance obligations without blanket org-wide policies.</li>
+  <li><strong><code>retention_until</code></strong> — Every event now includes a transparent retention deadline, letting you query events within compliance windows.</li>
+  <li><strong><code>until</code> parameter</strong> — Query events up to an upper timestamp bound, in addition to the existing <code>since</code> lower bound.</li>
 </ul>
-
-<p>All other endpoints and parameters remain unchanged.</p>
 
 <h2 id="update-clients">Update client code</h2>
 
-<p>When you upgrade to v3, change your base URL and optionally add <code>retention_days</code> to any pipeline creation requests:</p>
+<p><strong>This is a required change.</strong> Update your base URLs and optionally add <code>retention_days</code> to any pipeline creation requests:</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -91,7 +96,13 @@
     "source_connector_id": "conn_pg_orders",
     "destination_connector_id": "conn_snowflake_dw",
 +   "retention_days": 90
-  }</code></pre>
+  }
+
+- GET https://api.godzilladocs.dev/v2/pipelines/backfill-events/events?since=2026-08-01T00:00:00Z
++ GET https://api.godzilladocs.dev/v3/pipelines/backfill-events/events?since=2026-08-01T00:00:00Z&until=2026-08-31T23:59:59Z
+
+- POST https://api.godzilladocs.dev/v2/events/evt_abc123/replay
++ POST https://api.godzilladocs.dev/v3/events/evt_abc123/replay</code></pre>
 </div>
 
 <h2 id="compliance">New compliance features</h2>
@@ -104,23 +115,24 @@
   <li><strong>Audit logs</strong> — Set <code>retention_days: 30</code> to meet standard compliance standards.</li>
 </ul>
 
-<p>v3 enforces retention at the pipeline level, so different data flows can have independent lifespans.</p>
+<p>v3 enforces retention at the pipeline level, so different data flows can have independent lifespans. Query the <code>retention_until</code> field on events to confirm your compliance window.</p>
 
 <h2 id="timeline">Migration timeline</h2>
 
-<p>v2 will continue to work until end-of-life. No breaking changes are planned in 2026. Start with v3 on new integrations; migrate existing ones at your convenience.</p>
+<p><strong>v2 is no longer supported.</strong> Upgrade your integrations immediately. All v2 requests will be rejected.</p>
 
-<div class='alert alert--info'>
-  <div class='alert__title'>v3 is backward-compatible</div>
-  <div class='alert__body'><p>Omitting <code>retention_days</code> defaults to 30 days, matching v2 behavior. You can upgrade your base URL immediately and add retention policies gradually.</p></div>
+<div class='alert alert--warning'>
+  <div class='alert__title'>No backward compatibility</div>
+  <div class='alert__body'><p>Unlike earlier migrations, v3 requires a URL change. There is no v2 compatibility mode in v3. Update all client base URLs from <code>/v2</code> to <code>/v3</code>.</p></div>
 </div>
 
 <h2 id="gotchas">Migration notes</h2>
 
 <ul>
-  <li>Events created under v2 inherit the new retention period retroactively — existing pipelines updated to v3 will apply the new <code>retention_days</code> to all retained events.</li>
-  <li>SDK clients may cache the v2 base URL — clear any cached configuration and redeploy.</li>
-  <li>The <code>retention_days</code> limit is enforced at request time; validation happens server-side, so older SDKs will still send valid requests to v3.</li>
+  <li>The <code>retention_days</code> default is 30 days, matching the implicit v2 behavior. If v2 pipelines retained events beyond 30 days, set an explicit <code>retention_days</code> value on upgrade.</li>
+  <li>SDK clients must update the base URL — cached v2 URLs will fail. Clear any cached configuration and redeploy.</li>
+  <li>The new <code>until</code> parameter on list events is optional — omit it to get all events from <code>since</code> to present.</li>
+  <li>Every event response now includes <code>retention_until</code>, which you can use for compliance audits and data governance workflows.</li>
 </ul>
 
 <h2 id="support">Still stuck?</h2>

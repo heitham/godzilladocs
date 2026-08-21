@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Events endpoint | Godzilla Docs</title>
-  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v3 REST API.">
+  <title>Events endpoint (v2) | Godzilla Docs</title>
+  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v2 REST API. This version is no longer current.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -61,11 +61,18 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Events endpoint <span class='chip chip--primary'>v3</span></h1>
-<p>Query and replay <a href="/concepts/events">events</a> that have flowed through a pipeline. Base URL: <code>https://api.godzilladocs.dev/v3</code>. <a href="/versions/migration-guide-v2-to-v3">Upgrading from v2?</a></p>
+<div class='alert alert--danger'>
+  <div class='alert__title'>v2 is withdrawn</div>
+  <div class='alert__body'><p><strong>v2 support has ended.</strong> v3 is now the only supported Events endpoint version. It adds event retention tracking and compliance-friendly query features. <a href="/api/events">View v3 documentation</a> or <a href="/versions/migration-guide-v2-to-v3">migrate from v2 to v3</a>.</p></div>
+</div>
+
+<h1>Events endpoint <span class='chip chip--danger'>v2 (EOL)</span></h1>
+<p>Query and replay <a href="/concepts/events">events</a> that have flowed through a pipeline. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
+
+<p><strong>This version is no longer supported.</strong> Please migrate to v3 immediately.</p>
 
 <h2 id="list">List events</h2>
-<p><code>GET /v3/pipelines/{pipeline_id}/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>
+<p><code>GET /v2/pipelines/{pipeline_id}/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>
 
 <table class='param-table'>
   <thead>
@@ -76,7 +83,7 @@
       <th>Description</th>
     </tr>
   </thead>
-  <tbody><tr><td><code>type</code></td><td>string</td><td>No</td><td>Filter to a single event type, e.g. <code>order.created</code>.</td></tr><tr><td><code>since</code></td><td>string</td><td>No</td><td>ISO-8601 timestamp lower bound on <code>occurred_at</code>.</td></tr><tr><td><code>until</code></td><td>string</td><td>No</td><td>ISO-8601 timestamp upper bound on <code>occurred_at</code>. New in v3.</td></tr><tr><td><code>cursor</code></td><td>string</td><td>No</td><td>Opaque pagination cursor from a previous response's <code>next_cursor</code>.</td></tr></tbody>
+  <tbody><tr><td><code>type</code></td><td>string</td><td>No</td><td>Filter to a single event type, e.g. <code>order.created</code>.</td></tr><tr><td><code>since</code></td><td>string</td><td>No</td><td>ISO-8601 timestamp lower bound on <code>occurred_at</code>.</td></tr><tr><td><code>cursor</code></td><td>string</td><td>No</td><td>Opaque pagination cursor from a previous response's <code>next_cursor</code>.</td></tr></tbody>
 </table>
 
 <div class='code-block'>
@@ -89,25 +96,21 @@
   "id": "evt_8f2c1a90",
   "type": "order.created",
   "occurred_at": "2026-08-18T09:12:44Z",
-  "payload": { "order_id": "ord_4471" },
-  "retention_until": "2026-09-18T09:12:44Z"
+  "payload": { "order_id": "ord_4471" }
 }</code></pre>
 </div>
 
 <h2 id="replay">Replay a dead-lettered event</h2>
-<p><code>POST /v3/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> guide for when to use this versus reprocessing an entire time range.</p>
+<p><code>POST /v2/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> guide for when to use this versus reprocessing an entire time range.</p>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Platform events</div>
   <div class='alert__body'><p>Lifecycle notifications like <code>pipeline.started</code> and <code>connector.error</code> are not returned by this endpoint — subscribe to them through the Webhooks endpoint instead.</p></div>
 </div>
 
-<h2 id="retention">Event retention (v3 feature)</h2>
-<p>v3 adds transparent event retention tracking. Each event includes a <code>retention_until</code> timestamp showing when it will be purged. This is determined by the pipeline's <code>retention_days</code> setting. Use the new <code>until</code> parameter to query events within compliance windows.</p>
-
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#list">List events</a></li><li><a href="#replay">Replay a dead-lettered event</a></li><li><a href="#retention">Event retention (v3 feature)</a></li></ul>
+  <ul class='docs-toc__list'><li><a href="#list">List events</a></li><li><a href="#replay">Replay a dead-lettered event</a></li></ul>
 </nav>
 </main>
 
