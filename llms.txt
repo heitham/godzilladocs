@@ -16,8 +16,7 @@
 - [Quickstart](https://localhost:3002/getting-started/quickstart): Go from zero to a running pipeline in five minutes.
 - [Schemas](https://localhost:3002/concepts/schemas): How event payload shapes are declared and validated in Godzilla: schema definition, validation rules, and error handling.
 - [Security & compliance overview](https://localhost:3002/security-and-compliance): How Godzilla handles data in transit and at rest, credential storage, and compliance posture.
-- [Support / Contact](https://localhost:3002/support): How to reach the Godzilla team for support, sales, or security reports.
-- [Troubleshooting / FAQ](https://localhost:3002/troubleshooting): Common problems and fixes across pipelines, connectors, and webhooks.
+- [Troubleshooting / FAQ](https://localhost:3002/troubleshooting): Common problems and fixes across pipelines, connectors, and webhooks. Also includes contact channels for technical support, sales, and security reports.
 
 ## api
 - [API Reference](https://localhost:3002/api/index): The Godzilla v2 REST API: pipelines, connectors, events, webhooks, and limits.
