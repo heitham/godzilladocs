@@ -112,7 +112,12 @@
   <tbody><tr><td><code>type</code></td><td>string</td><td>No</td><td>Filter to a single event type, e.g. <code>order.created</code>.</td></tr><tr><td><code>since</code></td><td>string</td><td>No</td><td>ISO-8601 timestamp lower bound on <code>occurred_at</code>.</td></tr><tr><td><code>cursor</code></td><td>string</td><td>No</td><td>Opaque pagination cursor from a previous response's <code>next_cursor</code>.</td></tr></tbody>
 </table>
 
-{{ds:component/code-block|filename=event.json|language=json|code={\n  \"id\": \"evt_8f2c1a90\",\n  \"type\": \"order.created\",\n  \"occurred_at\": \"2026-08-18T09:12:44Z\",\n  \"payload\": { \"order_id\": \"ord_4471\" }\n}}
+{{ds:component/code-block|filename=event.json|language=json|code={
+  "id": "evt_8f2c1a90",
+  "type": "order.created",
+  "occurred_at": "2026-08-18T09:12:44Z",
+  "payload": { "order_id": "ord_4471" }
+}}}
 
 <h2 id="replay">Replay a dead-lettered event</h2>
 <p><code>POST /v2/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <code>Handling errors &amp; retries</code> guide for when to use this versus reprocessing an entire time range.</p>
@@ -126,6 +131,8 @@
   <div class='docs-toc__heading'>On this page</div>
   <ul class='docs-toc__list'><li><a href=#versions>API versions</a></li><li><a href=#v2-reference>v2 Reference (deprecated)</a></li><li><a href=#list>List events</a></li><li><a href=#replay>Replay a dead-lettered event</a></li></ul>
 </nav>
+
+<p style="margin-top: 2rem; font-size: 0.875rem; color: #6b625c;"><strong>Last reviewed:</strong> 2026-09-01</p>
 </main>
 
 </div>
