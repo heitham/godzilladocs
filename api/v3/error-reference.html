@@ -65,10 +65,20 @@
 
 <p><strong>v3 is the current API version.</strong> <a href="/api/v2/rate-limits-errors">v2 docs remain available</a> for users still on the previous version.</p>
 
-<h2 id="error-responses">Error responses</h2>
+<h2 id=error-responses>Error responses</h2>
 <p>Errors are returned with a non-2xx status and include:</p>
 
-{{ds:component/code-block|language=json|code={\n  "error": {\n    "code": "VALIDATION_ERROR",\n    "message": "Request failed validation",\n    "details": {\n      "fields": {\n        "name": "Pipeline name is required"\n      }\n    }\n  }\n}}}
+{{ds:component/code-block|language=json|code={
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Request failed validation",
+    "details": {
+      "fields": {
+        "name": "Pipeline name is required"
+      }
+    }
+  }
+}}}
 
 <p>Common error codes:</p>
 <ul>
@@ -81,8 +91,10 @@
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#error-responses">Error responses</a></li></ul>
+  <ul class='docs-toc__list'><li><a href=#error-responses>Error responses</a></li></ul>
 </nav>
+
+<p style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid #e4dcd3; color: #6b625c; font-size: 0.875rem;"><strong>Last reviewed:</strong> 2026-09-01</p>
 </main>
 
 </div>
