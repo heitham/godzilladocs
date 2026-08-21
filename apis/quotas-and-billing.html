@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-and-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-and-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Quotas &amp; billing <span class='chip chip--info'>reference</span></h1>
@@ -132,7 +132,7 @@ X-Quota-Reset: 2026-09-20T14:30:00Z</code></pre>
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Rate-limit vs. quota exceedances</div>
-  <div class='alert__body'><p><strong>Rate limit</strong> (per minute): Returns <code>429 Too Many Requests</code> immediately. Respect <code>Retry-After</code> and back off. See <a href="/apis/rate-limits-errors">Rate limits & errors</a>.</p><p><strong>Monthly quota</strong> (per billing period): Once exhausted, all API calls fail with a <code>402 Payment Required</code> error until the quota resets or your plan is upgraded.</p></div>
+  <div class='alert__body'><p><strong>Rate limit</strong> (per minute): Returns <code>429 Too Many Requests</code> immediately. Respect <code>Retry-After</code> and back off. See <a href="/api/rate-limits-errors">Rate limits & errors</a>.</p><p><strong>Monthly quota</strong> (per billing period): Once exhausted, all API calls fail with a <code>402 Payment Required</code> error until the quota resets or your plan is upgraded.</p></div>
 </div>
 
 <h3>429 Too Many Requests (rate limit)</h3>

@@ -65,7 +65,7 @@
 <p>v1 reached end of life on 2026-08-01 alongside the <a href="/changelog">webhooks GA changelog entry</a>. This guide covers the three breaking changes you need to handle to move a v1 integration to v2.</p>
 
 <h2>1. Pagination: offset → cursor</h2>
-<p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href="/apis/rate-limits-errors">Rate limits & errors</a> for the exact envelope.</p>
+<p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href="/api/rate-limits-errors">Rate limits & errors</a> for the exact envelope.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -81,7 +81,7 @@
 <p>v1 had no push notifications — you polled a pipeline's status endpoint. v2 replaces this with the <a href="/apis/webhooks">Webhooks endpoint</a>: subscribe to <code>pipeline.completed</code> and <code>pipeline.failed</code> instead of polling.</p>
 
 <h2>3. Error shape</h2>
-<p>v1 returned bare error strings. v2 wraps every error in an object with a stable <code>code</code> field. Update any error handling that matched on message text — see <a href="/apis/rate-limits-errors#errors">the error shape reference</a>.</p>
+<p>v1 returned bare error strings. v2 wraps every error in an object with a stable <code>code</code> field. Update any error handling that matched on message text — see <a href="/api/rate-limits-errors#errors">the error shape reference</a>.</p>
 
 <div class='alert alert--danger'>
   <div class='alert__title'>v1 is retired</div>
