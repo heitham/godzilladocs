@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schemas | Godzilla Docs</title>
+  <meta name="description" content="How to declare and validate event payload shapes across your pipelines.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-concepts-schemas">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Schemas</h1>
+<p>A <strong>schema</strong> is a declarative definition of the shape, types, and constraints of an event payload. Schemas let you document what data your pipeline expects, validate incoming events, and catch shape mismatches early before they cause silent data loss or corruption downstream.</p>
+
+<h2>Why schemas matter</h2>
+<p>Event payloads are JSON objects that flow from a source connector through transforms to a destination. Without a schema, a malformed event or an unexpected field structure can silently corrupt your pipeline:</p>
+<ul>
+  <li>A missing required field might be silently replaced with <code>null</code>.</li>
+  <li>A field type change (e.g., a string becoming an integer) might be coerced or rejected by a destination, causing events to be dead-lettered.</li>
+  <li>New or removed fields might break downstream systems that expect a fixed shape.</li>
+</ul>
+<p>Schemas act as a contract. You declare the expected structure once, and Godzilla validates every event against it. Invalid events are caught immediately and reported rather than propagating errors downstream.</p>
+
+<h2>Declaring a schema</h2>
+<p>Schemas are authored in JSON Schema format (draft 2020-12). A typical schema for <a href="/concepts-events">user data events</a> looks like this:</p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>order-schema.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  &quot;$schema&quot;: &quot;https://json-schema.org/draft/2020-12/schema&quot;,\n  &quot;title&quot;: &quot;Order Created Event&quot;,\n  &quot;type&quot;: &quot;object&quot;,\n  &quot;properties&quot;: &#123;\n    &quot;order_id&quot;: &#123; &quot;type&quot;: &quot;string&quot;, &quot;pattern&quot;: &quot;^ord_[0-9a-z]+$&quot; &#125;,\n    &quot;customer_id&quot;: &#123; &quot;type&quot;: &quot;string&quot; &#125;,\n    &quot;amount_cents&quot;: &#123; &quot;type&quot;: &quot;integer&quot;, &quot;minimum&quot;: 0 &#125;,\n    &quot;items&quot;: &#123;\n      &quot;type&quot;: &quot;array&quot;,\n      &quot;items&quot;: &#123;\n        &quot;type&quot;: &quot;object&quot;,\n        &quot;properties&quot;: &#123;\n          &quot;sku&quot;: &#123; &quot;type&quot;: &quot;string&quot; &#125;,\n          &quot;qty&quot;: &#123; &quot;type&quot;: &quot;integer&quot;, &quot;minimum&quot;: 1 &#125;\n        &#125;,\n        &quot;required&quot;: [&quot;sku&quot;, &quot;qty&quot;]\n      &#125;\n    &#125;,\n    &quot;created_at&quot;: &#123; &quot;type&quot;: &quot;string&quot;, &quot;format&quot;: &quot;date-time&quot; &#125;\n  &#125;,\n  &quot;required&quot;: [&quot;order_id&quot;, &quot;customer_id&quot;, &quot;amount_cents&quot;, &quot;created_at&quot;],\n  &quot;additionalProperties&quot;: false\n&#125;</code></pre>
+</div>\n<p>This schema defines:</p>
+<ul>
+  <li><strong>Required fields:</strong> <code>order_id</code>, <code>customer_id</code>, <code>amount_cents</code>, and <code>created_at</code> must be present on every event.</li>
+  <li><strong>Type constraints:</strong> <code>order_id</code> is a string; <code>amount_cents</code> is a non-negative integer.</li>
+  <li><strong>Patterns and formats:</strong> <code>order_id</code> must match the regex <code>^ord_[0-9a-z]+$</code>; <code>created_at</code> must be an RFC 3339 timestamp.</li>
+  <li><strong>Nested shapes:</strong> <code>items</code> is an array of objects, each with <code>sku</code> and <code>qty</code> fields.</li>
+  <li><strong>No extra fields:</strong> <code>additionalProperties: false</code> means any field not listed is rejected.</li>
+</ul>
+
+<h2>Assigning schemas to a pipeline</h2>
+<p>Once you've defined a schema, you attach it to a pipeline's payload type during pipeline creation or configuration. When you do, Godzilla validates the payload of every event (the <code>payload</code> field in each <a href="/concepts-events">event object</a>) against that schema.</p>
+<p>If an event payload fails validation, the event is rejected with a validation error rather than being silently corrupted. You can inspect validation failures in the pipeline's error logs and metrics, and decide whether to:</p>
+<ul>
+  <li>Fix the schema if your data model evolved and the schema is stale.</li>
+  <li>Fix the source connector or upstream system that produced the invalid event.</li>
+  <li>Relax the schema temporarily if you're tolerating a transition period.</li>
+</ul>
+
+<h2>Schema evolution</h2>
+<p>Schemas are versioned alongside your pipeline versions. When you update a pipeline's schema:</p>
+<ul>
+  <li><strong>New field:</strong> Add the field to properties. If you make it required, existing events must be updated before they can flow through. If optional, old events pass validation as-is.</li>
+  <li><strong>Field removal:</strong> Remove it from properties. Old events with that field will fail validation unless you allow <code>additionalProperties</code> or explicitly tolerate it.</li>
+  <li><strong>Type change:</strong> Changing a field's type is a breaking change — old events will fail the new schema. Use a <a href="/guides/transforming-events-in-flight">transform</a> to coerce or normalize values before the validation point if needed.</li>
+</ul>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Schema as documentation</div>
+  <div class='alert__body'><p>Schemas also serve as machine-readable documentation of your event contract. Tools and dashboards can introspect the schema to show users what fields to expect and which are required.</p></div>
+</div>
+
+<h2>Validation and error handling</h2>
+<p>When a validation error occurs, the event is:</p>
+<ol>
+  <li>Rejected at the validation step.</li>
+  <li>Logged with details about what failed (missing field, type mismatch, pattern violation, etc.).</li>
+  <li>Subject to your pipeline's <a href="/guides/handling-errors-and-retries">retry and dead-letter</a> settings.</li>
+</ol>
+<p>Invalid events do not proceed to transforms or destinations — they stay in the dead-letter queue until you investigate and either repair the source or adjust the schema.</p>
+
+<h2>Related concepts</h2>
+<ul>
+  <li><a href="/concepts-events">Events</a> — the data flowing through your pipeline and the structure they must conform to.</li>
+  <li><a href="/concepts-pipelines">Pipelines</a> — where schemas are attached and enforced.</li>
+  <li><a href="/guides/transforming-events-in-flight">Transforming events in flight</a> — how to reshape or normalize data within a pipeline.</li>
+  <li><a href="/guides/handling-errors-and-retries">Handling errors & retries</a> — what happens to invalid events and how to replay them.</li>
+</ul>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
