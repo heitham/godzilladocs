@@ -13,9 +13,6 @@ Generated from published output — 34 pages.
 | `/concepts-events` | Events |
 | `/concepts-pipelines` | Pipelines |
 | `/concepts-schemas` | Schemas |
-| `/getting-started-authentication` | Authentication |
-| `/getting-started-installation` | Installation |
-| `/getting-started-quickstart` | Quickstart |
 | `/glossary` | Glossary |
 | `/index` | Godzilla Docs |
 | `/migration-guide-v1-to-v2` | Migration guide (v1 → v2) |
@@ -34,6 +31,15 @@ Generated from published output — 34 pages.
 | `/apis/pipelines` | Pipelines endpoint |
 | `/apis/rate-limits-errors` | Rate limits & errors |
 | `/apis/webhooks` | Webhooks endpoint |
+
+## getting-started
+
+| Path | Title |
+|---|---|
+| `/getting-started/authentication` | Authentication |
+| `/getting-started/index` | Getting Started |
+| `/getting-started/installation` | Installation |
+| `/getting-started/quickstart` | Quickstart |
 
 ## guides
 
