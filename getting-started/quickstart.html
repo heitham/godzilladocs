@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quickstart | Godzilla Docs</title>
-  <meta name="description" content="Go from zero to a running pipeline in five minutes.">
+  <meta name="description\" content="Go from zero to a running pipeline in five minutes.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -64,10 +64,12 @@
 <h1>Quickstart</h1>
 <p>The fastest path from zero to a running <a href="/concepts/pipelines">pipeline</a>.</p>
 
-<h2>1. Get an API key</h2>
-<p>See <a href="/getting-started/authentication">Authentication</a> if you don't have one yet.</p>
+<div class='alert alert--info'>
+  <div class='alert__title'>Prerequisites</div>
+  <div class='alert__body'><p>This guide assumes you've completed the <a href="/getting-started/installation">Installation</a> steps and have an API key from <a href="/getting-started/authentication">Authentication</a>.</p></div>
+</div>
 
-<h2>2. Create a pipeline</h2>
+<h2>Create a pipeline</h2>
 
 <h3>Bash</h3>
 <div class='code-block'>
@@ -78,7 +80,7 @@
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '{\"name\":\"my-first-pipeline\",\"source_connector_id\":\"conn_demo_source\",\"destination_connector_id\":\"conn_demo_dest\"}'</code></pre>
+  -d '{"name":"my-first-pipeline","source_connector_id":"conn_demo_source","destination_connector_id":"conn_demo_dest"}'</code></pre>
 </div>
 
 <h3>Go</h3>
@@ -109,7 +111,7 @@ func main() {
 }</code></pre>
 </div>
 
-<h2>3. Watch it run</h2>
+<h2>Watch it run</h2>
 <p>Subscribe to <code>pipeline.completed</code> via <a href="/api/webhooks">Webhooks</a>, or poll the <a href="/api/events">Events endpoint</a> to see events as they're processed.</p>
 
 <div class='alert alert--success'>
