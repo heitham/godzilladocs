@@ -4,7 +4,6 @@
 
 ## Pages
 - [Changelog](https://localhost:4310/changelog): Recent changes to the Godzilla API and platform.
-- [Connectors](https://localhost:4310/concepts-connectors): What a connector is in Godzilla: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
 - [Events](https://localhost:4310/concepts-events): What an event is in Godzilla: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.
 - [Glossary](https://localhost:4310/glossary): Definitions for Godzilla's core terms, each linking to its full explanation.
 - [Godzilla Docs](https://localhost:4310/index): Everything you need to build data pipelines on the Godzilla platform.
@@ -25,6 +24,7 @@
 
 ## concepts
 - [Concepts](https://localhost:4310/concepts/concepts): The three core building blocks of Godzilla: pipelines, connectors, and events.
+- [Connectors](https://localhost:4310/concepts/concepts-connectors): What a connector is in Godzilla: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
 - [Pipelines](https://localhost:4310/concepts/concepts-pipelines): What a pipeline is in Godzilla: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
 
 ## getting-started
