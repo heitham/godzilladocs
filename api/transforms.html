@@ -90,8 +90,10 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \\\\\\n  -H \\\"Authorization: Bearer $GODZILLA_API_KEY\\\" \\\\\\n  -H \\\"Content-Type: application/json\\\" \\\\\\n  -d '&#123;\\n    \\\"name\\\": \\\"filter-large-orders\\\",\\n    \\\"type\\\": \\\"filter\\\",\\n    \\\"config\\\": &#123; \\\"condition\\\": \\\"amount > 100\\\" &#125;\\n  &#125;'</code></pre>
-</div>\n\n<h2 id="list">List transform steps</h2>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \\\\\\\\\\\\n  -H \\\\\\\"Authorization: Bearer $GODZILLA_API_KEY\\\\\\\" \\\\\\\\\\\\n  -H \\\\\\\"Content-Type: application/json\\\\\\\" \\\\\\\\\\\\n  -d '&#123;\\\\n    \\\\\\\"name\\\\\\\": \\\\\\\"filter-large-orders\\\\\\\",\\\\n    \\\\\\\"type\\\\\\\": \\\\\\\"filter\\\\\\\",\\\\n    \\\\\\\"config\\\\\\\": &#123; \\\\\\\"condition\\\\\\\": \\\\\\\"amount > 100\\\\\\\" &#125;\\\\n  &#125;'</code></pre>
+</div>
+
+<h2 id="list">List transform steps</h2>
 <p><code>GET /v2/pipelines/{pipeline_id}/transforms</code> — returns all transform steps for a pipeline in order.</p>
 
 <div class='code-block'>
@@ -100,8 +102,10 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \\\\\\n  -H \\\"Authorization: Bearer $GODZILLA_API_KEY\\\"</code></pre>
-</div>\n\n<h2 id="order">Transform execution order</h2>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \\\\\\\\\\\\n  -H \\\\\\\"Authorization: Bearer $GODZILLA_API_KEY\\\\\\\"</code></pre>
+</div>
+
+<h2 id="order">Transform execution order</h2>
 <p>Transform steps execute in the order specified by their <code>order</code> field. Events flow sequentially through each step: output from one step becomes input to the next. If a filter step rejects an event, remaining steps are skipped.</p>
 
 <div class='alert alert--warning'>
@@ -116,6 +120,8 @@
   <div class='docs-toc__heading'>On this page</div>
   <ul class='docs-toc__list'><li><a href="#create">Create a transform step</a></li><li><a href="#list">List transform steps</a></li><li><a href="#order">Transform execution order</a></li></ul>
 </nav>
+
+<p style="color: #6b625c; font-size: 0.875rem; margin-top: 4rem;">Last reviewed: 2026-09-01</p>
 </main>
 
 </div>

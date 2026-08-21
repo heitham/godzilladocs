@@ -90,8 +90,10 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\\\\n  -H \\\"Authorization: Bearer $GODZILLA_API_KEY\\\" \\\\\\n  -H \\\"Content-Type: application/json\\\" \\\\\\n  -d '&#123;\\n    \\\"type\\\": \\\"postgres\\\",\\n    \\\"direction\\\": \\\"source\\\",\\n    \\\"config\\\": &#123; \\\"connection_string\\\": \\\"postgres://...\\\" &#125;\\n  &#125;'</code></pre>
-</div>\n\n<h2 id="rotate">Rotate credentials</h2>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\\\\\\\\\\n  -H \\\\\\\"Authorization: Bearer $GODZILLA_API_KEY\\\\\\\" \\\\\\\\\\\\n  -H \\\\\\\"Content-Type: application/json\\\\\\\" \\\\\\\\\\\\n  -d '&#123;\\\\n    \\\\\\\"type\\\\\\\": \\\\\\\"postgres\\\\\\\",\\\\n    \\\\\\\"direction\\\\\\\": \\\\\\\"source\\\\\\\",\\\\n    \\\\\\\"config\\\\\\\": &#123; \\\\\\\"connection_string\\\\\\\": \\\\\\\"postgres://...\\\\\\\" &#125;\\\\n  &#125;'</code></pre>
+</div>
+
+<h2 id="rotate">Rotate credentials</h2>
 <p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
 
 <div class='alert alert--warning'>
@@ -109,6 +111,8 @@
   <div class='docs-toc__heading'>On this page</div>
   <ul class='docs-toc__list'><li><a href="#create">Create a connector</a></li><li><a href="#rotate">Rotate credentials</a></li><li><a href="#health">Health status</a></li></ul>
 </nav>
+
+<p style="color: #6b625c; font-size: 0.875rem; margin-top: 4rem;">Last reviewed: 2026-09-01</p>
 </main>
 
 </div>
