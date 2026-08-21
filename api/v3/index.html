@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>API Reference | Godzilla Docs</title>
-  <meta name="description" content="The Godzilla v2 REST API is deprecated — migrate to v3 immediately.">
+  <meta name="description" content="The Godzilla v3 REST API: pipelines, connectors, events, webhooks, and rate limits.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-api page-index">
+<body class="folder-api-v3 page-index">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,61 +58,61 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index" class="usa-current">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v3/index" class="usa-current">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/pipelines">Pipelines endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
-<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>API Reference</span></li></ol></nav>
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v3/" class="usa-breadcrumb__link"><span>v3</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>API Reference</span></li></ol></nav>
 <section class='hero'>
   <div class='hero__inner'>
     <h1 class='hero__title'>API Reference</h1>
-    <p class='hero__subtitle'>The Godzilla v2 REST API — now deprecated. Migrate to v3 immediately.</p>
-    <div class='hero__cta'><a href="/api/v3/index">Go to v3 API Reference</a></div>
+    <p class='hero__subtitle'>Every endpoint in the Godzilla v3 REST API, with request/response examples.</p>
+    <div class='hero__cta'><a href="/api/v3/pipelines">Start with Pipelines</a></div>
   </div>
 </section>
 
-<div class='alert alert--danger'>
-  <div class='alert__title'>v2 is withdrawn</div>
-  <div class='alert__body'><p>v2 endpoints no longer accept requests and return <code>410 Gone</code>. Migrate to <a href="/api/v3/index">v3</a> immediately. Use the <a href="/versions/migration-guide-v2-to-v3">v2 → v3 migration guide</a> to update your integration.</p></div>
-</div>
-
 <section>
-  <p>All endpoints live under <code>https://api.godzilladocs.dev/v2</code> and require a bearer API key. <strong>Note: these endpoints are no longer available.</strong></p>
+  <p>All endpoints live under <code>https://api.godzilladocs.dev/v3</code> and require a bearer API key. New to the API? Read <code>Authentication</code> in Getting Started first.</p>
 
-  <a class='card' href='/api/pipelines'>
-  <span class='card__tag'>Endpoint (deprecated)</span>
+  <a class='card' href='/api/v3/pipelines'>
+  <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Pipelines</h3>
   <p class='card__description'>Create, list, and manage pipelines.</p>
 </a>
   <a class='card' href='/api/connectors'>
-  <span class='card__tag'>Endpoint (deprecated)</span>
+  <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Connectors</h3>
   <p class='card__description'>Create, list, and rotate credentials for connectors.</p>
 </a>
   <a class='card' href='/api/transforms'>
-  <span class='card__tag'>Endpoint (deprecated)</span>
+  <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Transforms</h3>
   <p class='card__description'>Create and list transform steps that reshape, filter, and enrich events.</p>
 </a>
-  <a class='card' href='/api/events'>
-  <span class='card__tag'>Endpoint (deprecated)</span>
+  <a class='card' href='/api/v3/events'>
+  <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Events</h3>
   <p class='card__description'>Query and replay events that have flowed through a pipeline.</p>
 </a>
   <a class='card' href='/api/webhooks'>
-  <span class='card__tag'>Endpoint (deprecated)</span>
+  <span class='card__tag'>Endpoint</span>
   <h3 class='card__title'>Webhooks</h3>
   <p class='card__description'>Subscribe to platform lifecycle events over outbound HTTP.</p>
 </a>
   <a class='card' href='/api/rate-limits'>
-  <span class='card__tag'>Reference (deprecated)</span>
+  <span class='card__tag'>Reference</span>
   <h3 class='card__title'>Rate limits</h3>
   <p class='card__description'>Rate limits, pagination, and the request envelope.</p>
 </a>
   <a class='card' href='/api/error-reference'>
-  <span class='card__tag'>Reference (deprecated)</span>
+  <span class='card__tag'>Reference</span>
   <h3 class='card__title'>Error reference</h3>
   <p class='card__description'>Error response shape and error codes.</p>
 </a>
 </section>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>Moving from v2?</div>
+  <div class='alert__body'><p>v2 is no longer supported. See the <a href="/versions/migration-guide-v2-to-v3">v2 → v3 migration guide</a> for guidance on updating your integration.</p></div>
+</div>
 </main>
 
 </div>

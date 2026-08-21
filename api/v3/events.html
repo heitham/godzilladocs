@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Events endpoint | Godzilla Docs</title>
-  <meta name="description" content="Query and replay events that have flowed through a pipeline via the deprecated v2 REST API.">
+  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v3 REST API.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-api page-events">
+<body class="folder-api-v3 page-events">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,20 +58,14 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v3/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/events" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/pipelines">Pipelines endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
-<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Events endpoint</span></li></ol></nav>
-<h1>Events endpoint <span class='chip chip--danger'>v2 deprecated</span></h1>
-
-<div class='alert alert--danger'>
-  <div class='alert__title'>v2 is withdrawn</div>
-  <div class='alert__body'><p>The v2 events endpoint is no longer supported. Please migrate to <a href="/api/v3/events">v3 Events endpoint</a> immediately. See the <a href="/versions/migration-guide-v2-to-v3">v2 → v3 migration guide</a> for guidance.</p></div>
-</div>
-
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v3/" class="usa-breadcrumb__link"><span>v3</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Events endpoint</span></li></ol></nav>
+<h1>Events endpoint <span class='chip chip--primary'>v3</span></h1>
 <p>Query and replay <a href="/concepts/concepts-events">events</a> that have flowed through a pipeline.</p>
 
 <h2 id="list">List events</h2>
-<p><code>GET /v2/pipelines/{pipeline_id}/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>
+<p><code>GET /v3/pipelines/{pipeline_id}/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>
 
 <table class='param-table'>
   <thead>
@@ -93,7 +87,7 @@
 }}}
 
 <h2 id="replay">Replay a dead-lettered event</h2>
-<p><code>POST /v2/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <code>Handling errors &amp; retries</code> guide for when to use this versus reprocessing an entire time range.</p>
+<p><code>POST /v3/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <code>Handling errors &amp; retries</code> guide for when to use this versus reprocessing an entire time range.</p>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Platform events</div>
