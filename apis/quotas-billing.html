@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotas &amp; billing | Godzilla Docs</title>
+  <meta name="description" content="Plan tiers, request quotas, and what happens when an account exceeds its limit.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-apis page-quotas-billing">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Quotas &amp; billing <span class='chip chip--primary'>v2</span></h1>
+
+<p>Godzilla offers tiered plans with different request rate limits and features. Your plan determines how many API requests your workspace can make per minute, and what happens when you exceed that limit.</p>
+
+<h2 id="plan-tiers">Plan tiers</h2>
+
+<p>Choose the plan that fits your usage. All plans include full API access to pipelines, connectors, transforms, events, and webhooks.</p>
+
+{{ds:component/code-block|filename=plan-comparison.json|language=json|code={\n  "plans": [\n    {\n      "name": "Starter",\n      "requests_per_minute": 100,\n      "monthly_price": "Free",\n      "features": ["Up to 3 connectors", "Email support"]\n    },\n    {\n      "name": "Standard",\n      "requests_per_minute": 1000,\n      "monthly_price": "$99",\n      "features": ["Unlimited connectors", "Priority support"]\n    },\n    {\n      "name": "Enterprise",\n      "requests_per_minute": "Custom",\n      "monthly_price": "Custom",\n      "features": ["Custom limits", "Dedicated support", "SLA"]\n    }\n  ]\n}}}}\n\n<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0;">\n  <div class='stat-card'>
+  <div class='stat-card__value'>100</div>
+  <div class='stat-card__label'>requests / minute</div>
+  <p class='stat-card__description'>Starter plan — suitable for testing and low-traffic integrations.</p>
+</div>\n  <div class='stat-card'>
+  <div class='stat-card__value'>1,000</div>
+  <div class='stat-card__label'>requests / minute</div>
+  <p class='stat-card__description'>Standard plan — most production workloads.</p>
+</div>\n  <div class='stat-card'>
+  <div class='stat-card__value'>Custom</div>
+  <div class='stat-card__label'>requests / minute</div>
+  <p class='stat-card__description'>Enterprise plan — contact sales for custom limits.</p>
+</div>\n</div>\n\n<h2 id="exceeding-quota">What happens when you exceed your quota</h2>\n\n<p>When your workspace reaches its rate limit, new API requests receive a <code>429 Too Many Requests</code> response.</p>\n\n{{ds:component/code-block|filename=rate-limit-response.json|language=json|code=HTTP/1.1 429 Too Many Requests\nX-RateLimit-Limit: 1000\nX-RateLimit-Remaining: 0\nX-RateLimit-Reset: 1693430400\nRetry-After: 60\n\n{\n  "error": {\n    "code": "rate_limit_exceeded",\n    "message": "Rate limit of 1000 requests per minute exceeded. Try again after 60 seconds.",\n    "request_id": "req_a1b2c3d4"\n  }\n}}}\n\n<h3>Response headers</h3>\n\n<p>Every API response includes three rate limit headers:</p>\n\n<ul>\n  <li><code>X-RateLimit-Limit</code>: Your workspace's requests-per-minute limit.</li>\n  <li><code>X-RateLimit-Remaining</code>: How many requests you have left in the current minute.</li>\n  <li><code>X-RateLimit-Reset</code>: Unix timestamp when the limit resets.</li>\n</ul>\n\n<p>When a request is rejected for exceeding the limit, you'll also see a <code>Retry-After</code> header indicating how many seconds to wait before retrying.</p>\n\n<h3>Best practices</h3>\n\n<ul>\n  <li><strong>Monitor your headers:</strong> Check <code>X-RateLimit-Remaining</code> before hitting the limit. When it drops below 10% of your quota, consider slowing your request rate.</li>\n  <li><strong>Use exponential backoff:</strong> If you hit a 429, wait the duration in <code>Retry-After</code>, then retry. If you hit another 429, double the wait time.</li>\n  <li><strong>Batch operations:</strong> Group multiple operations into a single API call when possible (e.g., create multiple transforms in one request).</li>\n  <li><strong>Upgrade your plan:</strong> If you consistently hit your limit, your usage may have outgrown your current plan. Upgrade to the next tier or <a href='/support'>contact sales</a> for a custom arrangement.</li>\n</ul>\n\n<h2 id="upgrade">Upgrading your plan</h2>\n\n<p>To upgrade or change plans, visit your account settings and select a new plan under Billing. Changes take effect immediately, and you'll be prorated based on your current billing cycle.</p>\n\n<p>For Enterprise plans or custom rate limits, <a href='/support'>contact our sales team</a>.</p>\n\n<h2 id="related">Related</h2>\n\n<ul>\n  <li><a href='/apis/rate-limits-errors'>Rate limits &amp; errors</a> — detailed information on rate limit headers and error responses.</li>\n  <li><a href='/getting-started-authentication'>Authentication</a> — how to authenticate API requests with your API key.</li>\n</ul>\n\n<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href='#plan-tiers'>Plan tiers</a></li><li><a href='#exceeding-quota'>What happens when you exceed your quota</a></li><li><a href='#upgrade'>Upgrading your plan</a></li><li><a href='#related'>Related</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
