@@ -68,14 +68,25 @@
 <p>Generate one from your workspace settings. Keys are scoped to a single workspace and inherit the standard rate limit described in <a href="/api/v2/rate-limits-errors">Rate limits & errors</a>.</p>
 
 <h2>Using the key</h2>
+
+<h3>With curl</h3>
 <div class='code-block'>
   <div class='code-block__header'>
     <span class='code-block__filename'>terminal</span>
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines \
-  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+</div>
+
+<h3>With Go SDK</h3>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>main.go</span>
+    <span class='code-block__lang'>go</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>package main\n\nimport (\n\t"context"\n\t"fmt"\n\t"os"\n\n\t"github.com/godzilla-sh/godzilla-go"\n)\n\nfunc main() &#123;\n\t// The SDK reads GODZILLA_API_KEY from the environment\n\tclient := godzilla.NewClient(\n\t\tos.Getenv("GODZILLA_API_KEY"),\n\t)\n\n\tpipelines, err := client.Pipelines.List(context.Background())\n\tif err != nil &#123;\n\t\tfmt.Fprintf(os.Stderr, "Error: %v\n", err)\n\t\tos.Exit(1)\n\t&#125;\n\n\tfmt.Printf("Found %d pipelines\n", len(pipelines))\n&#125;</code></pre>
 </div>
 
 <div class='alert alert--danger'>
