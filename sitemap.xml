@@ -101,10 +101,6 @@
     <lastmod>2026-08-21</lastmod>
   </url>
   <url>
-    <loc>https://localhost:4310/apis/quotas-and-billing</loc>
-    <lastmod>2026-08-21</lastmod>
-  </url>
-  <url>
     <loc>https://localhost:4310/recipes/backfill-historical-data</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
@@ -154,6 +150,10 @@
   </url>
   <url>
     <loc>https://localhost:4310/api/events</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:4310/api/quotas-and-billing</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
 </urlset>
