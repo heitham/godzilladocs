@@ -61,7 +61,17 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v3/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/v3/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/v3/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/v3/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v3/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v3/" class="usa-breadcrumb__link"><span>v3</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Connectors endpoint</span></li></ol></nav>
-<h1>Connectors endpoint <span class='chip chip--success'>v3</span></h1>\n<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--success'>Stable</span></p>\n\n<p>Create and manage <a href=/concepts/concepts-connectors>connectors</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>\n\n<p><strong>v3 is the current API version.</strong> <a href=/api/v2/connectors>v2 docs remain available</a> for users still on the previous version.</p>\n\n<h2 id=create>Create a connector</h2>\n<p><code>POST /v3/connectors</code></p>\n\n<table class='param-table'>
+<h1>Connectors endpoint <span class='chip chip--success'>v3</span></h1>
+<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--success'>Stable</span></p>
+
+<p>Create and manage <a href="/concepts/concepts-connectors">connectors</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
+
+<p><strong>v3 is the current API version.</strong> <a href="/api/v2/connectors">v2 docs remain available</a> for users still on the previous version.</p>
+
+<h2 id=create>Create a connector</h2>
+<p><code>POST /v3/connectors</code></p>
+
+<table class='param-table'>
   <thead>
     <tr>
       <th>Name</th>
@@ -71,7 +81,15 @@
     </tr>
   </thead>
   <tbody><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable connector name, unique per workspace.</td></tr><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>Connector type (e.g., <code>postgres</code>, <code>snowflake</code>, <code>kafka</code>).</td></tr><tr><td><code>credentials</code></td><td>object</td><td>Yes</td><td>Type-specific credential object (e.g., <code>host</code>, <code>port</code>, <code>username</code>).</td></tr></tbody>
-</table>\n\n<h2 id=list>List connectors</h2>\n<p><code>GET /v3/connectors</code> — cursor-paginated with the same pagination envelope as pipelines.</p>\n\n<h2 id=rotate>Rotate credentials</h2>\n<p><code>POST /v3/connectors/{connector_id}/rotate-credentials</code> — safely update a connector's credentials without interrupting pipelines using it.</p>\n\n<nav class='docs-toc' aria-label='On this page'>
+</table>
+
+<h2 id=list>List connectors</h2>
+<p><code>GET /v3/connectors</code> — cursor-paginated with the same pagination envelope as pipelines.</p>
+
+<h2 id=rotate>Rotate credentials</h2>
+<p><code>POST /v3/connectors/{connector_id}/rotate-credentials</code> — safely update a connector's credentials without interrupting pipelines using it.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
   <ul class='docs-toc__list'><li><a href=#create>Create a connector</a></li><li><a href=#list>List connectors</a></li><li><a href=#rotate>Rotate credentials</a></li></ul>
 </nav>

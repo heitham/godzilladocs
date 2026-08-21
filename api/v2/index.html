@@ -63,14 +63,56 @@
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v2/" class="usa-breadcrumb__link"><span>v2</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>API Reference</span></li></ol></nav>
 <div class='alert alert--danger'>
   <div class='alert__title'>v2 is no longer supported</div>
-  <div class='alert__body'><p><strong>The v2 API has been fully deprecated and all endpoints are offline.</strong> v2 no longer accepts any requests.</p><p><strong>Migrate immediately to the <a href=/api/v3/index>v3 API</a>.</strong> See the <a href=/versions/migration-guide-v2-to-v3>v2 → v3 migration guide</a> for detailed upgrade instructions.</p></div>
-</div>\n\n<section class='hero'>
+  <div class='alert__body'><p><strong>The v2 API has been fully deprecated and all endpoints are offline.</strong> v2 no longer accepts any requests.</p><p><strong>Migrate immediately to the <a href="/api/v3/index">v3 API</a>.</strong> See the <a href="/versions/migration-guide-v2-to-v3">v2 → v3 migration guide</a> for detailed upgrade instructions.</p></div>
+</div>
+
+<section class='hero'>
   <div class='hero__inner'>
     <h1 class='hero__title'>API Reference (v2 — Offline)</h1>
     <p class='hero__subtitle'>This documentation is archived. The v2 API is no longer available.</p>
-    <div class='hero__cta'><a href=/api/v3/index>Go to v3 API Reference</a></div>
+    <div class='hero__cta'><a href="/api/v3/index">Go to v3 API Reference</a></div>
   </div>
-</section>\n\n<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--danger'>Deprecated</span></p>\n\n<section>\n  <h2>Why v2 is offline</h2>\n  \n  <p>v3 shipped with significant improvements to events filtering, error handling, and endpoint consistency. To ensure the reliability of the platform, v2 endpoints have been decommissioned.</p>\n\n  <h2>Migration required</h2>\n\n  <p>All v2 API users must migrate to v3. The main changes:</p>\n\n  <ul>\n    <li><strong>Base URL:</strong> <code>https://api.godzilladocs.dev/v2</code> → <code>https://api.godzilladocs.dev/v3</code></li>\n    <li><strong>Events filtering:</strong> <code>type</code> parameter → <code>status</code> (success/failed/pending)</li>\n    <li><strong>Event replay:</strong> Path now includes pipeline ID: <code>/v3/pipelines/{pipeline_id}/events/{id}/replay</code></li>\n    <li><strong>Error responses:</strong> Enhanced error details with request IDs for debugging</li>\n  </ul>\n\n  <p><a href=/versions/migration-guide-v2-to-v3>Read the full v2 → v3 migration guide →</a></p>\n\n  <h2>Endpoints (offline)</h2>\n\n  <p>These v2 endpoints are no longer available:</p>\n\n  <ul>\n    <li><code>GET /v2/pipelines</code></li>\n    <li><code>POST /v2/pipelines</code></li>\n    <li><code>GET /v2/pipelines/{id}</code></li>\n    <li><code>GET /v2/pipelines/{id}/events</code></li>\n    <li><code>POST /v2/events/{id}/replay</code></li>\n    <li><code>POST /v2/connectors</code></li>\n    <li><code>GET /v2/connectors</code></li>\n    <li><code>POST /v2/webhooks</code></li>\n    <li><code>GET /v2/webhooks</code></li>\n    <li>And all other v2 endpoints.</li>\n  </ul>\n\n  <p><strong>Use the <a href=/api/v3/index>v3 API Reference</a> instead.</strong></p>\n</section>
+</section>
+
+<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--danger'>Deprecated</span></p>
+
+<section>
+  <h2>Why v2 is offline</h2>
+  
+  <p>v3 shipped with significant improvements to <a href="/concepts/concepts-events">events</a> filtering, error handling, and endpoint consistency. To ensure the reliability of the platform, v2 endpoints have been decommissioned.</p>
+
+  <h2>Migration required</h2>
+
+  <p>All v2 API users must migrate to v3. The main changes:</p>
+
+  <ul>
+    <li><strong>Base URL:</strong> <code>https://api.godzilladocs.dev/v2</code> → <code>https://api.godzilladocs.dev/v3</code></li>
+    <li><strong>Events filtering:</strong> <code>type</code> parameter → <code>status</code> (success/failed/pending)</li>
+    <li><strong>Event replay:</strong> Path now includes pipeline ID: <code>/v3/pipelines/{pipeline_id}/events/{id}/replay</code></li>
+    <li><strong>Error responses:</strong> Enhanced error details with request IDs for debugging</li>
+  </ul>
+
+  <p><a href="/versions/migration-guide-v2-to-v3">Read the full v2 → v3 migration guide →</a></p>
+
+  <h2>Endpoints (offline)</h2>
+
+  <p>These v2 endpoints are no longer available:</p>
+
+  <ul>
+    <li><code>GET /v2/pipelines</code></li>
+    <li><code>POST /v2/pipelines</code></li>
+    <li><code>GET /v2/pipelines/{id}</code></li>
+    <li><code>GET /v2/pipelines/{id}/events</code></li>
+    <li><code>POST /v2/events/{id}/replay</code></li>
+    <li><code>POST /v2/connectors</code></li>
+    <li><code>GET /v2/connectors</code></li>
+    <li><code>POST /v2/webhooks</code></li>
+    <li><code>GET /v2/webhooks</code></li>
+    <li>And all other v2 endpoints.</li>
+  </ul>
+
+  <p><strong>Use the <a href="/api/v3/index">v3 API Reference</a> instead.</strong></p>
+</section>
 </main>
 
 </div>

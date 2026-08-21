@@ -61,7 +61,15 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v2/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/v2/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/v2/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/v2/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/v2/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/v2/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/v2/" class="usa-breadcrumb__link"><span>v2</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Connectors endpoint</span></li></ol></nav>
-<h1>Connectors endpoint <span class='chip chip--primary'>v2</span></h1>\n<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--danger'>Deprecated</span></p>\n\n<p>Manage <a href=/concepts/concepts-connectors>connectors</a> — the source and destination integrations pipelines read from and write to.</p>\n\n<h2 id=create>Create a connector</h2>\n<p><code>POST /v2/connectors</code></p>\n\n<table class='param-table'>
+<h1>Connectors endpoint <span class='chip chip--primary'>v2</span></h1>
+<p style="margin-bottom: var(--space-lg);"><strong>Stability:</strong> <span class='chip chip--danger'>Deprecated</span></p>
+
+<p>Manage <a href="/concepts/concepts-connectors">connectors</a> — the source and destination integrations pipelines read from and write to.</p>
+
+<h2 id=create>Create a connector</h2>
+<p><code>POST /v2/connectors</code></p>
+
+<table class='param-table'>
   <thead>
     <tr>
       <th>Name</th>
@@ -71,17 +79,29 @@
     </tr>
   </thead>
   <tbody><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>postgres</code>, <code>s3</code>, <code>snowflake</code>, <code>kafka</code>, <code>webhook</code>.</td></tr><tr><td><code>direction</code></td><td>string</td><td>Yes</td><td><code>source</code>, <code>destination</code>, or <code>bidirectional</code> (webhook only).</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific connection details, e.g. connection string or IAM role ARN.</td></tr></tbody>
-</table>\n\n<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>create-connector.sh</span>
-    <span class='code-block__lang'>bash</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '&#123;\n    \"type\": \"postgres\",\n    \"direction\": \"source\",\n    \"config\": &#123; \"connection_string\": \"postgres://...\" &#125;\n  &#125;'</code></pre>
-</div>\n\n<h2 id=rotate>Rotate credentials</h2>\n<p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>\n\n<div class='alert alert--warning'>
+</table>
+
+{{ds:component/code-block|filename=create-connector.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "postgres",
+    "direction": "source",
+    "config": { "connection_string": "postgres://..." }
+  }'}}
+
+<h2 id=rotate>Rotate credentials</h2>
+<p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
+
+<div class='alert alert--warning'>
   <div class='alert__title'>Shared connectors</div>
   <div class='alert__body'><p>A connector referenced by multiple pipelines is rotated once, for all of them. Check a connector's <code>pipeline_count</code> field before rotating during a busy window.</p></div>
-</div>\n\n<h2 id=health>Health status</h2>\n<p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>\n\n<nav class='docs-toc' aria-label='On this page'>
+</div>
+
+<h2 id=health>Health status</h2>
+<p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
   <ul class='docs-toc__list'><li><a href=#create>Create a connector</a></li><li><a href=#rotate>Rotate credentials</a></li><li><a href=#health>Health status</a></li></ul>
 </nav>
