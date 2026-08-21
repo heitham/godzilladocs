@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Handling errors &amp; retries | Godzilla Docs</title>
+  <title>Error handling &amp; recovery | Godzilla Docs</title>
   <meta name="description" content="How Godzilla retries failed events, when they're dead-lettered, and how to replay them.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
@@ -61,7 +61,7 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries" class="usa-current">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Handling errors &amp; retries</h1>
+<h1>Error handling &amp; recovery</h1>
 <p>Every <a href="/concepts-events">event</a> that fails a transform or a destination write is retried automatically. This guide covers how that works and what to do when retries run out.</p>
 
 <h2>Automatic retries</h2>
