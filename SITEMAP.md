@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 31 pages.
+Generated from published output — 34 pages.
 
 ## (root)
 
@@ -45,6 +45,14 @@ Generated from published output — 31 pages.
 | `/guides/index` | Guides |
 | `/guides/monitoring-and-alerts` | Monitoring & alerts |
 | `/guides/scheduling-and-triggers` | Scheduling & triggers |
+
+## recipes
+
+| Path | Title |
+|---|---|
+| `/recipes/backfill-historical-data` | Backfill historical data |
+| `/recipes/fan-out-to-multiple-destinations` | Fan-out to multiple destinations |
+| `/recipes/index` | Recipes |
 
 ## sdks
 

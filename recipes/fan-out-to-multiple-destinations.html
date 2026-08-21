@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fan-out to multiple destinations | Godzilla Docs</title>
+  <meta name="description" content="Write a single event stream to multiple destination systems simultaneously.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-recipes page-fan-out-to-multiple-destinations">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations" class="usa-current">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Fan-out to multiple destinations</h1>
+<p>In real-world data architectures, you often need to send the same event stream to multiple destination systems — a data warehouse for analytics, a search index for product search, a real-time API for notifications, and so on. This recipe shows how to fan out a single pipeline's output across several destinations.</p>
+
+<h2>The pattern</h2>
+<p>Each Godzilla pipeline has one source and one destination. To fan out to multiple destinations, create one pipeline per destination, all reading from the same source connector:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>fanout-pattern.txt</span>
+    <span class='code-block__lang'>text</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>Source (Kafka topic)
+  ├─ Pipeline A ──> Snowflake (analytics)
+  ├─ Pipeline B ──> Elasticsearch (search)
+  └─ Pipeline C ──> DynamoDB (real-time API)</code></pre>
+</div>
+
+<p>All three pipelines read the same events in the same order, but transform and deliver them to their respective destinations independently.</p>
+
+<h2>Set up a shared source connector</h2>
+<p>First, create a single source connector for the data you want to fan out. This example uses a Kafka topic:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-kafka-source.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{
+    "type": "kafka",
+    "direction": "source",
+    "config": {
+      "bootstrap_servers": "kafka.example.com:9092",
+      "topic": "user-events",
+      "consumer_group": "godzilla-fan-out"
+    }
+  }'</code></pre>
+</div>
+
+<p>Store the returned <code>connector_id</code> (e.g., <code>conn_kafka_users</code>) — you'll use it for all downstream pipelines.</p>
+
+<h2>Create destination connectors</h2>
+<p>Next, create one destination connector for each system you're fanning out to:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-destinations.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'># Snowflake for analytics
+curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{
+    "type": "snowflake",
+    "direction": "destination",
+    "config": {"account": "xy12345.us-east-1", "warehouse": "COMPUTE_WH"}
+  }'
+
+# Elasticsearch for search
+curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{
+    "type": "elasticsearch",
+    "direction": "destination",
+    "config": {"hosts": ["elastic.example.com:9200"]}
+  }'
+
+# DynamoDB for real-time API
+curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{
+    "type": "dynamodb",
+    "direction": "destination",
+    "config": {"table_name": "user-events", "region": "us-east-1"}
+  }'</code></pre>
+</div>
+
+<h2>Create one pipeline per destination</h2>
+<p>Now create a pipeline for each destination, all using the same source connector:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-fanout-pipelines.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'># Pipeline to Snowflake
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{
+    "name": "user-events-to-snowflake",
+    "source_connector_id": "conn_kafka_users",
+    "destination_connector_id": "conn_snowflake_analytics"
+  }'
+
+# Pipeline to Elasticsearch
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{
+    "name": "user-events-to-elasticsearch",
+    "source_connector_id": "conn_kafka_users",
+    "destination_connector_id": "conn_elasticsearch_search"
+  }'
+
+# Pipeline to DynamoDB
+curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{
+    "name": "user-events-to-dynamodb",
+    "source_connector_id": "conn_kafka_users",
+    "destination_connector_id": "conn_dynamodb_api"
+  }'</code></pre>
+</div>
+
+<h2>Transform events per destination</h2>
+<p>Each pipeline can apply different <a href="/guides/transforming-events-in-flight">transformations</a> before writing to its destination. For example, reshape data for Elasticsearch's flat schema, or extract only the fields DynamoDB needs:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>transformation-example.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "type": "jq",
+  "expr": "{ id: .user_id, name: .user_name, email: .user_email, updated_at: now }"
+}</code></pre>
+</div>
+
+<h2>Monitor all pipelines</h2>
+<p>Each pipeline has independent monitoring and alerts. Use the <a href="/apis/pipelines">Pipelines endpoint</a> to check the health of each fan-out branch. See <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a> for setting up per-pipeline notifications.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Ordering and delivery</div>
+  <div class='alert__body'><p>All three pipelines will receive events in the same order (because they read from the same Kafka partition group), but they may write to their destinations at slightly different rates depending on network latency and destination throughput. If your use case requires strict ordering across all destinations, use a single pipeline with a custom transformation that writes to all three systems in a transaction, or consider using a message queue pattern instead.</p></div>
+</div>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/recipes/backfill-historical-data'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Backfill historical data</span>
+  </a>
+  <a class='docs-pagination__next' href='/recipes/index'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Recipes</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
