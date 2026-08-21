@@ -78,7 +78,7 @@
 </div>
 
 <h2>2. Status checks: polling → webhooks</h2>
-<p>v1 had no push notifications — you polled a pipeline's status endpoint. v2 replaces this with the <a href="/apis/webhooks">Webhooks endpoint</a>: subscribe to <code>pipeline.completed</code> and <code>pipeline.failed</code> instead of polling.</p>
+<p>v1 had no push notifications — you polled a pipeline's status endpoint. v2 replaces this with the <a href="/api/webhooks">Webhooks endpoint</a>: subscribe to <code>pipeline.completed</code> and <code>pipeline.failed</code> instead of polling.</p>
 
 <h2>3. Error shape</h2>
 <p>v1 returned bare error strings. v2 wraps every error in an object with a stable <code>code</code> field. Update any error handling that matched on message text — see <a href="/api/rate-limits-errors#errors">the error shape reference</a>.</p>
