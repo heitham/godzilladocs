@@ -69,11 +69,13 @@
   <p class='stat-card__description'>Default rate limit for standard-tier API keys, per workspace.</p>
 </div>
 
+<p><strong>For quota and billing information:</strong> See <a href="/apis/quotas-and-billing">Quotas &amp; billing</a> to learn about plan tiers, monthly request limits, and what happens when you exceed your quota.</p>
+
 <h2 id="headers">Rate limit headers</h2>
 <p>Every response includes <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code>. A request over the limit returns <code>429 Too Many Requests</code> with a <code>Retry-After</code> header.</p>
 
 <h2 id="pagination">Pagination</h2>
-<p>List endpoints (<a href="/concepts-pipelines#list">Pipelines</a>, Connectors, <a href="/concepts-events">Events</a>) use cursor-based pagination — a departure from v1's offset-based pagination.</p>
+<p>List endpoints (<a href="/concepts-pipelines">Pipelines</a>, Connectors, <a href="/concepts-events">Events</a>) use cursor-based pagination — a departure from v1's offset-based pagination.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
