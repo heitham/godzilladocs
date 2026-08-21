@@ -1,0 +1,53 @@
+# Godzilla Docs
+
+> Everything you need to build data pipelines on the Godzilla platform.
+
+## Pages
+- [Authentication](https://localhost:4310/getting-started-authentication): Authenticate API requests with a bearer API key.
+- [Changelog](https://localhost:4310/changelog): Recent changes to the Godzilla API and platform.
+- [Concepts](https://localhost:4310/concepts): The three core building blocks of Godzilla: pipelines, connectors, and events.
+- [Connectors](https://localhost:4310/concepts-connectors): What a connector is in Godzilla: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
+- [Events](https://localhost:4310/concepts-events): What an event is in Godzilla: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.
+- [Glossary](https://localhost:4310/glossary): Definitions for Godzilla's core terms, each linking to its full explanation.
+- [Godzilla Docs](https://localhost:4310/index): Everything you need to build data pipelines on the Godzilla platform.
+- [Migration guide (v1 → v2)](https://localhost:4310/migration-guide-v1-to-v2): Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.
+- [Pipelines](https://localhost:4310/concepts-pipelines): What a pipeline is in Godzilla: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
+- [Quickstart](https://localhost:4310/getting-started-quickstart): Go from zero to a running pipeline in five minutes.
+- [Release notes archive](https://localhost:4310/release-notes-archive): Older v1-era release notes, superseded by the current changelog.
+- [Schemas](https://localhost:4310/concepts-schemas): How to declare and validate event payload shapes across your pipelines.
+- [Security & compliance overview](https://localhost:4310/security-and-compliance): How Godzilla handles data in transit and at rest, credential storage, and compliance posture.
+- [Support / Contact](https://localhost:4310/support): How to reach the Godzilla team for support, sales, or security reports.
+- [Troubleshooting / FAQ](https://localhost:4310/troubleshooting): Common problems and fixes across pipelines, connectors, and webhooks.
+
+## apis
+- [API Reference](https://localhost:4310/apis/index): The Godzilla v2 REST API: pipelines, connectors, events, webhooks, and rate limits.
+- [Connectors endpoint](https://localhost:4310/apis/connectors): Create, list, and rotate credentials for connectors via the v2 REST API.
+- [Events endpoint](https://localhost:4310/apis/events): Query and replay events that have flowed through a pipeline via the v2 REST API.
+- [Pipelines endpoint](https://localhost:4310/apis/pipelines): Create, list, and manage pipelines via the v2 REST API.
+- [Quotas & billing](https://localhost:4310/apis/quotas-and-billing): Plan tiers, request quotas, and handling quota exceedances.
+- [Rate limits & errors](https://localhost:4310/apis/rate-limits-errors): Standard-tier rate limits, pagination envelope, and the v2 API's error response shape.
+- [Transforms endpoint](https://localhost:4310/apis/transforms): Create and list transform steps that manipulate data within pipelines via the v2 REST API.
+- [Webhooks endpoint](https://localhost:4310/apis/webhooks): Subscribe to Godzilla platform lifecycle events over outbound HTTP via the v2 REST API.
+
+## getting-started
+- [Installation](https://localhost:4310/getting-started/getting-started-installation): Install the Godzilla SDK or start calling the REST API directly.
+
+## guides
+- [Building your first pipeline](https://localhost:4310/guides/building-your-first-pipeline): Create a source connector, a destination connector, and the pipeline that connects them, end to end.
+- [Connecting a data source](https://localhost:4310/guides/connecting-a-data-source): Choose the right connector type and authentication method for a new data source.
+- [Guides](https://localhost:4310/guides/index): Task-oriented walkthroughs for building, connecting, and operating Godzilla pipelines.
+- [Handling errors & retries](https://localhost:4310/guides/handling-errors-and-retries): How Godzilla retries failed events, when they're dead-lettered, and how to replay them.
+- [Monitoring & alerts](https://localhost:4310/guides/monitoring-and-alerts): Watch pipeline health and get notified of failures via webhooks before they become incidents.
+- [Scheduling & triggers](https://localhost:4310/guides/scheduling-and-triggers): Run a pipeline on a cron schedule or trigger it directly from incoming events.
+- [Transforming events in flight](https://localhost:4310/guides/transforming-events-in-flight): Reshape, filter, and enrich events as they pass through a pipeline using transformations.
+
+## recipes
+- [Backfill historical data](https://localhost:4310/recipes/backfill-historical-data): Load historical data into your pipeline and backfill your destination with past events.
+- [Fan-out to multiple destinations](https://localhost:4310/recipes/fan-out-to-multiple-destinations): Route a single pipeline's output to multiple destinations with conditional logic.
+- [Recipes](https://localhost:4310/recipes/index): Practical solutions and patterns for common Godzilla pipeline scenarios.
+
+## sdks
+- [Go SDK](https://localhost:4310/sdks/go): Install and use the Godzilla Go SDK to manage pipelines and connectors from Go.
+- [Node.js SDK](https://localhost:4310/sdks/node-js): Install and use @godzilla/sdk to manage pipelines and connectors from Node.js.
+- [Python SDK](https://localhost:4310/sdks/python): Install and use godzilla-sdk to manage pipelines and connectors from Python.
+- [SDKs](https://localhost:4310/sdks/index): Official Godzilla client libraries for Node.js and Python.
