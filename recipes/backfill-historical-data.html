@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backfill historical data | Godzilla Docs</title>
+  <meta name="description" content="Load historical data into your pipeline to ensure no data is missed when bringing a new destination online.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-recipes page-backfill-historical-data">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data" class="usa-current">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
+<main class="cms-main-content">
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/recipes/" class="usa-breadcrumb__link"><span>recipes</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Backfill historical data</span></li></ol></nav>
+<h2>Overview</h2>
+<p>When connecting a new destination to an existing pipeline, you often want to load all historical data from the source system rather than starting from the current moment. This recipe shows you how to safely backfill data without disrupting your live pipeline.</p>
+
+<h2>Prerequisites</h2>
+<ul>
+  <li>An existing pipeline with at least one source and one destination</li>
+  <li>Access to historical data in your source system (e.g., via batch export or time-range queries)</li>
+  <li>Understanding of pipeline versioning and event replay (see <a href=/guides/handling-errors-and-retries>Handling errors & retries</a>)</li>
+</ul>
+
+<h2>Steps</h2>
+
+<h3>1. Pause the live pipeline</h3>
+<p>Before backfilling, pause your existing pipeline to prevent new events from being processed while you're loading historical data.</p>
+
+{{ds:component/code-block|filename=example.sh|language=bash|code=curl -X PATCH https://api.godzilla.io/v2/pipelines/my-pipeline \\\n  -H "Authorization: Bearer YOUR_API_KEY" \\\n  -d '{\"status\": \"paused\"}'}}
+
+<h3>2. Export historical data from your source</h3>
+<p>Export all historical events from your source system. Most sources support a time-range query or batch export function. Format the data to match your pipeline's event schema.</p>
+
+<h3>3. Create a temporary backfill pipeline</h3>
+<p>Create a new pipeline that reads from a batch source (like a CSV upload or S3 bucket) and writes to your destination. This keeps backfill data separate from live events.</p>
+
+<h3>4. Verify the backfill</h3>
+<p>Confirm that all historical data has been successfully written to your destination before resuming the live pipeline.</p>
+
+<h3>5. Resume the live pipeline</h3>
+<p>Once backfill is complete, resume your original pipeline to continue processing new events.</p>
+
+{{ds:component/code-block|filename=example.sh|language=bash|code=curl -X PATCH https://api.godzilla.io/v2/pipelines/my-pipeline \\\n  -H "Authorization: Bearer YOUR_API_KEY" \\\n  -d '{\"status\": \"running\"}'}}
+
+<h2>Best practices</h2>
+<ul>
+  <li><strong>Test in staging first:</strong> Always dry-run your backfill in a non-production environment</li>
+  <li><strong>Monitor event ordering:</strong> If event order matters, ensure your backfill process maintains chronological order</li>
+  <li><strong>Handle duplicates:</strong> Your destination should be idempotent or have deduplication logic in case of accidental replays</li>
+  <li><strong>Document the backfill:</strong> Record the time range and volume of data backfilled for audit purposes</li>
+</ul>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

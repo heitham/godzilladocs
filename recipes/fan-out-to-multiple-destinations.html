@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fan-out to multiple destinations | Godzilla Docs</title>
+  <meta name="description" content="Route events from a single source to multiple destination systems with different transformation rules.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-recipes page-fan-out-to-multiple-destinations">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations" class="usa-current">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
+<main class="cms-main-content">
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/recipes/" class="usa-breadcrumb__link"><span>recipes</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Fan-out to multiple destinations</span></li></ol></nav>
+<h2>Overview</h2>
+<p>Fan-out is a common pattern where a single data source feeds multiple destination systems, each potentially with different schemas or transformation logic. This recipe shows how to architect a fan-out pattern in Godzilla to keep data in sync across multiple systems.</p>
+
+<h2>Prerequisites</h2>
+<ul>
+  <li>A single source connector configured and running</li>
+  <li>Multiple destination connectors ready to receive data</li>
+  <li>Understanding of pipeline transforms (see <a href=/guides/building-your-first-pipeline>Building your first pipeline</a>)</li>
+</ul>
+
+<h2>Approach 1: Multiple pipelines from one source</h2>
+
+<h3>How it works</h3>
+<p>Create a separate pipeline for each destination, all reading from the same source. Each pipeline can have its own transform logic, error handling, and monitoring.</p>
+
+<h3>Advantages</h3>
+<ul>
+  <li>Complete independence between destinations—a failure in one pipeline doesn't affect others</li>
+  <li>Different SLAs and retry policies per destination</li>
+  <li>Easier to debug and troubleshoot individual data flows</li>
+</ul>
+
+<h3>Disadvantages</h3>
+<ul>
+  <li>Higher infrastructure cost (more pipelines to run and monitor)</li>
+  <li>Duplicate transform logic if destinations share the same schema</li>
+</ul>
+
+<h2>Approach 2: Single pipeline with multiple destinations</h2>
+
+<h3>How it works</h3>
+<p>Create one pipeline that reads from the source and writes to multiple destinations. Use conditional routing in your transforms to send different subsets of data to different destinations if needed.</p>
+
+{{ds:component/code-block|filename=pipeline-config.json|language=json|code={\n  "source": "crm-system",\n  "destinations": [\n    {\n      "name": "data-warehouse",\n      "filter": "event.type == 'customer.updated'"\n    },\n    {\n      "name": "analytics-platform",\n      "filter": "true"\n    },\n    {\n      "name": "email-service",\n      "filter": "event.type == 'customer.created'"\n    }\n  ]\n}}}
+
+<h3>Advantages</h3>
+<ul>
+  <li>Lower operational overhead—one pipeline to monitor and maintain</li>
+  <li>Single transform step applied to all destinations</li>
+  <li>Easier to ensure all destinations see the same data</li>
+</ul>
+
+<h3>Disadvantages</h3>
+<ul>
+  <li>A failure in any destination can block the entire pipeline</li>
+  <li>Less flexibility if destinations need very different data models</li>
+  <li>Harder to apply destination-specific retries or error handling</li>
+</ul>
+
+<h2>Recommended pattern</h2>
+
+<p>For most use cases, we recommend <strong>multiple pipelines with shared transforms</strong>:</p>
+
+<ol>
+  <li>Use a dedicated transform library or stored procedures to avoid duplicating business logic</li>
+  <li>Create one pipeline per destination, but reference the same transform function in each</li>
+  <li>Monitor each pipeline independently while sharing the transform definition</li>
+  <li>Set destination-specific error handling and retry policies as needed</li>
+</ol>
+
+<p>This balances the independence and debuggability of multiple pipelines with the code-reuse benefits of a single transform layer.</p>
+
+<h2>Monitoring fan-out patterns</h2>
+
+<p>When using multiple pipelines, set up alerting to catch skew between destinations:</p>
+
+<ul>
+  <li>Compare event counts across pipelines at regular intervals</li>
+  <li>Alert if one pipeline's lag exceeds a threshold (e.g., more than 5 minutes behind)</li>
+  <li>Monitor dead-letter queues in each pipeline independently</li>
+  <li>Use webhooks to track successful deliveries to each destination</li>
+</ul>
+
+<p>See <a href=/guides/monitoring-and-alerts>Monitoring & alerts</a> for setup details.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
