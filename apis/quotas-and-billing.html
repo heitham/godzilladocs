@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotas &amp; billing | Godzilla Docs</title>
+  <meta name="description" content="Plan tiers, quotas per tier, and what happens when your account exceeds its limits.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-apis page-quotas-and-billing">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-and-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Quotas &amp; billing</h1>
+
+<p>Your Godzilla account operates under a plan tier that defines your request quotas, concurrent connection limits, and billing model. Understanding your limits and what happens when you exceed them helps you plan infrastructure and avoid service interruption.</p>
+
+<h2 id="plan-tiers">Plan tiers</h2>
+
+<p>We offer three plan tiers, each with its own quota for API requests, concurrent event streams, and stored event history:</p>
+
+<table class="param-table">
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th>Requests/min</th>
+      <th>Concurrent streams</th>
+      <th>Event retention</th>
+      <th>Billing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Starter</strong></td>
+      <td>100</td>
+      <td>5</td>
+      <td>7 days</td>
+      <td>Free</td>
+    </tr>
+    <tr>
+      <td><strong>Standard</strong></td>
+      <td>1,000</td>
+      <td>25</td>
+      <td>90 days</td>
+      <td>$99/month</td>
+    </tr>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td>Custom</td>
+      <td>Custom</td>
+      <td>Custom</td>
+      <td>Custom</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Upgrade to a higher tier anytime from your <strong>Account Settings</strong> page. Changes take effect immediately.</p>
+
+<h2 id="exceeding-quota">What happens when you exceed your quota</h2>
+
+<h3>Request rate limits</h3>
+
+<p>When you exceed your plan's request limit, the API returns a <code>429 Too Many Requests</code> response. The response includes a <code>Retry-After</code> header indicating how long to wait (in seconds) before retrying.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>rate-limit-response.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>HTTP/1.1 429 Too Many Requests\nRetry-After: 60\n\n&#123;\n  \"error\": &#123;\n    \"code\": \"rate_limit_exceeded\",\n    \"message\": \"Request limit of 1,000 requests/minute exceeded. Retry after 60 seconds.\",\n    \"request_id\": \"req_abc123\"\n  &#125;\n&#125;</code></pre>
+</div>
+
+<p>To handle rate limits gracefully, implement exponential backoff and respect the <code>Retry-After</code> header. See <a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a> for patterns and code examples.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Rate limit headers</div>
+  <div class='alert__body'><p>Every successful response also includes <code>X-RateLimit-Limit</code> (your quota), <code>X-RateLimit-Remaining</code> (requests left in the current window), and <code>X-RateLimit-Reset</code> (Unix timestamp when the window resets). Use these to anticipate rate limits before hitting them. See <a href="/apis/rate-limits-errors">Rate limits &amp; errors</a> for details on headers.</p></div>
+</div>
+
+<h3>Concurrent stream limits</h3>
+
+<p>Each plan tier supports a maximum number of concurrently open event streams (webhook subscriptions, polling connections, etc.). Attempts to open a stream beyond your limit return a <code>429</code> with code <code>stream_limit_exceeded</code>.</p>
+
+<p>To resolve, either:</p>
+<ul>
+  <li>Close unused streams in your connector dashboard</li>
+  <li>Consolidate multiple streams into a single high-volume subscription</li>
+  <li>Upgrade to a higher tier</li>
+</ul>
+
+<h3>Event retention limits</h3>
+
+<p>Events older than your plan's retention window are automatically deleted. For example, Starter-tier events older than 7 days are purged. To preserve older events, export them to your own database or data warehouse before they expire.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>No recovery after expiry</div>
+  <div class='alert__body'><p>Once an event is purged from Godzilla, it cannot be recovered. Plan your export/archival strategy accordingly.</p></div>
+</div>
+
+<h2 id="monitoring">Monitor your quota usage</h2>
+
+<p>Check your current usage in the <strong>Dashboard → Usage</strong> section. You can see:</p>
+<ul>
+  <li>Current request count within the rolling minute window</li>
+  <li>Active concurrent streams</li>
+  <li>Event storage used vs. plan limit</li>
+</ul>
+
+<p>Enable billing alerts in <strong>Account Settings → Notifications</strong> to receive warnings when approaching rate limits or storage capacity.</p>
+
+<h2 id="upgrade-enterprise">Enterprise &amp; custom quotas</h2>
+
+<p>For workloads exceeding Standard-tier limits, contact sales@godzilla.dev to discuss a custom Enterprise plan. We can provision higher request rates, more concurrent streams, longer retention, and priority support.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#plan-tiers">Plan tiers</a></li><li><a href="#exceeding-quota">What happens when you exceed your quota</a></li><li><a href="#monitoring">Monitor your quota usage</a></li><li><a href="#upgrade-enterprise">Enterprise &amp; custom quotas</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
