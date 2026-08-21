@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforms endpoint | Godzilla Docs</title>
+  <meta name="description" content="Create and list transform steps within a pipeline via the v2 REST API.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-apis page-transforms">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms" class="usa-current">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforms endpoint <span class='chip chip--primary'>v2</span></h1>
+<p>Manage transform steps — the data manipulation and filtering logic that runs between a pipeline's source connector and destination.</p>
+
+<h2 id="create">Create a transform step</h2>
+<p><code>POST /v2/pipelines/{pipeline_id}/transforms</code></p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody><tr><td><code>pipeline_id</code></td><td>string</td><td>Yes</td><td>Unique identifier of the pipeline containing this transform.</td></tr><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable name for the transform step.</td></tr><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>filter</code>, <code>map</code>, <code>aggregate</code>, or <code>custom</code>.</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific configuration. For <code>filter</code>, include a <code>condition</code> expression. For <code>map</code>, include a <code>fields</code> object defining the output schema.</td></tr><tr><td><code>order</code></td><td>integer</td><td>No</td><td>Position in the transform pipeline (0-indexed). If omitted, the transform is appended to the end.</td></tr></tbody>
+</table>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-transform.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines/pipe_demo/transforms \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '&#123;\n    \"name\": \"filter-active-users\",\n    \"type\": \"filter\",\n    \"config\": &#123; \"condition\": \"status == \\\"active\\\"\" &#125;\n  &#125;'</code></pre>
+</div>
+
+<h2 id="list">List transforms</h2>
+<p><code>GET /v2/pipelines/{pipeline_id}/transforms</code> — returns a paginated list of all transform steps in the pipeline, ordered by their execution sequence.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>list-transforms.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_demo/transforms \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\"</code></pre>
+</div>
+
+<h2 id="order">Transform execution order</h2>
+<p>Transforms execute sequentially in the order defined by their <code>order</code> field. The data output from one transform becomes the input to the next. Use the <code>order</code> parameter when creating or updating a transform to reorder the pipeline without recreating every step.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Order matters</div>
+  <div class='alert__body'><p>Reordering transforms changes the data that downstream steps see. A filter applied early will reduce the volume seen by later aggregate or map steps. Test carefully in a non-production pipeline first.</p></div>
+</div>
+
+<h2 id="get">Get a single transform</h2>
+<p><code>GET /v2/pipelines/{pipeline_id}/transforms/{transform_id}</code> — fetch details of a specific transform step, including its configuration and execution status.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href=#create>Create a transform step</a></li><li><a href=#list>List transforms</a></li><li><a href=#order>Transform execution order</a></li><li><a href=#get>Get a single transform</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
