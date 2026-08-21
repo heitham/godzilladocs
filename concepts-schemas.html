@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schemas | Godzilla Docs</title>
+  <meta name="description" content="How event payload shapes are declared and validated in Godzilla: schema definition, validation rules, and error handling.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-concepts-schemas">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Schemas</h1>
+<p>A <strong>schema</strong> defines the expected shape and structure of an <a href="/concepts-events">event</a>'s payload. Schemas allow you to declare what fields an event should contain, what types they should be, and which fields are required. Godzilla validates incoming events against their schema and can route invalid events to your pipeline's dead-letter queue.</p>
+
+<h2>Schema definition</h2>
+<p>Schemas are declared as JSON Schema documents. Each schema specifies the properties expected in an event's <code>payload</code> field, plus validation constraints.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>order-event-schema.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Order Event",
+  "type": "object",
+  "properties": &#123;
+    "order_id": &#123; "type": "string" &#125;,
+    "customer_id": &#123; "type": "string" &#125;,
+    "amount_cents": &#123; "type": "integer", "minimum": 0 &#125;,
+    "currency": &#123; "type": "string", "default": "USD" &#125;,
+    "items": &#123;
+      "type": "array",
+      "items": &#123; "type": "object" &#125;
+    &#125;
+  &#125;,
+  "required": ["order_id", "customer_id", "amount_cents"]
+&#125;</code></pre>
+</div>
+
+<h2>Validation and error handling</h2>
+<p>When a pipeline receives an event, Godzilla validates it against the assigned schema before processing. If validation fails:</p>
+<ul>
+  <li>The event is marked as failed.</li>
+  <li>A validation error detail is recorded.</li>
+  <li>The event is routed through the standard retry loop with exponential backoff.</li>
+  <li>After the retry limit is exhausted, the event is moved to the pipeline's dead-letter queue.</li>
+</ul>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Schema validation timing</div>
+  <div class='alert__body'><p>Validation occurs as soon as an event is ingested, before any transforms are applied. This ensures that all downstream processing operates on data that matches expectations.</p></div>
+</div>
+
+<h2>Assigning schemas to event types</h2>
+<p>Schemas are assigned to <a href="/concepts-events">event types</a> at the pipeline level. An event type like <code>order.created</code> can be validated against a specific schema version, and you can update the schema independently when your data model evolves.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>pipeline-config.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "pipeline": "order-ingestion",
+  "source": "connector_kafka_orders",
+  "schemas": &#123;
+    "order.created": &#123;
+      "version": "1.0",
+      "definition": ... 
+    &#125;,
+    "order.updated": &#123;
+      "version": "1.0",
+      "definition": ...
+    &#125;
+  &#125;
+&#125;</code></pre>
+</div>
+
+<h2>Versioning and evolution</h2>
+<p>Schemas support semantic versioning, allowing you to evolve your event structure safely:</p>
+<ul>
+  <li><strong>Patch updates (1.0.1)</strong> — Fix validation rules without changing the structure.</li>
+  <li><strong>Minor updates (1.1.0)</strong> — Add optional fields or loosen constraints.</li>
+  <li><strong>Major updates (2.0.0)</strong> — Change required fields or restructure the payload.</li>
+</ul>
+
+<p>When you update a schema, existing pipelines continue using their pinned version until you explicitly roll forward, giving you time to test and migrate downstream systems.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Schema defaults</div>
+  <div class='alert__body'><p>If no schema is assigned to an event type, Godzilla does not validate the payload — all events pass through without structural checks. You can add schemas incrementally as your pipelines mature.</p></div>
+</div>
+
+<h2>Dead-letter queue inspection</h2>
+<p>Invalid events appear in your pipeline's dead-letter queue with detailed error metadata, letting you audit failures and reprocess events once the underlying issue is fixed. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how to drain and replay dead-lettered events.</p>
+
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

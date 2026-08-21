@@ -92,16 +92,13 @@
   <div class='alert__body'><p>Events are delivered in-order per source partition, not globally. Two events from different source partitions may be processed out of order relative to each other.</p></div>
 </div>
 
+<h2>Event validation with schemas</h2>
+<p>To enforce a consistent structure on your event payloads, you can assign a <a href="/concepts-schemas">schema</a> to each event type in your pipeline. Schemas validate that incoming events have the expected fields and types before they are processed. Invalid events are moved to your pipeline's dead-letter queue.</p>
+
 <h2>Retries and dead-lettering</h2>
 <p>An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how to configure and drain a dead-letter queue.</p>
 </main>
 
 </div>
 <footer class='site-footer'>
-  <div class='site-footer__inner'>
-    <span class='site-footer__brand'>Godzilla Docs</span>
-    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
-  </div>
-</footer>
-</body>
-</html>
+  <div class='site-footer__inner'>\n    <span class='site-footer__brand'>Godzilla Docs</span>\n    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>\n  </div>\n</footer>\n</body>\n</html>
