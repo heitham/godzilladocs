@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforms endpoint | Godzilla Docs</title>
+  <meta name="description" content="Create and list transform steps via the v2 REST API.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-apis page-transforms">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms" class="usa-current">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforms endpoint <span class='chip chip--primary'>v2</span></h1>
+<p>Define and manage <a href="/concepts-pipelines">transform steps</a> that process data as it flows through a pipeline. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
+
+<h2 id="create">Create a transform step</h2>
+<p><code>POST /v2/transforms</code></p>
+
+<p>Transform steps are ordered operations that filter, enrich, or reshape events within a pipeline. Each step receives the output of the previous step (or source events, if it is the first step) and passes the result to the next step.</p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody><tr><td><code>pipeline_id</code></td><td>string</td><td>Yes</td><td>ID of the pipeline this transform belongs to.</td></tr><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable name for this transform step.</td></tr><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>filter</code>, <code>map</code>, <code>enrich</code>, <code>aggregate</code>, or <code>custom</code>.</td></tr><tr><td><code>order</code></td><td>integer</td><td>Yes</td><td>Position in the transform chain (0-based). Determines execution order.</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific configuration. See transform types below.</td></tr><tr><td><code>enabled</code></td><td>boolean</td><td>No</td><td>Whether this step is active. Defaults to <code>true</code>.</td></tr></tbody>
+</table>
+
+<h3>Transform types</h3>
+
+<p><strong>filter:</strong> Keep or discard events based on a condition.</p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>filter-transform.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  "type": "filter",\n  "config": &#123;\n    "condition": "event.amount > 100"\n  &#125;\n&#125;</code></pre>
+</div>
+
+<p><strong>map:</strong> Transform field names or values.</p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>map-transform.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  "type": "map",\n  "config": &#123;\n    "mappings": &#123;\n      "order_id": "id",\n      "customer_email": "email"\n    &#125;\n  &#125;\n&#125;</code></pre>
+</div>
+
+<p><strong>enrich:</strong> Add fields from an external source or computed values.</p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>enrich-transform.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  "type": "enrich",\n  "config": &#123;\n    "lookup_connector_id": "conn_pg_customers",\n    "join_key": "customer_id",\n    "fields": ["segment", "ltv"]\n  &#125;\n&#125;</code></pre>
+</div>
+
+<p><strong>aggregate:</strong> Combine or roll up multiple events.</p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>aggregate-transform.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  "type": "aggregate",\n  "config": &#123;\n    "window_seconds": 3600,\n    "group_by": "customer_id",\n    "aggregation": "sum"\n  &#125;\n&#125;</code></pre>
+</div>
+
+<p><strong>custom:</strong> User-defined logic in Python or JavaScript.</p>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>custom-transform.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  "type": "custom",\n  "config": &#123;\n    "language": "javascript",\n    "code": "event.processed_at = new Date().toISOString(); return event;"\n  &#125;\n&#125;</code></pre>
+</div>
+
+<h3>Create request example</h3>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-transform.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -H "Content-Type: application/json" \\\n  -d '&#123;\n    "pipeline_id": "pipe_ingest_orders",\n    "name": "Filter high-value orders",\n    "type": "filter",\n    "order": 0,\n    "config": &#123;\n      "condition": "event.amount > 500"\n    &#125;\n  &#125;'</code></pre>
+</div>
+
+<h2 id="list">List transforms for a pipeline</h2>
+<p><code>GET /v2/pipelines/{pipeline_id}/transforms</code> — returns all transform steps for a pipeline, ordered by the <code>order</code> field.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>list-transforms.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines/pipe_ingest_orders/transforms \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+</div>
+
+<p>Response includes an array of transform objects, each with <code>id</code>, <code>name</code>, <code>type</code>, <code>order</code>, <code>config</code>, <code>enabled</code>, <code>created_at</code>, and <code>updated_at</code> fields.</p>
+
+<h2 id="update">Update a transform step</h2>
+<p><code>PATCH /v2/transforms/{id}</code> — modify a transform's configuration, name, or enabled status. Reordering within a pipeline requires updating multiple transform <code>order</code> fields atomically.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Live pipeline impact</div>
+  <div class='alert__body'><p>Updating an enabled transform in an active pipeline takes effect immediately on newly ingested events. In-flight events may still use the prior transform configuration.</p></div>
+</div>
+
+<h2 id="validation">Transform validation</h2>
+<p>Transform configs are validated on create and update:</p>
+<ul>
+  <li><strong>filter:</strong> Condition must be a valid expression referencing <code>event</code> fields.</li>
+  <li><strong>map:</strong> Mapping keys must match source event schema.</li>
+  <li><strong>enrich:</strong> Lookup connector must exist and the join key must be present in both the event and lookup table.</li>
+  <li><strong>aggregate:</strong> Window duration must be positive; group-by field must exist.</li>
+  <li><strong>custom:</strong> Code must be valid Python or JavaScript and return an object.</li>
+</ul>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>Transform errors in production</div>
+  <div class='alert__body'><p>If a transform encounters an error at runtime (e.g., custom code throws an exception), the event is routed to your pipeline's error queue and is not delivered to the destination. Check the events endpoint for error reasons.</p></div>
+</div>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href=#create>Create a transform step</a></li><li><a href=#list>List transforms for a pipeline</a></li><li><a href=#update>Update a transform step</a></li><li><a href=#validation>Transform validation</a></li></ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
