@@ -64,10 +64,13 @@
 <h1>Quickstart</h1>
 <p>The fastest path from zero to a running <a href="/concepts/concepts-pipelines">pipeline</a>.</p>
 
-<h2>1. Get an API key</h2>
+<h2>1. Set up your environment</h2>
+<p>If you haven't already, follow <a href="/getting-started/getting-started-installation">Installation</a> to install an SDK or prepare your REST API client.</p>
+
+<h2>2. Get an API key</h2>
 <p>See <a href="/getting-started/getting-started-authentication">Authentication</a> if you don't have one yet.</p>
 
-<h2>2. Create a pipeline</h2>
+<h2>3. Create a pipeline</h2>
 
 <h3>Bash / curl</h3>
 <div class='code-block'>
@@ -76,7 +79,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\n  -d '&#123;"name":"my-first-pipeline","source_connector_id":"conn_demo_source","destination_connector_id":"conn_demo_dest"&#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\\\\n  -H "Authorization: Bearer $GODZILLA_API_KEY" \\\\\\n  -d '&#123;"name":"my-first-pipeline","source_connector_id":"conn_demo_source","destination_connector_id":"conn_demo_dest"&#125;'</code></pre>
 </div>
 
 <h3>Go</h3>
@@ -86,10 +89,10 @@
     <span class='code-block__lang'>go</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>package main\n\nimport (\n\t"context"\n\t"log"\n\t"os"\n\n\t"github.com/godzilla-io/godzilla-go"\n)\n\nfunc main() &#123;\n\tclient := godzilla.NewClient(os.Getenv("GODZILLA_API_KEY"))\n\n\tpipeline, err := client.Pipelines.Create(context.Background(), &godzilla.CreatePipelineRequest&#123;\n\t\tName:                    "my-first-pipeline",\n\t\tSourceConnectorID:       "conn_demo_source",\n\t\tDestinationConnectorID: "conn_demo_dest",\n\t&#125;)\n\tif err != nil &#123;\n\t\tlog.Fatalf("Failed to create pipeline: %v", err)\n\t&#125;\n\n\tlog.Printf("Created pipeline: %s\\n", pipeline.ID)\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>package main\\n\\nimport (\\n\\t"context"\\n\\t"log"\\n\\t"os"\\n\\n\\t"github.com/godzilla-io/godzilla-go"\\n)\\n\\nfunc main() &#123;\\n\\tclient := godzilla.NewClient(os.Getenv("GODZILLA_API_KEY"))\\n\\n\\tpipeline, err := client.Pipelines.Create(context.Background(), &godzilla.CreatePipelineRequest&#123;\\n\\t\\tName:                    "my-first-pipeline",\\n\\t\\tSourceConnectorID:       "conn_demo_source",\\n\\t\\tDestinationConnectorID: "conn_demo_dest",\\n\\t&#125;)\\n\\tif err != nil &#123;\\n\\t\\tlog.Fatalf("Failed to create pipeline: %v", err)\\n\\t&#125;\\n\\n\\tlog.Printf("Created pipeline: %s\\\\n", pipeline.ID)\\n&#125;</code></pre>
 </div>
 
-<h2>3. Watch it run</h2>
+<h2>4. Watch it run</h2>
 <p>Subscribe to <code>pipeline.completed</code> via <a href="/api/webhooks">Webhooks</a>, or poll the <a href="/api/events">Events endpoint</a> to see events as they're processed.</p>
 
 <div class='alert alert--success'>
