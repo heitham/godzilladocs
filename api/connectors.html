@@ -79,9 +79,9 @@
   <tbody><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>One of <code>postgres</code>, <code>s3</code>, <code>snowflake</code>, <code>kafka</code>, <code>webhook</code>.</td></tr><tr><td><code>direction</code></td><td>string</td><td>Yes</td><td><code>source</code>, <code>destination</code>, or <code>bidirectional</code> (webhook only).</td></tr><tr><td><code>config</code></td><td>object</td><td>Yes</td><td>Type-specific connection details, e.g. connection string or IAM role ARN.</td></tr></tbody>
 </table>
 
-{{ds:component/code-block|filename=create-connector.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/connectors \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
-  -H "Content-Type: application/json" \\
+{{ds:component/code-block|filename=create-connector.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
   -d '{
     "type": "postgres",
     "direction": "source",
