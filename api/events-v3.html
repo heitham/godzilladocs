@@ -92,13 +92,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "id": "evt_8f2c1a90",
-  "type": "order.created",
-  "occurred_at": "2026-08-18T09:12:44Z",
-  "status": "delivered",
-  "payload": &#123; "order_id": "ord_4471" &#125;
-&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"id\": \"evt_8f2c1a90\",\n  \"type\": \"order.created\",\n  \"occurred_at\": \"2026-08-18T09:12:44Z\",\n  \"status\": \"delivered\",\n  \"payload\": &#123; \"order_id\": \"ord_4471\" &#125;\n&#125;</code></pre>
 </div>
 
 <h2 id="replay">Replay a dead-lettered event</h2>
@@ -123,6 +117,9 @@
   <div class='alert__title'>Platform events</div>
   <div class='alert__body'><p>Lifecycle notifications like <code>pipeline.started</code> and <code>connector.error</code> are not returned by this endpoint — subscribe to them through the Webhooks endpoint instead.</p></div>
 </div>
+
+<h2>Related concepts</h2>
+<p>Learn more about what events are and how they work in the <a href="/concepts/concepts-events">Events concept</a> guide. Also see <a href="/concepts/concepts-schemas">Schemas</a> for validating event payloads and <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> for working with dead-lettered events.</p>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>

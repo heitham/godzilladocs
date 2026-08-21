@@ -76,7 +76,7 @@
       <th>Description</th>
     </tr>
   </thead>
-  <tbody><tr><td><code>url</code></td><td>string</td><td>Yes</td><td>HTTPS endpoint Godzilla will POST events to.</td></tr><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>List of event types to subscribe to, e.g. <code>["pipeline.failed"]</code>.</td></tr><tr><td><code>secret</code></td><td>string</td><td>No</td><td>Shared secret used to sign the <code>X-Godzilla-Signature</code> header. Auto-generated if omitted.</td></tr></tbody>
+  <tbody><tr><td><code>url</code></td><td>string</td><td>Yes</td><td>HTTPS endpoint Godzilla will POST events to.</td></tr><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>List of event types to subscribe to, e.g. <code>[\"pipeline.failed\"]</code>.</td></tr><tr><td><code>secret</code></td><td>string</td><td>No</td><td>Shared secret used to sign the <code>X-Godzilla-Signature</code> header. Auto-generated if omitted.</td></tr></tbody>
 </table>
 
 <div class='code-block'>
@@ -85,12 +85,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "id": "evt_wh_2091",
-  "type": "pipeline.failed",
-  "occurred_at": "2026-08-18T09:14:02Z",
-  "data": &#123; "pipeline_id": "pl_ingest_orders", "error": "destination_timeout" &#125;
-&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"id\": \"evt_wh_2091\",\n  \"type\": \"pipeline.failed\",\n  \"occurred_at\": \"2026-08-18T09:14:02Z\",\n  \"data\": &#123; \"pipeline_id\": \"pl_ingest_orders\", \"error\": \"destination_timeout\" &#125;\n&#125;</code></pre>
 </div>
 
 <div class='alert alert--warning'>
@@ -100,6 +95,9 @@
 
 <h2 id="retries">Delivery retries</h2>
 <p>A webhook delivery that doesn't receive a <code>2xx</code> response is retried with exponential backoff for up to 24 hours, then marked failed. Failed deliveries are visible per-subscription and can be manually redelivered.</p>
+
+<h2>Related guides</h2>
+<p>Learn how to use webhooks to monitor pipelines and set up alerts in the <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a> guide.</p>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>

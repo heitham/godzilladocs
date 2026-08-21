@@ -71,8 +71,8 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  &quot;id&quot;: &quot;evt_8f2c1a90&quot;,\n  &quot;type&quot;: &quot;order.created&quot;,\n  &quot;occurred_at&quot;: &quot;2026-08-18T09:12:44Z&quot;,\n  &quot;source&quot;: &quot;connector_postgres_orders&quot;,\n  &quot;payload&quot;: &#123; &quot;order_id&quot;: &quot;ord_4471&quot;, &quot;amount_cents&quot;: 4899 &#125;\n&#125;</code></pre>
-</div>\n\n<h2>User data events vs. platform events</h2>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\\n  &quot;id&quot;: &quot;evt_8f2c1a90&quot;,\\n  &quot;type&quot;: &quot;order.created&quot;,\\n  &quot;occurred_at&quot;: &quot;2026-08-18T09:12:44Z&quot;,\\n  &quot;source&quot;: &quot;connector_postgres_orders&quot;,\\n  &quot;payload&quot;: &#123; &quot;order_id&quot;: &quot;ord_4471&quot;, &quot;amount_cents&quot;: 4899 &#125;\\n&#125;</code></pre>
+</div>\\n\\n<h2>User data events vs. platform events</h2>
 <p>Godzilla distinguishes two kinds of events:</p>
 <ul>
   <li><strong>User data events</strong> — the records your pipelines process, shaped however your source system produces them.</li>
@@ -90,6 +90,9 @@
 
 <h2>Retries and dead-lettering</h2>
 <p>An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how to configure and drain a dead-letter queue.</p>
+
+<h2>Query and replay events</h2>
+<p>Once events have flowed through a pipeline, you can query them, inspect their status, and replay dead-lettered events. See the <a href="/api/events-v3">Events endpoint</a> API reference for how to list, filter, and replay events programmatically.</p>
 </main>
 
 </div>

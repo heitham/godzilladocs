@@ -85,14 +85,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '&#123;
-    "type": "postgres",
-    "direction": "source",
-    "config": &#123; "connection_string": "postgres://..." &#125;
-  &#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '&#123;\n    \"type\": \"postgres\",\n    \"direction\": \"source\",\n    \"config\": &#123; \"connection_string\": \"postgres://...\" &#125;\n  &#125;'</code></pre>
 </div>
 
 <h2 id="rotate">Rotate credentials</h2>
@@ -105,6 +98,9 @@
 
 <h2 id="health">Health status</h2>
 <p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
+
+<h2>Related concepts</h2>
+<p>Learn more about what connectors are and how they work in the <a href="/concepts/concepts-connectors">Connectors concept</a> guide.</p>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>

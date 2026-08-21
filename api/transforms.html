@@ -62,9 +62,9 @@
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Transforms endpoint</span></li></ol></nav>
 <h1>Transforms endpoint <span class='chip chip--primary'>v2</span> <span class='chip chip--success'>Stable</span></h1>
-<p>Create and manage transform steps that manipulate data flowing through <a href=/concepts/concepts-pipelines>pipelines</a>. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
+<p>Create and manage transform steps that manipulate data flowing through <a href="/concepts/concepts-pipelines">pipelines</a>. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
 
-<h2 id=create>Create a transform step</h2>
+<h2 id="create">Create a transform step</h2>
 <p><code>POST /v2/pipelines/{pipeline_id}/transforms</code></p>
 
 <table class='param-table'>
@@ -85,17 +85,10 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '&#123;
-    "name": "filter-large-orders",
-    "type": "filter",
-    "config": &#123; "condition": "amount > 100" &#125;
-  &#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '&#123;\n    \"name\": \"filter-large-orders\",\n    \"type\": \"filter\",\n    \"config\": &#123; \"condition\": \"amount > 100\" &#125;\n  &#125;'</code></pre>
 </div>
 
-<h2 id=list>List transform steps</h2>
+<h2 id="list">List transform steps</h2>
 <p><code>GET /v2/pipelines/{pipeline_id}/transforms</code> — returns all transform steps for a pipeline in order.</p>
 
 <div class='code-block'>
@@ -104,11 +97,10 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \
-  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X GET https://api.godzilladocs.dev/v2/pipelines/pipe_orders_123/transforms \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\"</code></pre>
 </div>
 
-<h2 id=order>Transform execution order</h2>
+<h2 id="order">Transform execution order</h2>
 <p>Transform steps execute in the order specified by their <code>order</code> field. Events flow sequentially through each step: output from one step becomes input to the next. If a filter step rejects an event, remaining steps are skipped.</p>
 
 <div class='alert alert--warning'>
@@ -116,9 +108,12 @@
   <div class='alert__body'><p>Modifying transform steps on an active pipeline applies the changes to newly arriving events only. In-flight events continue through the previous transform configuration. Existing data in the destination is not retroactively transformed.</p></div>
 </div>
 
+<h2>Related guides</h2>
+<p>Learn how to use transforms in practice in the <a href="/guides/transforming-events-in-flight">Transforming events in flight</a> guide.</p>
+
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href=#create>Create a transform step</a></li><li><a href=#list>List transform steps</a></li><li><a href=#order>Transform execution order</a></li></ul>
+  <ul class='docs-toc__list'><li><a href="#create">Create a transform step</a></li><li><a href="#list">List transform steps</a></li><li><a href="#order">Transform execution order</a></li></ul>
 </nav>
 </main>
 
