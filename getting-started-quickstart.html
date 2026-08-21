@@ -58,33 +58,26 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart" class="usa-current">Quickstart</a></li><li class="usa-sidenav__item"><a href="/recipes-index">Recipes</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/getting-started-index">Getting Started</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart" class="usa-current">Quickstart</a></li><li class="usa-sidenav__item"><a href="/recipes-index">Recipes</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Quickstart</h1>
-<p>The fastest path from zero to a running <a href="/concepts-pipelines">pipeline</a>.</p>
+<p>The fastest path from zero to a running <a href=/concepts-pipelines>pipeline</a>.</p>
 
 <h2>1. Get an API key</h2>
-<p>See <a href="/getting-started-authentication">Authentication</a> if you don't have one yet.</p>
+<p>See <a href=/getting-started-authentication>Authentication</a> if you don't have one yet.</p>
 
 <h2>2. Create a pipeline</h2>
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>terminal</span>
-    <span class='code-block__lang'>bash</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+{{ds:component/code-block|filename=terminal|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '&#123;"name":"my-first-pipeline","source_connector_id":"conn_demo_source","destination_connector_id":"conn_demo_dest"&#125;'</code></pre>
-</div>
+  -d '{"name":"my-first-pipeline","source_connector_id":"conn_demo_source","destination_connector_id":"conn_demo_dest"}'}}
 
 <h2>3. Watch it run</h2>
-<p>Subscribe to <code>pipeline.completed</code> via <a href="/apis/webhooks">Webhooks</a>, or poll the <a href="/apis/events">Events endpoint</a> to see events as they're processed.</p>
+<p>Subscribe to <code>pipeline.completed</code> via <a href=/apis/webhooks>Webhooks</a>, or poll the <a href=/apis/events>Events endpoint</a> to see events as they're processed.</p>
 
 <div class='alert alert--success'>
   <div class='alert__title'>That's it</div>
-  <div class='alert__body'><p>For a fuller walkthrough with a real source and destination, go to <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> in the Guides section.</p></div>
+  <div class='alert__body'><p>For a fuller walkthrough with a real source and destination, go to <a href=/guides/building-your-first-pipeline>Building your first pipeline</a> in the Guides section.</p></div>
 </div>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
