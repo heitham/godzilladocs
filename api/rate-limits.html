@@ -63,10 +63,22 @@
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Rate limits</span></li></ol></nav>
 <h1>Rate limits <span class='chip chip--primary'>v2</span> <span class='chip chip--success'>Stable</span></h1>
 
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
 <div class='stat-card'>
   <div class='stat-card__value'>1,000</div>
   <div class='stat-card__label'>requests / minute</div>
   <p class='stat-card__description'>Default rate limit for standard-tier API keys, per workspace.</p>
+</div>
+<div class='stat-card'>
+  <div class='stat-card__value'>429</div>
+  <div class='stat-card__label'>Too Many Requests</div>
+  <p class='stat-card__description'>HTTP status code returned when rate limit is exceeded.</p>
+</div>
+<div class='stat-card'>
+  <div class='stat-card__value'>X-RateLimit-Reset</div>
+  <div class='stat-card__label'>response header</div>
+  <p class='stat-card__description'>Unix timestamp indicating when the limit resets.</p>
+</div>
 </div>
 
 <p><strong>For quota and billing information:</strong> See <a href="/api/quotas-and-billing">Quotas &amp; billing</a> to learn about plan tiers, monthly request limits, and what happens when you exceed your quota.</p>
@@ -83,11 +95,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "data": [ &#123; "id": "pl_ingest_orders" &#125; ],
-  "next_cursor": "eyJvZmZzZXQiOjIwfQ",
-  "has_more": true
-&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  "data": [ &#123; "id": "pl_ingest_orders" &#125; ],\n  "next_cursor": "eyJvZmZzZXQiOjIwfQ",\n  "has_more": true\n&#125;</code></pre>
 </div>
 
 <nav class='docs-toc' aria-label='On this page'>
