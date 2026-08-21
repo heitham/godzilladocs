@@ -62,6 +62,12 @@
 <main class="cms-main-content">
 
 <h1>Building your first pipeline</h1>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href="#create-source">1. Create a source connector</a></li><li><a href="#create-destination">2. Create a destination connector</a></li><li><a href="#create-pipeline">3. Create the pipeline</a></li><li><a href="#next-steps">Next steps</a></li></ul>
+</nav>
+
 <p>This guide walks through creating a <a href="/pipelines">pipeline</a> end to end: a source connector, a destination connector, and the pipeline that ties them together.</p>
 
 <div class='alert alert--info'>
@@ -69,7 +75,7 @@
   <div class='alert__body'><p>You'll need an API key. See <a href="/getting-started-authentication">Authentication</a> in Getting Started if you don't have one yet.</p></div>
 </div>
 
-<h2>1. Create a source connector</h2>
+<h2 id="create-source">1. Create a source connector</h2>
 <p>We'll pull orders from Postgres. See <a href="/connectors">Connectors</a> for the full catalog of types.</p>
 
 <h3>Bash</h3>
@@ -79,9 +85,9 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
-  -d '{\"type\":\"postgres\",\"direction\":\"source\",\"config\":{\"connection_string\":\"postgres://...\"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\\
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{"type":"postgres","direction":"source","config":{"connection_string":"postgres://..."</code></pre>
 </div>'}}
 
 <h3>Go</h3>
@@ -106,7 +112,7 @@ func createSourceConnector(ctx context.Context, c *client.Client) (string, error
 	return connector.ID, err
 }}}
 
-<h2>2. Create a destination connector</h2>
+<h2 id="create-destination">2. Create a destination connector</h2>
 <p>We'll write to Snowflake.</p>
 
 <h3>Bash</h3>
@@ -116,9 +122,9 @@ func createSourceConnector(ctx context.Context, c *client.Client) (string, error
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
-  -d '{\"type\":\"snowflake\",\"direction\":\"destination\",\"config\":{\"account\":\"...\"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{"type":"snowflake","direction":"destination","config":{"account":"..."</code></pre>
 </div>'}}
 
 <h3>Go</h3>
@@ -133,13 +139,13 @@ func createSourceConnector(ctx context.Context, c *client.Client) (string, error
 	return connector.ID, err
 }}}
 
-<h2>3. Create the pipeline</h2>
+<h2 id="create-pipeline">3. Create the pipeline</h2>
 <p>Full request/response details are in the <a href="/apis/pipelines">Pipelines endpoint</a> reference.</p>
 
 <h3>Bash</h3>
-{{ds:component/code-block|filename=create-pipeline.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
-  -d '{\"name\":\"ingest-orders\",\"source_connector_id\":\"conn_pg_orders\",\"destination_connector_id\":\"conn_snowflake_dw\"}'}}
+{{ds:component/code-block|filename=create-pipeline.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '{"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"}'}}
 
 <h3>Go</h3>
 {{ds:component/code-block|filename=create_pipeline.go|language=go|code=package main
@@ -170,7 +176,7 @@ func main() {
 
 <p>The pipeline starts in <code>draft</code> state. Activate it once you're ready to start processing events.</p>
 
-<h2>Next steps</h2>
+<h2 id="next-steps">Next steps</h2>
 <p>Now that events are flowing, read <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> to see what happens when a write fails, or <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a> to watch it run.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
