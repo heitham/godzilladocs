@@ -8,7 +8,6 @@
 - [Concepts](https://localhost:3002/concepts): The three core building blocks of Godzilla: pipelines, connectors, and events.
 - [Connectors](https://localhost:3002/concepts/connectors): What a connector is in Godzilla: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
 - [Events](https://localhost:3002/concepts/events): What an event is in Godzilla: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.
-- [Glossary](https://localhost:3002/glossary): Definitions for Godzilla's core terms, each linking to its full explanation.
 - [Godzilla Docs](https://localhost:3002/index): Everything you need to build data pipelines on the Godzilla platform.
 - [Installation](https://localhost:3002/getting-started/installation): Install the Godzilla SDK or start calling the REST API directly.
 - [Pipelines](https://localhost:3002/concepts/pipelines): What a pipeline is in Godzilla: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
