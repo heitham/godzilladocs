@@ -73,12 +73,12 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "transform": &#123;
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "transform": {
     "type": "jmespath",
-    "expression": "&#123; id: user.id, email: user.contact.email, created: timestamp &#125;"
-  &#125;
-&#125;</code></pre>
+    "expression": "{ id: user.id, email: user.contact.email, created: timestamp }"
+  }
+}</code></pre>
 </div>
 
 <h2>Filtering events</h2>
@@ -90,12 +90,12 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "transform": &#123;
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "transform": {
     "type": "filter",
     "condition": "environment == 'production' && amount > 100"
-  &#125;
-&#125;</code></pre>
+  }
+}</code></pre>
 </div>
 
 <div class='alert alert--info'>
@@ -112,16 +112,16 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "transform": &#123;
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "transform": {
     "type": "enrich",
-    "lookup": &#123;
+    "lookup": {
       "service": "user-api",
       "key_field": "user_id",
       "output_fields": ["tier", "region", "last_login"]
-    &#125;
-  &#125;
-&#125;</code></pre>
+    }
+  }
+}</code></pre>
 </div>
 
 <h2>Chaining multiple transforms</h2>
@@ -133,7 +133,7 @@
 </div>
 
 <h2>Testing transforms locally</h2>
-<p>Use the <a href="/apis/pipelines">Pipelines endpoint</a> to dry-run a transform against sample events before deploying it to production. This lets you validate your JMESPath expressions and filter conditions without risking live data.</p>
+<p>Use the <a href="/api/pipelines">Pipelines endpoint</a> to dry-run a transform against sample events before deploying it to production. This lets you validate your JMESPath expressions and filter conditions without risking live data.</p>
 
 <h2>Next steps</h2>
 <p>With your events shaped correctly, see <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> to understand what happens when a transformed event fails to reach your destination.</p>

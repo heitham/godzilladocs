@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-apis page-connectors">
+<body class="folder-api page-connectors">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors" class="usa-current">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Connectors endpoint <span class='chip chip--primary'>v2</span></h1>
@@ -88,15 +88,15 @@
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '&#123;
+  -d '{
     "type": "postgres",
     "direction": "source",
-    "config": &#123; "connection_string": "postgres://..." &#125;
-  &#125;'</code></pre>
+    "config": { "connection_string": "postgres://..." }
+  }'</code></pre>
 </div>
 
 <h2 id="rotate">Rotate credentials</h2>
-<p><code>POST /v2/connectors/&#123;id&#125;/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
+<p><code>POST /v2/connectors/{id}/rotate</code> — pauses every pipeline referencing this connector for the duration of the rotation, then resumes them automatically.</p>
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Shared connectors</div>
@@ -104,7 +104,7 @@
 </div>
 
 <h2 id="health">Health status</h2>
-<p><code>GET /v2/connectors/&#123;id&#125;</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
+<p><code>GET /v2/connectors/{id}</code> returns a <code>health</code> field of <code>healthy</code>, <code>degraded</code>, or <code>down</code>.</p>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>

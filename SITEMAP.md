@@ -21,16 +21,17 @@ Generated from published output — 34 pages.
 | `/support` | Support / Contact |
 | `/troubleshooting` | Troubleshooting / FAQ |
 
-## apis
+## api
 
 | Path | Title |
 |---|---|
-| `/apis/connectors` | Connectors endpoint |
-| `/apis/events` | Events endpoint |
-| `/apis/index` | API Reference |
-| `/apis/pipelines` | Pipelines endpoint |
-| `/apis/rate-limits-errors` | Limits, quotas & errors |
-| `/apis/webhooks` | Webhooks endpoint |
+| `/api/connectors` | Connectors endpoint |
+| `/api/events` | Events endpoint |
+| `/api/index` | API Reference |
+| `/api/pipelines` | Pipelines endpoint |
+| `/api/rate-limits-errors` | Limits, quotas & errors |
+| `/api/transforms` | Transforms endpoint |
+| `/api/webhooks` | Webhooks endpoint |
 
 ## getting-started
 

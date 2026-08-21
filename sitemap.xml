@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://localhost:3002/apis/webhooks</loc>
+    <loc>https://localhost:3002/api/webhooks</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/apis/rate-limits-errors</loc>
+    <loc>https://localhost:3002/api/rate-limits-errors</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/apis/pipelines</loc>
+    <loc>https://localhost:3002/api/pipelines</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/apis/index</loc>
+    <loc>https://localhost:3002/api/index</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/apis/events</loc>
+    <loc>https://localhost:3002/api/events</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/apis/connectors</loc>
+    <loc>https://localhost:3002/api/connectors</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
