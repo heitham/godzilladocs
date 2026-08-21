@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-root page-concepts-events">
+<body class="folder-concepts page-concepts-events">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-schemas">Schemas</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Events</h1>
@@ -88,9 +88,9 @@
 
 <h2>Validating event payloads with schemas</h2>
 
-<p>By default, pipelines accept events with any JSON payload. To enforce a structure, attach a <a href="/concepts-schemas">schema</a> to your pipeline's input or to individual transform steps. Schemas validate payloads against JSON Schema constraints and move invalid events to the dead-letter queue, catching data quality issues early.</p>
+<p>By default, pipelines accept events with any JSON payload. To enforce a structure, attach a <a href="/concepts/concepts-schemas">schema</a> to your pipeline's input or to individual transform steps. Schemas validate payloads against JSON Schema constraints and move invalid events to the dead-letter queue, catching data quality issues early.</p>
 
-<p>See <a href="/concepts-schemas">Schemas</a> to learn how to declare and register schemas for your events.</p>
+<p>See <a href="/concepts/concepts-schemas">Schemas</a> to learn how to declare and register schemas for your events.</p>
 
 <h2>Retries and dead-lettering</h2>
 <p>An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how to configure and drain a dead-letter queue.</p>
