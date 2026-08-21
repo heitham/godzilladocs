@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforming events in flight | Godzilla Docs</title>
+  <meta name="description" content="Reshape, filter, and enrich events as they pass through a pipeline.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-transforming-events-in-flight">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforming events in flight</h1>
+<p>This guide covers reshaping, filtering, and enriching events as they flow through your pipeline — powerful transformations that happen in-flight without additional infrastructure.</p>
+
+<h2>Understanding in-flight transformations</h2>
+<p>Events entering a pipeline often don't match the shape expected by their destination. Godzilla lets you transform events at the pipeline level, before they reach connectors. This keeps your pipeline logic centralized and avoids duplicating transformation logic across services.</p>
+
+<h2>Reshaping event structure</h2>
+<p>Use the <code>map</code> transformation to select, rename, and restructure fields:</p>
+
+{{ds:component/code-block|filename=pipeline.config.json|language=json|code={\n  \"transformations\": [\n    {\n      \"type\": \"map\",\n      \"fields\": {\n        \"user_id\": \"event.userId\",\n        \"action\": \"event.type\",\n        \"timestamp\": \"@timestamp\"\n      }\n    }\n  ]\n}}}
+
+<p>The map transformation extracts fields from the source event and assigns them to new names in the output event. Nested paths are supported using dot notation.</p>
+
+<h2>Filtering events</h2>
+<p>Use the <code>filter</code> transformation to pass through only events matching a condition:</p>
+
+{{ds:component/code-block|filename=pipeline.config.json|language=json|code={\n  \"transformations\": [\n    {\n      \"type\": \"filter\",\n      \"expression\": \"event.status == 'success'\"\n    }\n  ]\n}}}
+
+<p>Events that don't match the filter expression are silently dropped and not sent to the destination. This is useful for reducing noise or focusing on specific event types.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Filter semantics</div>
+  <div class='alert__body'><p>Filtered events are counted separately in pipeline metrics. Check your monitoring dashboard to verify that filtering is working as expected.</p></div>
+</div>
+
+<h2>Enriching events</h2>
+<p>Add computed fields to enrich events with derived data:</p>
+
+{{ds:component/code-block|filename=pipeline.config.json|language=json|code={\n  \"transformations\": [\n    {\n      \"type\": \"enrich\",\n      \"fields\": {\n        \"event_year\": \"year(@timestamp)\",\n        \"is_bot\": \"event.userAgent contains 'bot'\",\n        \"revenue_usd\": \"event.price * event.quantity\"\n      }\n    }\n  ]\n}}}
+
+<p>Enrichment expressions can use built-in functions like <code>year()</code>, <code>contains()</code>, and arithmetic operators. The enriched fields are added to the event without removing existing ones.</p>
+
+<h2>Chaining transformations</h2>
+<p>Transformations are applied in order — the output of one becomes the input to the next:</p>
+
+{{ds:component/code-block|filename=pipeline.config.json|language=json|code={\n  \"transformations\": [\n    { \"type\": \"filter\", \"expression\": \"event.status == 'success'\" },\n    { \"type\": \"enrich\", \"fields\": { \"processed_at\": \"now()\" } },\n    { \"type\": \"map\", \"fields\": { \"id\": \"event.id\", \"ts\": \"event.processed_at\" } }\n  ]\n}}}
+
+<p>First, events are filtered to successful ones. Then, a timestamp is added. Finally, the output is reshaped to include only <code>id</code> and <code>ts</code>.</p>
+
+<h2>Performance considerations</h2>
+<p>Transformations run synchronously and can impact pipeline throughput. For heavy lifting, consider:</p>
+<ul>
+  <li>Filtering events as early as possible to reduce downstream work</li>
+  <li>Avoiding expensive expressions inside map transformations</li>
+  <li>Testing transformation performance with realistic event volumes</li>
+</ul>
+
+<h2>Troubleshooting</h2>
+<p>If transformed events don't match your destination schema, check your transformation logic in the pipeline UI and review a sample of raw vs. transformed events in the metrics view. Validation errors are logged with each batch that fails.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Connecting a data source</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Handling errors & retries</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
