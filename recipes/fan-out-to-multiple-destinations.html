@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fan-out to multiple destinations | Godzilla Docs</title>
-  <meta name="description" content="Send a single data stream to multiple destinations with different transformation rules.">
+  <meta name="description" content="Send events from a single source to multiple destination connectors with different transformations.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -60,23 +60,71 @@
 <div class="cms-page-container cms-has-left-nav">
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations" class="usa-current">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
 <main class="cms-main-content">
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/recipes/" class="usa-breadcrumb__link"><span>recipes</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Fan-out to multiple destinations</span></li></ol></nav>
+<h1>Fan-out to multiple destinations</h1>
+
+<p>Many data pipelines need to send events from a single source to multiple destinations, often with different transformations or filtering for each destination. This guide covers how to implement a fan-out pattern in Godzilla.</p>
 
 <h2>Overview</h2>
-<p>Many data architectures require the same events to flow to multiple downstream destinations. This could be for different analytics platforms, data warehouses, or operational systems. Godzilla makes it easy to fan out a single pipeline to multiple destinations with independent transformation rules.</p>
 
-<h2>Pattern</h2>
-<p>The recommended approach is to:</p>
+<p>A fan-out architecture allows you to:</p>
+
+<ul>
+  <li>Read events once from a single source connector</li>
+  <li>Apply different transformations based on destination requirements</li>
+  <li>Send the transformed events to multiple destination connectors</li>
+  <li>Manage each destination's pipeline independently</li>
+</ul>
+
+<h2>Implementation strategy</h2>
+
+<p>There are two main approaches to implementing fan-out patterns:</p>
+
+<h3>Option 1: Multiple pipelines from the same source</h3>
+
+<p>Create separate pipelines for each destination, all reading from the same source connector:</p>
+
 <ol>
-  <li>Create a single source pipeline that reads from your data source</li>
-  <li>Use transformation rules specific to each destination connector</li>
-  <li>Fan out the transformed events to each destination</li>
-  <li>Monitor each destination independently for failures</li>
-  <li>Use event filtering to send different subsets of events to different destinations if needed</li>
+  <li>Create one pipeline per destination connector</li>
+  <li>Configure each pipeline with the same source connector</li>
+  <li>Add destination-specific transformations to each pipeline</li>
+  <li>Point each pipeline to its corresponding destination</li>
 </ol>
 
-<h2>Implementation</h2>
-<p>Configure your pipeline with multiple destination connectors. Each destination can have its own transformation rules, so you can reshape, filter, and enrich events differently for each target system.</p>
-<p>Godzilla handles retries independently for each destination, so a failure in one destination won't block delivery to others. Use the pipeline monitoring features to track the health of each destination connector.</p>
+<p>Benefits: Simple to understand and manage, each destination can have independent error handling.</p>
+
+<h3>Option 2: Transformations with conditional routing</h3>
+
+<p>Use your pipeline's transformation capabilities to route events to different destinations based on conditions:</p>
+
+<ol>
+  <li>Create a single pipeline with the shared source</li>
+  <li>Use transformation logic to tag events based on their destination</li>
+  <li>Configure a destination connector that supports multiple output types or targets</li>
+</ol>
+
+<p>Benefits: Single pipeline to manage, more efficient use of source connector cursors.</p>
+
+<h2>Scaling considerations</h2>
+
+<p>As the number of destinations grows, consider the following:</p>
+
+<ul>
+  <li><strong>Source rate limits:</strong> Multiple pipelines reading from the same source may hit rate limits. Coordinate with your source system's rate-limit policies.</li>
+  <li><strong>Event ordering:</strong> If you need strict ordering guarantees across destinations, the single-pipeline transformation approach may be more suitable.</li>
+  <li><strong>Monitoring:</strong> Monitor each pipeline independently to catch failures quickly.</li>
+</ul>
+
+<h2>Example: Fan-out to database and analytics</h2>
+
+<p>A common pattern is to send events to both an operational database and an analytics warehouse:</p>
+
+<ul>
+  <li>Pipeline 1: Source → Database with full event schema</li>
+  <li>Pipeline 2: Source → Analytics with filtered/summarized data</li>
+</ul>
+
+<p>Each pipeline can have different retention policies, error handling, and retry strategies tailored to its destination.</p>
 </main>
 
 </div>

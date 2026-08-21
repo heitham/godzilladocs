@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Backfill historical data | Godzilla Docs</title>
-  <meta name="description" content="Load historical data into a new destination, handling large volumes and resumable transfers.">
+  <meta name="description" content="Load historical data into a new destination connector while keeping the pipeline running for new events.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -60,23 +60,38 @@
 <div class="cms-page-container cms-has-left-nav">
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data" class="usa-current">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
 <main class="cms-main-content">
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/recipes/" class="usa-breadcrumb__link"><span>recipes</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Backfill historical data</span></li></ol></nav>
+<h1>Backfill historical data</h1>
+
+<p>When you add a new destination to an existing pipeline, you often want to load historical data from your source system into the new destination while also processing new events. This guide covers the recommended approach for implementing a data backfill.</p>
 
 <h2>Overview</h2>
-<p>When you set up a new destination in Godzilla, you often need to backfill it with historical data from your source. This recipe shows how to handle large volumes of data efficiently and resume if the transfer is interrupted.</p>
 
-<h2>Pattern</h2>
-<p>The recommended approach is to:</p>
+<p>A backfill operation involves:</p>
+
+<ul>
+  <li>Running a one-time data load of historical records from your source system</li>
+  <li>Keeping the pipeline running in parallel to process new events</li>
+  <li>Ensuring no events are duplicated or lost during the backfill</li>
+</ul>
+
+<h2>Recommended approach</h2>
+
+<p>The most reliable way to backfill historical data is to use a separate pipeline specifically for the backfill operation:</p>
+
 <ol>
-  <li>Create a dedicated backfill pipeline that reads from your historical data source</li>
-  <li>Use cursor-based pagination to track progress and enable resumption</li>
-  <li>Configure appropriate batch sizes and concurrency for your destination's limits</li>
-  <li>Monitor the backfill progress with pipeline metrics</li>
-  <li>Switch to real-time events once backfill is complete</li>
+  <li>Create a new pipeline with the same source connector as your production pipeline</li>
+  <li>Configure the source connector to start from your backfill cutoff date or event ID</li>
+  <li>Point this backfill pipeline to your new destination connector</li>
+  <li>Run the backfill pipeline to completion</li>
+  <li>Once complete, add the new destination to your production pipeline for handling new events</li>
 </ol>
 
-<h2>Implementation</h2>
-<p>Set up your backfill pipeline to read from a time range that covers all historical data you need. Use the pipeline's scheduling features to run the backfill during off-peak hours to minimize impact on your production traffic.</p>
-<p>Configure error handling and retries to ensure no data is lost. Godzilla's dead-letter queue will capture any events that fail permanently, so you can replay them once issues are resolved.</p>
+<p>This approach ensures that your production pipeline continues uninterrupted while the backfill happens in parallel.</p>
+
+<h2>Handling duplicates and gaps</h2>
+
+<p>Be aware that events at the boundary between the backfill period and the production pipeline start may appear in both pipelines. Implement idempotency in your destination system (checking for duplicate IDs or using upsert logic) to handle any overlapping events gracefully.</p>
 </main>
 
 </div>

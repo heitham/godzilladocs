@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recipes | Godzilla Docs</title>
-  <meta name="description" content="Common data pipeline patterns and how to implement them using Godzilla.">
+  <meta name="description" content="Practical solutions to common data pipeline scenarios and patterns.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -60,12 +60,12 @@
 <div class="cms-page-container cms-has-left-nav">
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index" class="usa-current">Recipes</a></li></ul></nav></aside>
 <main class="cms-main-content">
-
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/recipes/" class="usa-breadcrumb__link"><span>recipes</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Recipes</span></li></ol></nav>
 <section class='hero'>
   <div class='hero__inner'>
     <h1 class='hero__title'>Recipes</h1>
-    <p class='hero__subtitle'>Common data pipeline patterns and how to implement them using Godzilla.</p>
-    <div class='hero__cta'><a href="/recipes/backfill-historical-data">Explore recipes</a></div>
+    <p class='hero__subtitle'>Practical solutions to common data pipeline scenarios and patterns.</p>
+    <div class='hero__cta'><a href=/recipes/backfill-historical-data>Explore recipes</a></div>
   </div>
 </section>
 
@@ -73,12 +73,12 @@
   <a class='card' href='/recipes/backfill-historical-data'>
   <span class='card__tag'>Recipe</span>
   <h3 class='card__title'>Backfill historical data</h3>
-  <p class='card__description'>Load historical data into a new destination, handling large volumes and resumable transfers.</p>
+  <p class='card__description'>Load historical data into a new destination connector while keeping the pipeline running for new events.</p>
 </a>
   <a class='card' href='/recipes/fan-out-to-multiple-destinations'>
   <span class='card__tag'>Recipe</span>
   <h3 class='card__title'>Fan-out to multiple destinations</h3>
-  <p class='card__description'>Send a single data stream to multiple destinations with different transformation rules.</p>
+  <p class='card__description'>Send events from a single source to multiple destination connectors with different transformations.</p>
 </a>
 </section>
 </main>
