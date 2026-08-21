@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-apis page-quotas-billing">
+<body class="folder-api page-quotas-billing">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,9 +58,9 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
-
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Quotas &amp; billing</span></li></ol></nav>
 <h1>Quotas &amp; billing</h1>
 
 <p>Godzilla accounts operate under plan-based quotas. This page describes each plan tier, monthly request and storage allowances, and the behavior when you exceed your quota.</p>
@@ -124,7 +124,7 @@
 
 <div class='alert alert--warning'>
   <div class='alert__title'>429 Too Many Requests</div>
-  <div class='alert__body'><p>When your account's per-minute rate limit is reached, all subsequent requests within that minute window return HTTP <code>429 Too Many Requests</code>. The response includes a <code>Retry-After</code> header indicating how many seconds to wait before retrying. See <a href="/apis/rate-limits-errors">Limits, quotas & errors</a> for details on monitoring your usage.</p></div>
+  <div class='alert__body'><p>When your account's per-minute rate limit is reached, all subsequent requests within that minute window return HTTP <code>429 Too Many Requests</code>. The response includes a <code>Retry-After</code> header indicating how many seconds to wait before retrying. See <a href="/api/rate-limits-errors">Limits, quotas & errors</a> for details on monitoring your usage.</p></div>
 </div>
 
 <h3 id="monthly-events-exceeded">Monthly event quota exceeded</h3>

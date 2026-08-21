@@ -62,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Go SDK <span class='chip chip--primary'>v2</span></h1>
-<p>A typed client for the <a href="/apis/index">v2 REST API</a>, for Go 1.19+.</p>
+<p>A typed client for the <a href="/api/index">v2 REST API</a>, for Go 1.19+.</p>
 
 <h2>Install</h2>
 <div class='code-block'>
@@ -89,7 +89,7 @@ client := godzilla.NewClient(os.Getenv("GODZILLA_API_KEY"))</code></pre>
 </div>
 
 <h2>Create a pipeline</h2>
-<p>Maps directly onto the <a href="/apis/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
+<p>Maps directly onto the <a href="/api/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
 
 {{ds:component/code-block|filename=create_pipeline.go|language=go|code=pipeline, err := client.Pipelines.Create(ctx, &godzilla.CreatePipelineRequest{\n    Name:                   "ingest-orders",\n    SourceConnectorID:      "conn_pg_orders",\n    DestinationConnectorID: "conn_snowflake_dw",\n})}}
 
