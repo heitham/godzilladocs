@@ -29,7 +29,7 @@ Generated from published output — 34 pages.
 | `/apis/events` | Events endpoint |
 | `/apis/index` | API Reference |
 | `/apis/pipelines` | Pipelines endpoint |
-| `/apis/rate-limits-errors` | Rate limits & errors |
+| `/apis/rate-limits-errors` | Limits, quotas & errors |
 | `/apis/webhooks` | Webhooks endpoint |
 
 ## getting-started
