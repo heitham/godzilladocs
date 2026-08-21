@@ -73,13 +73,13 @@
 
 <h2>Built-in connector catalog</h2>
 <table>
-  <thead><tr><th>Connector</th><th>Direction</th><th>Auth</th></tr></thead>
+  <thead><tr><th>Connector</th><th>Direction</th><th>Auth</th><th>Incremental Read</th></tr></thead>
   <tbody>
-    <tr><td>Postgres</td><td>Source</td><td>Connection string + replication slot</td></tr>
-    <tr><td>Amazon S3</td><td>Source / Destination</td><td>IAM role or access key</td></tr>
-    <tr><td>Snowflake</td><td>Destination</td><td>Key-pair auth</td></tr>
-    <tr><td>Kafka</td><td>Source / Destination</td><td>SASL/SSL</td></tr>
-    <tr><td>Webhook</td><td>Source / Destination</td><td>Signed request or bearer token</td></tr>
+    <tr><td>Postgres</td><td>Source</td><td>Connection string + replication slot</td><td>Yes</td></tr>
+    <tr><td>Amazon S3</td><td>Source / Destination</td><td>IAM role or access key</td><td>Yes</td></tr>
+    <tr><td>Snowflake</td><td>Destination</td><td>Key-pair auth</td><td>No</td></tr>
+    <tr><td>Kafka</td><td>Source / Destination</td><td>SASL/SSL</td><td>Yes</td></tr>
+    <tr><td>Webhook</td><td>Source / Destination</td><td>Signed request or bearer token</td><td>No</td></tr>
   </tbody>
 </table>
 
