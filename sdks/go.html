@@ -62,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Go SDK <span class='chip chip--primary'>v2</span></h1>
-<p>A strongly typed client for the <a href="/apis/index">v2 REST API</a> for Go 1.18+.</p>
+<p>A strongly typed client for the <a href="/api/index">v2 REST API</a> for Go 1.18+.</p>
 
 <h2>Install</h2>
 <div class='code-block'>
@@ -85,7 +85,7 @@
 </div>}
 
 <h2>Create a pipeline</h2>
-<p>Maps directly onto the <a href="/apis/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
+<p>Maps directly onto the <a href="/api/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
 
 {{ds:component/code-block|filename=main.go|language=go|code=pipeline, err := client.Pipelines.Create(ctx, &godzilla.CreatePipelineRequest{\n\tName: \"ingest-orders\",\n\tSourceConnectorID: \"conn_pg_orders\",\n\tDestinationConnectorID: \"conn_snowflake_dw\",\n})\nif err != nil {\n\tlog.Fatal(err)\n}}}
 
@@ -103,7 +103,7 @@
 
 <div class='alert alert--info'>
   <div class='alert__title'>Full compatibility</div>
-  <div class='alert__body'><p>Every method in the SDK maps one-to-one onto the <a href="/apis/index">REST API</a>, so you can refer to the API docs for detailed parameter and response information.</p></div>
+  <div class='alert__body'><p>Every method in the SDK maps one-to-one onto the <a href="/api/index">REST API</a>, so you can refer to the API docs for detailed parameter and response information.</p></div>
 </div>
 </main>
 
