@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schemas | Godzilla Docs</title>
+  <meta name="description" content="How to declare and validate event payload shapes in Godzilla: JSON Schema, schema registries, and payload validation rules.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-concepts-schemas">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Schemas</h1>
+
+<p>A <strong>schema</strong> is a formal declaration of the structure, types, and constraints on an <a href="/concepts-events">event</a>'s <code>payload</code>. Schemas enable validation at ingestion and transformation boundaries, catch malformed data early, and provide explicit contracts between source systems and pipelines.</p>
+
+<h2>Why schemas matter</h2>
+
+<p>Without a schema, pipelines treat every incoming event as opaque JSON. This works when data is homogeneous and trusted, but quickly becomes fragile:</p>
+
+<ul>
+  <li><strong>Silent failures:</strong> A missing or malformed field goes unnoticed until a transform or destination write fails downstream.</li>
+  <li><strong>Type mismatches:</strong> A field that shifts from string to integer silently breaks type-aware transforms.</li>
+  <li><strong>Undocumented contracts:</strong> New team members or external systems have no way to know what shape a pipeline expects.</li>
+</ul>
+
+<p>A schema flips the burden: validation happens at the source, errors surface immediately, and the pipeline's data contract is explicit and machine-readable.</p>
+
+<h2>Schema formats</h2>
+
+<p>Godzilla supports declaring schemas in <strong>JSON Schema</strong> — the standard dialect for describing JSON structure. A typical schema looks like this:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>order_schema.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": &#123;\n    \"order_id\": &#123; \"type\": \"string\" &#125;,\n    \"amount_cents\": &#123; \"type\": \"integer\", \"minimum\": 0 &#125;,\n    \"customer_email\": &#123; \"type\": \"string\", \"format\": \"email\" &#125;,\n    \"created_at\": &#123; \"type\": \"string\", \"format\": \"date-time\" &#125;\n  &#125;,\n  \"required\": [\"order_id\", \"amount_cents\", \"customer_email\"],\n  \"additionalProperties\": false\n&#125;</code></pre>
+</div>
+
+<p>This schema declares that an order event must include <code>order_id</code>, <code>amount_cents</code>, and <code>customer_email</code> as required fields; bans any unexpected properties; and enforces type and format constraints.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>JSON Schema dialects</div>
+  <div class='alert__body'>Godzilla currently supports <strong>JSON Schema draft 7</strong>. Other dialects (draft 4, 2019-09, 2020-12) may be supported in future releases.</div>
+</div>
+
+<h2>Registering and attaching schemas</h2>
+
+<p>Schemas live in a <strong>schema registry</strong> — a central repository associated with your Godzilla workspace. You register a schema once, give it a name and version, and then reference it by name in any pipeline.</p>
+
+<p>When a schema is attached to a pipeline's <code>input</code> (the source connector's output) or to a <code>transform step</code>, Godzilla automatically validates each incoming event against that schema. Validation failures are logged and the event is moved to the pipeline's dead-letter queue, not silently dropped.</p>
+
+<h2>Validation at transform boundaries</h2>
+
+<p>Schemas can also be attached to transform outputs. If a transform is supposed to normalize events to a known shape, attach an output schema to that step:</p>
+
+<ul>
+  <li>The transform's output is validated against the schema.</li>
+  <li>Validation failures prevent malformed events from reaching the destination.</li>
+  <li>Downstream transforms see a guaranteed contract.</li>
+</ul>
+
+<p>This is especially useful in multi-stage pipelines where one transform's output feeds into another.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Schema versioning</div>
+  <div class='alert__body'>When you update a registered schema, Godzilla treats it as a new version. Pipelines continue using the old version until you explicitly update their schema references. This prevents surprise validation failures from mid-flight schema changes.</div>
+</div>
+
+<h2>Payload validation in practice</h2>
+
+<p>When validation is enabled on a pipeline input:</p>
+
+<ol>
+  <li>An incoming event arrives from the source connector.</li>
+  <li>Godzilla validates the event's <code>payload</code> against the attached schema.</li>
+  <li>If valid, the event proceeds to transforms.</li>
+  <li>If invalid, the validation error is recorded and the event moves to the dead-letter queue.</li>
+</ol>
+
+<p>The validation report includes the specific constraint that failed (e.g., "missing required field <code>customer_email</code>" or "<code>amount_cents</code> must be ≥ 0"), making debugging straightforward.</p>
+
+<h2>Relationship to Events</h2>
+
+<p>Every <a href="/concepts-events">event</a> has a payload; a schema is the optional but recommended way to declare what that payload must look like. Schemas are not required — Godzilla is happy to process unvalidated JSON events — but they catch errors early and make your pipelines more robust.</p>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
