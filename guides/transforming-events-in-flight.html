@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforming events in flight | Godzilla Docs</title>
+  <meta name="description" content="Reshape, filter, and enrich events as they pass through a pipeline.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-transforming-events-in-flight">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforming events in flight</h1>
+<p>Godzilla pipelines can reshape, filter, and enrich events as they flow from source to destination. Transforms run on every event and allow you to adapt data to your destination's schema, drop unwanted events, and add context from external systems.</p>
+
+<h2>Overview</h2>
+<p>A transform is a function that takes an incoming event and returns zero or more output events. Each output can be shaped differently from the input, and a single input event can produce multiple outputs (or none at all).</p>
+
+<h2>Reshaping events</h2>
+<p>Use field mapping and projection to adapt your source data to a destination schema:</p>
+
+{{ds:component/code-block|filename=example.transform.js|language=javascript|code=module.exports = (event) => {
+  return {
+    order_id: event.id,
+    customer_email: event.user.email,
+    total_amount: event.cart.subtotal + event.cart.tax,
+    timestamp: new Date(event.created_at).toISOString()
+  };
+};}}
+
+<p>The returned object becomes the event sent to the destination. Rename fields, compute derived values, and drop unused columns — the destination receives only what you return.</p>
+
+<h2>Filtering events</h2>
+<p>Return <code>null</code> or an empty array to drop an event entirely. Use this to exclude test data, low-value transactions, or events that don't meet your business rules:</p>
+
+{{ds:component/code-block|filename=example.filter.js|language=javascript|code=module.exports = (event) => {
+  // Only forward orders over $100
+  if (event.total_amount < 100) {
+    return null; // Drop this event
+  }
+  return event;
+};}}
+
+<p>Returning an empty array also filters out the event. This is useful when you want to make a side effect (like logging or posting to an analytics service) but prevent the event from flowing downstream.</p>
+
+<h2>Enriching events</h2>
+<p>Fetch additional data during transform execution to add context to each event:</p>
+
+{{ds:component/code-block|filename=example.enrich.js|language=javascript|code=const fetch = require('node-fetch');
+
+module.exports = async (event) => {
+  // Look up customer tier from external API
+  const customer = await fetch(
+    `https://api.example.com/customers/${event.customer_id}`
+  ).then(r => r.json());
+  
+  return {
+    ...event,
+    customer_tier: customer.subscription_tier,
+    lifetime_value: customer.lifetime_value
+  };
+};}}
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Performance implications</div>
+  <div class='alert__body'><p>External API calls add latency. Cache responses when possible, and ensure your enrichment service has high availability — slow or down enrichment services will back up your pipeline.</p></div>
+</div>
+
+<h2>Batching outputs</h2>
+<p>Return an array to produce multiple events from a single input:</p>
+
+{{ds:component/code-block|filename=example.batch.js|language=javascript|code=module.exports = (event) => {
+  // Split a multi-item order into one event per line item
+  return event.line_items.map(item => ({
+    order_id: event.id,
+    item_sku: item.sku,
+    quantity: item.quantity,
+    price: item.unit_price
+  }));
+};}}
+
+<p>This is useful for normalizing denormalized data or creating audit events alongside primary data flow.</p>
+
+<h2>Error handling</h2>
+<p>If a transform throws an error, the event is retried according to your <a href="/guides/handling-errors-and-retries">error and retry policy</a>. Validation errors should throw explicitly rather than silently returning null:</p>
+
+{{ds:component/code-block|filename=example.validate.js|language=javascript|code=module.exports = (event) => {
+  if (!event.email || !event.email.includes('@')) {
+    throw new Error('Invalid email: ' + event.email);
+  }
+  return event;
+};}}
+
+<h2>Testing transforms</h2>
+<p>Write unit tests against your transform functions before deploying them to a pipeline. Test with real event shapes from your source and verify the output schema matches your destination expectations.</p>
+
+<h2>Next steps</h2>
+<p>Learn how to handle errors and implement retries in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>, or explore <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a> to control when pipelines run.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Connecting a data source</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Handling errors & retries</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
