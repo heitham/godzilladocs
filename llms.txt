@@ -6,7 +6,6 @@
 - [Changelog](https://localhost:4310/changelog): Recent changes to the Godzilla API and platform.
 - [Glossary](https://localhost:4310/glossary): Definitions for Godzilla's core terms, each linking to its full explanation.
 - [Godzilla Docs](https://localhost:4310/index): Everything you need to build data pipelines on the Godzilla platform.
-- [Schemas](https://localhost:4310/concepts-schemas): How to declare and validate event payload shapes across your pipelines.
 - [Security & compliance overview](https://localhost:4310/security-and-compliance): How Godzilla handles data in transit and at rest, credential storage, and compliance posture.
 - [Support / Contact](https://localhost:4310/support): How to reach the Godzilla team for support, sales, or security reports.
 - [Troubleshooting / FAQ](https://localhost:4310/troubleshooting): Common problems and fixes across pipelines, connectors, and webhooks.
@@ -26,6 +25,7 @@
 - [Connectors](https://localhost:4310/concepts/concepts-connectors): What a connector is in Godzilla: a pre-built integration to a source or destination system, with its own auth and catalog of built-in types.
 - [Events](https://localhost:4310/concepts/concepts-events): What an event is in Godzilla: the atomic unit of data moving through a pipeline, plus the platform's own lifecycle events.
 - [Pipelines](https://localhost:4310/concepts/concepts-pipelines): What a pipeline is in Godzilla: a named, versioned workflow that moves data from a source connector through transform steps to a destination.
+- [Schemas](https://localhost:4310/concepts/concepts-schemas): How to declare and validate event payload shapes across your pipelines.
 
 ## getting-started
 - [Authentication](https://localhost:4310/getting-started/getting-started-authentication): Authenticate API requests with a bearer API key.

@@ -53,10 +53,6 @@
     <lastmod>2026-08-21</lastmod>
   </url>
   <url>
-    <loc>https://localhost:4310/concepts-schemas</loc>
-    <lastmod>2026-08-21</lastmod>
-  </url>
-  <url>
     <loc>https://localhost:4310/guides/index</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
@@ -154,6 +150,10 @@
   </url>
   <url>
     <loc>https://localhost:4310/concepts/concepts-events</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:4310/concepts/concepts-schemas</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
 </urlset>
