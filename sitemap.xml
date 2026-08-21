@@ -41,10 +41,6 @@
     <lastmod>2026-08-21</lastmod>
   </url>
   <url>
-    <loc>https://localhost:4310/concepts-schemas</loc>
-    <lastmod>2026-08-21</lastmod>
-  </url>
-  <url>
     <loc>https://localhost:4310/recipes/backfill-historical-data</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
@@ -54,10 +50,6 @@
   </url>
   <url>
     <loc>https://localhost:4310/getting-started/getting-started-installation</loc>
-    <lastmod>2026-08-21</lastmod>
-  </url>
-  <url>
-    <loc>https://localhost:4310/concepts-events</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
   <url>
@@ -154,6 +146,14 @@
   </url>
   <url>
     <loc>https://localhost:4310/concepts/concepts-connectors</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:4310/concepts/concepts-events</loc>
+    <lastmod>2026-08-21</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:4310/concepts/concepts-schemas</loc>
     <lastmod>2026-08-21</lastmod>
   </url>
 </urlset>
