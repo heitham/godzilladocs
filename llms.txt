@@ -34,6 +34,7 @@
 - [Handling errors & retries](https://localhost:3002/guides/handling-errors-and-retries): How Godzilla retries failed events, when they're dead-lettered, and how to replay them.
 - [Monitoring & alerts](https://localhost:3002/guides/monitoring-and-alerts): Watch pipeline health and get notified of failures via webhooks before they become incidents.
 - [Scheduling & triggers](https://localhost:3002/guides/scheduling-and-triggers): Run a pipeline on a cron schedule or trigger it directly from incoming events.
+- [Transforming events in flight](https://localhost:3002/guides/transforming-events-in-flight): Reshape, filter, and enrich events as they pass through a pipeline.
 
 ## sdks
 - [Node.js SDK](https://localhost:3002/sdks/node-js): Install and use @godzilla/sdk to manage pipelines and connectors from Node.js.

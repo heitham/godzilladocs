@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 30 pages.
+Generated from published output — 31 pages.
 
 ## (root)
 
@@ -44,6 +44,7 @@ Generated from published output — 30 pages.
 | `/guides/index` | Guides |
 | `/guides/monitoring-and-alerts` | Monitoring & alerts |
 | `/guides/scheduling-and-triggers` | Scheduling & triggers |
+| `/guides/transforming-events-in-flight` | Transforming events in flight |
 
 ## sdks
 
