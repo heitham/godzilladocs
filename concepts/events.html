@@ -105,6 +105,9 @@
 
 <h2>Retries and dead-lettering</h2>
 <p>An event that fails a schema validation check (in strict mode), transform, or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> for how to configure and drain a dead-letter queue.</p>
+
+<h2>See also</h2>
+<p>To query or replay events programmatically, see the <a href="/api/events">Events endpoint</a> in the API reference. For end-to-end recovery workflows and DLQ management, see the <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> guide.</p>
 </main>
 
 </div>
