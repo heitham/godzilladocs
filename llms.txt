@@ -4,7 +4,6 @@
 
 ## Pages
 - [Changelog](https://localhost:3002/changelog): Recent changes to the Godzilla API and platform.
-- [Glossary](https://localhost:3002/glossary): Definitions for Godzilla's core terms, each linking to its full explanation.
 - [Godzilla Docs](https://localhost:3002/index): Everything you need to build data pipelines on the Godzilla platform.
 - [Security & compliance overview](https://localhost:3002/security-and-compliance): How Godzilla handles data in transit and at rest, credential storage, and compliance posture.
 - [Troubleshooting / FAQ](https://localhost:3002/troubleshooting): Common problems and fixes across pipelines, connectors, and webhooks.

@@ -98,6 +98,37 @@
   <h2>How they fit together</h2>
   <p>A <strong>pipeline</strong> reads <strong>events</strong> from a source <strong>connector</strong>, validates their payload against <strong>schemas</strong>, transforms them, and writes them to a destination connector. Everything else in Godzilla — retries, webhooks, monitoring — is built on top of that loop.</p>
 </section>
+
+<section>
+  <h2>Definitions</h2>
+  <p>Short definitions for every term used throughout these docs.</p>
+
+  <dl>
+    <dt><a href="/concepts/pipelines">Pipeline</a></dt>
+    <dd>A named, versioned workflow that moves data from a source connector, through optional transforms, to a destination connector.</dd>
+
+    <dt><a href="/concepts/connectors">Connector</a></dt>
+    <dd>A pre-built integration to an external system — a source, a destination, or both.</dd>
+
+    <dt><a href="/concepts/events">Event</a></dt>
+    <dd>The atomic unit of data moving through a pipeline, or a platform lifecycle notification like <code>pipeline.failed</code>.</dd>
+
+    <dt><a href="/concepts/schemas">Schema</a></dt>
+    <dd>The structural contract and type validation rules for an event's payload moving through a pipeline.</dd>
+
+    <dt><a href="/api/webhooks">Webhook</a></dt>
+    <dd>An outbound HTTP request Godzilla sends to a URL you control when a subscribed event occurs.</dd>
+
+    <dt>Dead-letter queue</dt>
+    <dd>Where an event goes after exhausting its retries, rather than being dropped. See <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a>.</dd>
+
+    <dt>Cursor pagination</dt>
+    <dd>The pagination style used by every v2 list endpoint. See <a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a>.</dd>
+
+    <dt>Workspace</dt>
+    <dd>The top-level account boundary an API key is scoped to.</dd>
+  </dl>
+</section>
 </main>
 
 </div>
