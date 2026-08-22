@@ -79,12 +79,12 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  \"type\": \"postgres\",
-  \"direction\": \"source\",
-  \"config\": &#123;
-    \"connection_string\": \"postgres://user:secret@db.example.com:5432/production\",
-    \"query\": \"SELECT * FROM orders WHERE created_at >= '2025-01-01T00:00:00Z' AND created_at < '2026-01-01T00:00:00Z'\",
-    \"timestamp_column\": \"created_at\"
+  "type": "postgres",
+  "direction": "source",
+  "config": &#123;
+    "connection_string": "postgres://user:secret@db.example.com:5432/production",
+    "query": "SELECT * FROM orders WHERE created_at >= '2025-01-01T00:00:00Z' AND created_at < '2026-01-01T00:00:00Z'",
+    "timestamp_column": "created_at"
   &#125;
 &#125;</code></pre>
 </div>
@@ -99,13 +99,13 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  \"name\": \"orders-backfill-2025\",
-  \"source_connector_id\": \"conn_pg_orders_backfill\",
-  \"destination_connector_id\": \"conn_snowflake_dw\",
-  \"settings\": &#123;
-    \"batch_size\": 5000,
-    \"concurrency\": 4,
-    \"max_retries\": 5
+  "name": "orders-backfill-2025",
+  "source_connector_id": "conn_pg_orders_backfill",
+  "destination_connector_id": "conn_snowflake_dw",
+  "settings": &#123;
+    "batch_size": 5000,
+    "concurrency": 4,
+    "max_retries": 5
   &#125;
 &#125;</code></pre>
 </div>
@@ -124,7 +124,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines/orders-backfill-2025/start \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines/orders-backfill-2025/start \
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
 <h2>4. Transitioning to real-time streaming</h2>
