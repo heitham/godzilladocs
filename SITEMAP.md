@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 32 pages.
+Generated from published output — 33 pages.
 
 ## (root)
 
@@ -12,6 +12,7 @@ Generated from published output — 32 pages.
 | `/concepts-connectors` | Connectors |
 | `/concepts-events` | Events |
 | `/concepts-pipelines` | Pipelines |
+| `/concepts-schemas` | Schemas |
 | `/getting-started-authentication` | Authentication |
 | `/getting-started-installation` | Installation |
 | `/getting-started-quickstart` | Quickstart |

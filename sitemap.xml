@@ -81,6 +81,10 @@
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
+    <loc>https://localhost:3002/concepts-schemas</loc>
+    <lastmod>2026-08-20</lastmod>
+  </url>
+  <url>
     <loc>https://localhost:3002/concepts-pipelines</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
