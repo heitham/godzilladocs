@@ -40,11 +40,7 @@
     }
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
-    @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
-    }
-  </style>
+    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }\n  </style>
 
 </head>
 <body class="folder-versions page-migration-guide-v1-to-v2">
@@ -63,6 +59,11 @@
 
 <h1>Migration guide (v1 → v2) <span class='chip chip--danger'>v1 retired</span></h1>
 <p>v1 reached end of life on 2026-08-01 alongside the <a href="/changelog">webhooks GA changelog entry</a>. This guide covers the three breaking changes you need to handle to move a v1 integration to v2.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Endpoints running on v3</div>
+  <div class='alert__body'><p>The <a href="/api/pipelines">Pipelines</a> and <a href="/api/events">Events</a> endpoints now run on <strong>v3</strong> (<code>https://api.godzilladocs.dev/v3</code>). The v2 Events endpoint has been withdrawn entirely — make sure you direct event listing and replay requests directly to v3 when moving over.</p></div>
+</div>
 
 <h2>1. Pagination: offset → cursor</h2>
 <p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href="/api/rate-limits#pagination">Rate limits</a> for the exact envelope.</p>

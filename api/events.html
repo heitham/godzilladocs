@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Events endpoint | Godzilla Docs</title>
-  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v2 REST API.">
+  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v3 REST API.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -61,11 +61,11 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Events endpoint <span class='chip chip--primary'>v2</span></h1>
-<p>Query and replay <a href="/concepts/events">events</a> that have flowed through a pipeline.</p>
+<h1>Events endpoint <span class='chip chip--primary'>v3</span></h1>
+<p>Query and replay <a href="/concepts/events">events</a> that have flowed through a pipeline. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
 
 <h2 id="list">List events</h2>
-<p><code>GET /v2/pipelines/{pipeline_id}/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>
+<p><code>GET /v3/pipelines/{pipeline_id}/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>
 
 <table class='param-table'>
   <thead>
@@ -94,7 +94,7 @@
 </div>
 
 <h2 id="replay">Replay a dead-lettered event</h2>
-<p><code>POST /v2/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <code>Error handling & recovery</code> guide for when to use this versus reprocessing an entire time range.</p>
+<p><code>POST /v3/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <code>Error handling & recovery</code> guide for when to use this versus reprocessing an entire time range.</p>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Platform events</div>
