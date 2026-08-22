@@ -38,6 +38,7 @@
 - [Transforming events in flight](https://localhost:3002/guides/transforming-events-in-flight): Reshape, filter, and enrich events in real time as they move through a pipeline.
 
 ## sdks
+- [Go SDK](https://localhost:3002/sdks/go): Install and use godzilla-go to manage pipelines and connectors from Go.
 - [Node.js SDK](https://localhost:3002/sdks/node-js): Install and use @godzilla/sdk to manage pipelines and connectors from Node.js.
 - [Python SDK](https://localhost:3002/sdks/python): Install and use godzilla-sdk to manage pipelines and connectors from Python.
-- [SDKs](https://localhost:3002/sdks/index): Official Godzilla client libraries for Node.js and Python.
+- [SDKs](https://localhost:3002/sdks/index): Official Godzilla client libraries for Go, Node.js, and Python.

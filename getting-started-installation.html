@@ -40,4 +40,81 @@
     }
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
-    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }\n  </style>\n\n</head>\n<body class=\"folder-root page-getting-started-installation\">\n<header class='site-header'>\n  <div class='site-header__inner'>\n    <a class='site-header__brand' href='/'>\n      <span class='site-header__logo'>&#127755;</span>\n      <span class='site-header__name'>Godzilla Docs</span>\n    </a>\n    <nav class='site-header__nav'></nav>\n  </div>\n</header>\n<div class=\"cms-page-container cms-has-left-nav\">\n<aside class=\"cms-left-nav\"><nav aria-label=\"Side navigation\"><ul class=\"usa-sidenav\"><li class=\"usa-sidenav__item\"><a href=\"/getting-started-authentication\">Authentication</a></li><li class=\"usa-sidenav__item\"><a href=\"/changelog\">Changelog</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts\">Concepts</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts-connectors\">Connectors</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts-events\">Events</a></li><li class=\"usa-sidenav__item\"><a href=\"/glossary\">Glossary</a></li><li class=\"usa-sidenav__item\"><a href=\"/index\">Godzilla Docs</a></li><li class=\"usa-sidenav__item\"><a href=\"/getting-started-installation\" class=\"usa-current\">Installation</a></li><li class=\"usa-sidenav__item\"><a href=\"/migration-guide-v1-to-v2\">Migration guide (v1 → v2)</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts-pipelines\">Pipelines</a></li><li class=\"usa-sidenav__item\"><a href=\"/getting-started-quickstart\">Quickstart</a></li><li class=\"usa-sidenav__item\"><a href=\"/release-notes-archive\">Release notes archive</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts-schemas\">Schemas</a></li><li class=\"usa-sidenav__item\"><a href=\"/security-and-compliance\">Security &amp; compliance overview</a></li><li class=\"usa-sidenav__item\"><a href=\"/support\">Support / Contact</a></li><li class=\"usa-sidenav__item\"><a href=\"/troubleshooting\">Troubleshooting / FAQ</a></li></ul></nav></aside>\n<main class=\"cms-main-content\">\n\n<h1>Installation</h1>\n<p>Godzilla has no server to install — it's a hosted platform you reach over the REST API, either directly or through an SDK.</p>\n\n<h2>Option A: Use an SDK</h2>\n<div class='code-block'>\n  <div class='code-block__header'>\n    <span class='code-block__filename'>terminal</span>\n    <span class='code-block__lang'>bash</span>\n    <button class='code-block__copy' type='button'>Copy</button>\n  </div>\n  <pre class='code-block__pre'><code class='code-block__code'>npm install @godzilla/sdk\n# or\npip install godzilla-sdk</code></pre>\n</div>\n<p>Full setup for each is in <a href=\"/sdks/node-js\">Node.js SDK</a> and <a href=\"/sdks/python\">Python SDK</a>.</p>\n\n<h2>Option B: Call the API directly</h2>\n<p>No install needed — every endpoint in the <a href=\"/apis/index\">API reference</a> is a plain HTTPS request.</p>\n\n<div class='code-block'>\n  <div class='code-block__header'>\n    <span class='code-block__filename'>terminal</span>\n    <span class='code-block__lang'>bash</span>\n    <button class='code-block__copy' type='button'>Copy</button>\n  </div>\n  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\"</code></pre>\n</div>\n\n<div class='alert alert--info'>\n  <div class='alert__title'>Next</div>\n  <div class='alert__body'><p>Either way, you'll need an API key before you can make a request — that's covered in Authentication, next.</p></div>\n</div>\n\n<nav class='docs-pagination' aria-label='Page navigation'>\n  <a class='docs-pagination__prev' href='/concepts'>\n    <span class='docs-pagination__direction'>Previous</span>\n    <span class='docs-pagination__label'>Concepts</span>\n  </a>\n  <a class='docs-pagination__next' href='/getting-started-quickstart'>\n    <span class='docs-pagination__direction'>Next</span>\n    <span class='docs-pagination__label'>Quickstart</span>\n  </a>\n</nav>\n</main>\n\n</div>\n<footer class='site-footer'>\n  <div class='site-footer__inner'>\n    <span class='site-footer__brand'>Godzilla Docs</span>\n    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>\n  </div>\n</footer>\n</body>\n</html>\n
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-getting-started-installation">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation" class="usa-current">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Installation</h1>
+<p>Godzilla has no server to install — it's a hosted platform you reach over the REST API, either directly or through an SDK.</p>
+
+<h2>Option A: Use an SDK</h2>
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>terminal</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>npm install @godzilla/sdk
+# or
+pip install godzilla-sdk
+# or
+go get github.com/godzilla/godzilla-go</code></pre>
+</div>
+<p>Full setup for each is in <a href="/sdks/go">Go SDK</a>, <a href="/sdks/node-js">Node.js SDK</a>, and <a href="/sdks/python">Python SDK</a>.</p>
+
+<h2>Option B: Call the API directly</h2>
+<p>No install needed — every endpoint in the <a href="/apis/index">API reference</a> is a plain HTTPS request.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>terminal</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+</div>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Next</div>
+  <div class='alert__body'><p>Either way, you'll need an API key before you can make a request — that's covered in Authentication, next.</p></div>
+</div>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/concepts'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Concepts</span>
+  </a>
+  <a class='docs-pagination__next' href='/getting-started-quickstart'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Quickstart</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 33 pages.
+Generated from published output — 34 pages.
 
 ## (root)
 
@@ -52,6 +52,7 @@ Generated from published output — 33 pages.
 
 | Path | Title |
 |---|---|
+| `/sdks/go` | Go SDK |
 | `/sdks/index` | SDKs |
 | `/sdks/node-js` | Node.js SDK |
 | `/sdks/python` | Python SDK |
