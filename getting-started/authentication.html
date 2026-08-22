@@ -78,6 +78,21 @@
   -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>client.go</span>
+    <span class='code-block__lang'>go</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>import (
+    "os"
+
+    "github.com/godzilla/godzilla-go"
+)
+
+client := godzilla.NewClient(os.Getenv("GODZILLA_API_KEY"))</code></pre>
+</div>
+
 <div class='alert alert--danger'>
   <div class='alert__title'>Never expose a key client-side</div>
   <div class='alert__body'><p>API keys carry full workspace access. Keep them server-side only — never embed one in a mobile app, browser bundle, or public repository.</p></div>

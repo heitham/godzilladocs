@@ -83,6 +83,21 @@
   -d '{"type":"postgres","direction":"source","config":{"connection_string":"postgres://..."}}'</code></pre>
 </div>
 
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create_source.go</span>
+    <span class='code-block__lang'>go</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>source, err := client.Connectors.Create(ctx, &amp;godzilla.ConnectorCreateParams{
+    Type:      "postgres",
+    Direction: "source",
+    Config: map[string]string{
+        "connection_string": "postgres://...",
+    },
+})</code></pre>
+</div>
+
 <h2>2. Create a destination connector</h2>
 <p>We'll write to Snowflake.</p>
 
@@ -95,6 +110,21 @@
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -d '{"type":"snowflake","direction":"destination","config":{"account":"..."}}'</code></pre>
+</div>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create_destination.go</span>
+    <span class='code-block__lang'>go</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>dest, err := client.Connectors.Create(ctx, &amp;godzilla.ConnectorCreateParams{
+    Type:      "snowflake",
+    Direction: "destination",
+    Config: map[string]string{
+        "account": "...",
+    },
+})</code></pre>
 </div>
 
 <h2>3. Create the pipeline</h2>
@@ -111,17 +141,30 @@
   -d '{"name":"ingest-orders","source_connector_id":"conn_pg_orders","destination_connector_id":"conn_snowflake_dw"}'</code></pre>
 </div>
 
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create_pipeline.go</span>
+    <span class='code-block__lang'>go</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>pipeline, err := client.Pipelines.Create(ctx, &amp;godzilla.PipelineCreateParams{
+    Name:                   "ingest-orders",
+    SourceConnectorID:      "conn_pg_orders",
+    DestinationConnectorID: "conn_snowflake_dw",
+})</code></pre>
+</div>
+
 <p>The pipeline starts in <code>draft</code> state. Activate it once you're ready to start processing events.</p>
 
 <h2>Next steps</h2>
-<p>Now that events are flowing, read <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> to see what happens when a write fails, <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a> to watch it run, or explore <a href="/recipes/index">Recipes</a> for architecture patterns like multi-destination fan-out and historical backfills.</p>
+<p>Now that events are flowing, read <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> to see what happens when a write fails, <a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a> to watch it run, or explore <a href="/recipes/index">Recipes</a> for architecture patterns like multi-destination fan-out and historical backfills.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
-  <a class='docs-pagination__prev' href='/guides/index'>
+  <a class='docs-pagination__prev' href="/guides/index">
     <span class='docs-pagination__direction'>Previous</span>
     <span class='docs-pagination__label'>Guides</span>
   </a>
-  <a class='docs-pagination__next' href='/guides/connecting-a-data-source'>
+  <a class='docs-pagination__next' href="/guides/connecting-a-data-source">
     <span class='docs-pagination__direction'>Next</span>
     <span class='docs-pagination__label'>Connecting a data source</span>
   </a>
