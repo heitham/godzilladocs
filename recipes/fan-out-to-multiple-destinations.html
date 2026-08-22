@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fan-out to multiple destinations | Godzilla Docs</title>
+  <meta name="description" content="Route a single event stream to multiple heterogeneous storage engines, search indexes, and endpoints.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-recipes page-fan-out-to-multiple-destinations">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations" class="usa-current">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Fan-out to multiple destinations</h1>
+<p>In many architectures, a single incoming stream of <a href="/concepts-events">events</a> needs to reach several downstream systems simultaneously — for example, updating an analytical data warehouse, indexing in Elasticsearch for fast search, and notifying third-party services over webhooks.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Independent processing</div>
+  <div class='alert__body'><p>Godzilla processes each destination branch independently. A slow or failing destination will not block or degrade delivery to other healthy destinations.</p></div>
+</div>
+
+<h2>1. Create multiple destination connectors</h2>
+<p>First, define destination connectors for each service receiving the stream. See <a href="/guides/connecting-a-data-source">Connecting a data source</a> for configuration details.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-destinations.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'># Snowflake destination
+curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '&#123;"name":"snowflake-warehouse","type":"snowflake","direction":"destination","config":&#123;"account":"..."&#125;&#125;'
+
+# Elasticsearch destination
+curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -d '&#123;"name":"es-search-index","type":"elasticsearch","direction":"destination","config":&#123;"endpoint":"https://..."&#125;&#125;'</code></pre>
+</div>
+
+<h2>2. Define the fan-out pipeline</h2>
+<p>Create a pipeline specifying multiple destination connectors. You can optionally apply branch-specific <a href="/guides/transforming-events-in-flight">transforms</a> to shape the payload for each destination's schema.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>pipeline-fanout.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "name": "orders-multidest-fanout",
+  "source_connector_id": "conn_pg_orders",
+  "destinations": [
+    &#123;
+      "connector_id": "conn_snowflake_warehouse",
+      "transforms": [
+        &#123; "type": "enrich", "config": &#123; "add_fields": &#123; "layer": "dw" &#125; &#125; &#125;
+      ]
+    &#125;,
+    &#123;
+      "connector_id": "conn_es_search_index",
+      "transforms": [
+        &#123; "type": "reshape", "config": &#123; "drop": ["raw_sql", "binary_blob"] &#125; &#125;
+      ]
+    &#125;
+  ]
+&#125;</code></pre>
+</div>
+
+<h2>3. Configure retry policies per destination</h2>
+<p>Different downstream engines have varying availability characteristics. Set distinct retry thresholds and dead-letter queues per branch to prevent temporary destination outages from polluting upstream buffers.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Dead-letter isolation</div>
+  <div class='alert__body'><p>Dead-lettered events are recorded with the destination ID attached, allowing targeted replaying without duplicating events to already successful destinations.</p></div>
+</div>
+
+<h2>Next steps</h2>
+<p>Learn more about replay workflows in <a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a>, or see how to trigger fan-out pipelines on schedules in <a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a>.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/recipes/backfill-historical-data'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Backfill historical data</span>
+  </a>
+  <a class='docs-pagination__next' href='/recipes/index'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Recipes</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
