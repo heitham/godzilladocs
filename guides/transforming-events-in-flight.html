@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transforming events in flight | Godzilla Docs</title>
+  <meta name="description" content="Reshape, filter, and enrich events as they pass through a pipeline before writing to destinations.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-guides page-transforming-events-in-flight">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class=\"cms-page-container cms-has-left-nav\">
+<aside class=\"cms-left-nav\"><nav aria-label=\"Side navigation\"><ul class=\"usa-sidenav\"><li class=\"usa-sidenav__item\"><a href=\"/guides/building-your-first-pipeline\">Building your first pipeline</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/connecting-a-data-source\">Connecting a data source</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/index\">Guides</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/handling-errors-and-retries\">Handling errors &amp; retries</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/monitoring-and-alerts\">Monitoring &amp; alerts</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/scheduling-and-triggers\">Scheduling &amp; triggers</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/transforming-events-in-flight\" class=\"usa-current\">Transforming events in flight</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Transforming events in flight</h1>
+<p>In Godzilla, <a href="/concepts-pipelines">pipelines</a> can apply inline transformations to <a href="/concepts-events">events</a> in real time between ingestion from a source <a href="/concepts-connectors">connector</a> and egress to a destination connector. This guide covers how to configure reshape, filter, and enrich transform steps.</p>
+
+<h2>Configuring transforms</h2>
+<p>Transforms are defined as an ordered array in your pipeline configuration. When creating or updating a pipeline via the <a href="/apis/pipelines">Pipelines endpoint</a>, supply the <code>transforms</code> field:</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>pipeline-transforms.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "name": "orders-etl",
+  "source_connector_id": "conn_pg_orders",
+  "destination_connector_id": "conn_snowflake_dw",
+  "transforms": [
+    { "type": "filter", "config": { "field": "payload.status", "operator": "neq", "value": "cancelled" } },
+    { "type": "reshape", "config": { "pick": ["order_id", "customer_id", "total_amount"], "rename": { "total_amount": "amount_usd" } } },
+    { "type": "enrich", "config": { "add_fields": { "environment": "production", "processed_by": "godzilla-v2" } } }
+  ]
+}</code></pre>
+</div>
+
+<h2>Reshaping events</h2>
+<p>The <code>reshape</code> step modifies the structural schema of the event payload. Common reshaping operations include:</p>
+<ul>
+  <li><strong>Field selection:</strong> Keep only specified fields with <code>pick</code> or remove sensitive attributes with <code>omit</code>.</li>
+  <li><strong>Renaming:</strong> Map source property names to match target destination schemas with <code>rename</code>.</li>
+  <li><strong>Casting and formatting:</strong> Coerce string values to numeric types or timestamps into standardized ISO-8601 strings.</li>
+</ul>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>reshape-step.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "type": "reshape",
+  "config": {
+    "pick": ["id", "user_id", "subtotal", "tax"],
+    "rename": { "id": "order_id" },
+    "cast": { "subtotal": "float", "tax": "float" }
+  }
+}</code></pre>
+</div>
+
+<h2>Filtering events</h2>
+<p>The <code>filter</code> step evaluates incoming events against conditional rules. If an event does not meet the predicate, Godzilla drops it from the pipeline immediately without forwarding it to subsequent transforms or destination connectors.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Filtered events vs. errors</div>
+  <div class='alert__body'><p>Filtered-out events are dropped cleanly by design and do not enter the dead-letter queue. Only unhandled transformation errors or destination delivery failures trigger retries.</p></div>
+</div>
+
+<p>Supported comparison operators include <code>eq</code>, <code>neq</code>, <code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code>, <code>in</code>, and <code>contains</code>.</p>
+
+<h2>Enriching events</h2>
+<p>The <code>enrich</code> step adds new context to events as they flow through the pipeline. You can inject static metadata, environment tags, or calculated values derived from other payload fields.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>enrich-step.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "type": "enrich",
+  "config": {
+    "add_fields": {
+      "pipeline_version": "2.0",
+      "region": "us-east-1"
+    }
+  }
+}</code></pre>
+</div>
+
+<h2>Step ordering and error handling</h2>
+<p>Transform steps run sequentially in array order. Placing <code>filter</code> steps first reduces processing overhead by eliminating irrelevant records before running heavier reshaping or enrichment operations.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Transform failures</div>
+  <div class='alert__body'><p>If a transform step throws an unhandled exception (such as parsing malformed JSON or casting incompatible types), the event is retried according to your pipeline's retry policy.</p></div>
+</div>
+
+<h2>Next steps</h2>
+<p>To see how Godzilla handles unexpected transform or write failures, continue to <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>, or learn about pipeline schedules in <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a>.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Connecting a data source</span>
+  </a>
+  <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Handling errors & retries</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

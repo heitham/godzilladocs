@@ -68,7 +68,7 @@
 <p>Every pipeline has three parts:</p>
 <ul>
   <li><strong>Source</strong> — the <a href="/concepts-connectors">connector</a> that emits events into the pipeline (a database, a queue, an upload, a webhook).</li>
-  <li><strong>Transforms</strong> — an ordered list of steps that reshape, filter, or enrich events as they pass through. Transforms are optional; a pipeline with none is a pass-through copy.</li>
+  <li><strong>Transforms</strong> — an ordered list of steps that reshape, filter, or enrich events as they pass through (see <a href="/guides/transforming-events-in-flight">Transforming events in flight</a>). Transforms are optional; a pipeline with none is a pass-through copy.</li>
   <li><strong>Destination</strong> — the connector that events are written to once transforms complete.</li>
 </ul>
 
