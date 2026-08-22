@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 39 pages.
+Generated from published output — 40 pages.
 
 ## (root)
 
@@ -15,8 +15,6 @@ Generated from published output — 39 pages.
 | `/concepts-schemas` | Schemas |
 | `/glossary` | Glossary |
 | `/index` | Godzilla Docs |
-| `/migration-guide-v1-to-v2` | Migration guide (v1 → v2) |
-| `/release-notes-archive` | Release notes archive |
 | `/security-and-compliance` | Security & compliance overview |
 | `/support` | Support / Contact |
 | `/troubleshooting` | Troubleshooting / FAQ |
@@ -71,3 +69,11 @@ Generated from published output — 39 pages.
 | `/sdks/index` | SDKs |
 | `/sdks/node-js` | Node.js SDK |
 | `/sdks/python` | Python SDK |
+
+## versions
+
+| Path | Title |
+|---|---|
+| `/versions/index` | Versions |
+| `/versions/migration-guide-v1-to-v2` | Migration guide (v1 → v2) |
+| `/versions/release-notes-archive` | Release notes archive |

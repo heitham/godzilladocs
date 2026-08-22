@@ -62,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Webhooks endpoint <span class='chip chip--primary'>v2</span></h1>
-<p>Subscribe to platform lifecycle events — such as <code>pipeline.completed</code> or <code>connector.error</code> — as outbound HTTP requests to a URL you control. This is the v2 replacement for v1's polling-only status checks; see the <a href="/migration-guide-v1-to-v2">Migration guide</a> if you're moving off v1.</p>
+<p>Subscribe to platform lifecycle events — such as <code>pipeline.completed</code> or <code>connector.error</code> — as outbound HTTP requests to a URL you control. This is the v2 replacement for v1's polling-only status checks; see the <a href="/versions/migration-guide-v1-to-v2">Migration guide</a> if you're moving off v1.</p>
 
 <h2 id="create">Create a webhook subscription</h2>
 <p><code>POST /v2/webhooks</code></p>
@@ -76,7 +76,7 @@
       <th>Description</th>
     </tr>
   </thead>
-  <tbody><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>HTTPS endpoint Godzilla will POST events to.</td></tr><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>List of event types to subscribe to, e.g. <code>["pipeline.failed"]</code>.</td></tr><tr><td><code>secret</code></td><td>string</td><td>No</td><td>Shared secret used to sign the <code>X-Godzilla-Signature</code> header. Auto-generated if omitted.</td></tr></tbody>
+  <tbody><tr><td><code>type</code></td><td>string</td><td>Yes</td><td>HTTPS endpoint Godzilla will POST events to.</td></tr><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>List of event types to subscribe to, e.g. <code>[\"pipeline.failed\"]</code>.</td></tr><tr><td><code>secret</code></td><td>string</td><td>No</td><td>Shared secret used to sign the <code>X-Godzilla-Signature</code> header. Auto-generated if omitted.</td></tr></tbody>
 </table>
 
 <div class='code-block'>
@@ -85,12 +85,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{
-  "id": "evt_wh_2091",
-  "type": "pipeline.failed",
-  "occurred_at": "2026-08-18T09:14:02Z",
-  "data": { "pipeline_id": "pl_ingest_orders", "error": "destination_timeout" }
-}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"id\": \"evt_wh_2091\",\n  \"type\": \"pipeline.failed\",\n  \"occurred_at\": \"2026-08-18T09:14:02Z\",\n  \"data\": { \"pipeline_id\": \"pl_ingest_orders\", \"error\": \"destination_timeout\" }\n}</code></pre>
 </div>
 
 <div class='alert alert--warning'>
@@ -103,7 +98,7 @@
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#create">Create a webhook subscription</a></li><li><a href="#retries">Delivery retries</a></li></ul>
+  <ul class='docs-toc__list'><li><a href=\"#create\">Create a webhook subscription</a></li><li><a href=\"#retries\">Delivery retries</a></li></ul>
 </nav>
 </main>
 

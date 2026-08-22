@@ -41,7 +41,8 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -57,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Schemas</h1>
@@ -72,33 +73,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "OrderCreatedPayload",
-  "type": "object",
-  "required": ["order_id", "customer_id", "amount_cents", "currency"],
-  "properties": {
-    "order_id": {
-      "type": "string",
-      "pattern": "^ord_[a-zA-Z0-9]+$"
-    },
-    "customer_id": {
-      "type": "string"
-    },
-    "amount_cents": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "currency": {
-      "type": "string",
-      "enum": ["USD", "EUR", "GBP", "CAD"]
-    },
-    "metadata": {
-      "type": "object"
-    }
-  },
-  "additionalProperties": false
-}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"OrderCreatedPayload\",\n  \"type\": \"object\",\n  \"required\": [\"order_id\", \"customer_id\", \"amount_cents\", \"currency\"],\n  \"properties\": {\n    \"order_id\": {\n      \"type\": \"string\",\n      \"pattern\": \"^ord_[a-zA-Z0-9]+$\"\n    },\n    \"customer_id\": {\n      \"type\": \"string\"\n    },\n    \"amount_cents\": {\n      \"type\": \"integer\",\n      \"minimum\": 0\n    },\n    \"currency\": {\n      \"type\": \"string\",\n      \"enum\": [\"USD\", \"EUR\", \"GBP\", \"CAD\"]\n    },\n    \"metadata\": {\n      \"type\": \"object\"\n    }\n  },\n  \"additionalProperties\": false\n}</code></pre>
 </div>
 
 <h2>Payload validation lifecycle</h2>

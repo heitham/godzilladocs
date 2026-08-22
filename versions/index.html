@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Support / Contact | Godzilla Docs</title>
-  <meta name="description" content="How to reach the Godzilla team for support, sales, or security reports.">
+  <title>Versions | Godzilla Docs</title>
+  <meta name="description" content="Version history, migration guides, and release archives for Godzilla.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -40,14 +40,13 @@
     }
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
-    @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
+    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }
       .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
 </head>
-<body class="folder-root page-support">
+<body class="folder-versions page-index">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,23 +57,36 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support" class="usa-current">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/versions/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/versions/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/versions/index" class="usa-current">Versions</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Support / Contact</h1>
-<p>Before reaching out, check <a href="/troubleshooting">Troubleshooting / FAQ</a> — most common issues are covered there.</p>
+<section class='hero'>
+  <div class='hero__inner'>
+    <h1 class='hero__title'>Versions</h1>
+    <p class='hero__subtitle'>Version history, migration guides, and release archives for Godzilla.</p>
+    <div class='hero__cta'><a href="/versions/migration-guide-v1-to-v2">Migration guide</a></div>
+  </div>
+</section>
 
-<h2>Channels</h2>
-<ul>
-  <li><strong>Technical support:</strong> support@godzilladocs.dev</li>
-  <li><strong>Sales &amp; Enterprise plans:</strong> sales@godzilladocs.dev — see <a href="/api/quotas-billing">Quotas &amp; billing</a> for plan tiers and custom quota inquiries.</li>
-  <li><strong>Security reports:</strong> security@godzilladocs.dev — see <a href="/security-and-compliance">Security &amp; compliance overview</a> for our disclosure policy.</li>
-</ul>
+<section>
+  <p>Track platform changes, upgrade between major versions, and reference historical release documentation.</p>
 
-<div class='alert alert--info'>
-  <div class='alert__title'>Response times</div>
-  <div class='alert__body'><p>Standard-tier support responds within one business day. Include your workspace ID and, if relevant, a <code>request_id</code> from an error response.</p></div>
-</div>
+  <a class='card' href='/versions/migration-guide-v1-to-v2'>
+  <span class='card__tag'>Guide</span>
+  <h3 class='card__title'>Migration guide (v1 → v2)</h3>
+  <p class='card__description'>Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.</p>
+</a>
+  <a class='card' href='/versions/release-notes-archive'>
+  <span class='card__tag'>Archive</span>
+  <h3 class='card__title'>Release notes archive</h3>
+  <p class='card__description'>Older v1-era release notes, superseded by the current changelog.</p>
+</a>
+</section>
+
+<section>
+  <h2>Looking for recent updates?</h2>
+  <p>For current changes and recent platform releases, see the <a href="/changelog">Changelog</a>.</p>
+</section>
 </main>
 
 </div>
