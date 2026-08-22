@@ -113,6 +113,10 @@
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
+    <loc>https://localhost:3002/guides/transforming-events-in-flight</loc>
+    <lastmod>2026-08-20</lastmod>
+  </url>
+  <url>
     <loc>https://localhost:3002/guides/connecting-a-data-source</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
