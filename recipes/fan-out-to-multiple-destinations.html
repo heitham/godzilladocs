@@ -78,15 +78,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'># Snowflake destination
-curl -X POST https://api.godzilladocs.dev/v2/connectors \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '&#123;"name":"snowflake-warehouse","type":"snowflake","direction":"destination","config":&#123;"account":"..."&#125;&#125;'
-
-# Elasticsearch destination
-curl -X POST https://api.godzilladocs.dev/v2/connectors \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '&#123;"name":"es-search-index","type":"elasticsearch","direction":"destination","config":&#123;"endpoint":"https://..."&#125;&#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'># Snowflake destination\ncurl -X POST https://api.godzilladocs.dev/v2/connectors \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -d '&#123;\"name\":\"snowflake-warehouse\",\"type\":\"snowflake\",\"direction\":\"destination\",\"config\":&#123;\"account\":\"...\"&#125;&#125;'\n\n# Elasticsearch destination\ncurl -X POST https://api.godzilladocs.dev/v2/connectors \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -d '&#123;\"name\":\"es-search-index\",\"type\":\"elasticsearch\",\"direction\":\"destination\",\"config\":&#123;\"endpoint\":\"https://...\"&#125;&#125;'</code></pre>
 </div>
 
 <h2>2. Define the fan-out pipeline</h2>
@@ -99,19 +91,19 @@ curl -X POST https://api.godzilladocs.dev/v2/connectors \
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "name": "orders-multidest-fanout",
-  "source_connector_id": "conn_pg_orders",
-  "destinations": [
+  \"name\": \"orders-multidest-fanout\",
+  \"source_connector_id\": \"conn_pg_orders\",
+  \"destinations\": [
     &#123;
-      "connector_id": "conn_snowflake_warehouse",
-      "transforms": [
-        &#123; "type": "enrich", "config": &#123; "add_fields": &#123; "layer": "dw" &#125; &#125; &#125;
+      \"connector_id\": \"conn_snowflake_warehouse\",
+      \"transforms\": [
+        &#123; \"type\": \"enrich\", \"config\": &#123; \"add_fields\": &#123; \"layer\": \"dw\" &#125; &#125; &#125;
       ]
     &#125;,
     &#123;
-      "connector_id": "conn_es_search_index",
-      "transforms": [
-        &#123; "type": "reshape", "config": &#123; "drop": ["raw_sql", "binary_blob"] &#125; &#125;
+      \"connector_id\": \"conn_es_search_index\",
+      \"transforms\": [
+        &#123; \"type\": \"reshape\", \"config\": &#123; \"drop\": [\"raw_sql\", \"binary_blob\"] &#125; &#125;
       ]
     &#125;
   ]
@@ -127,7 +119,7 @@ curl -X POST https://api.godzilladocs.dev/v2/connectors \
 </div>
 
 <h2>Next steps</h2>
-<p>Learn more about replay workflows in <a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a>, or see how to trigger fan-out pipelines on schedules in <a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a>.</p>
+<p>Learn more about replay workflows in <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a>, or see how to trigger fan-out pipelines on schedules in <a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/recipes/backfill-historical-data'>

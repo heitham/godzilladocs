@@ -76,9 +76,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/webhooks \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -d '&#123;"url":"https://you.example.com/hooks/godzilla","events":["pipeline.failed","connector.error"]&#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/webhooks \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -d '&#123;\"url\":\"https://you.example.com/hooks/godzilla\",\"events\":[\"pipeline.failed\",\"connector.error\"]&#125;'</code></pre>
 </div>
 
 <div class='alert alert--success'>
@@ -87,7 +85,7 @@
 </div>
 
 <h2>Dead-letter queue depth</h2>
-<p>A growing dead-letter queue is an early warning sign, not just a symptom — see <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how events end up there and how to drain them.</p>
+<p>A growing dead-letter queue is an early warning sign, not just a symptom — see <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> for how events end up there and how to drain them.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/guides/scheduling-and-triggers'>

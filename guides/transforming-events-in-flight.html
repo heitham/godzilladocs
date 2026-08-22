@@ -74,13 +74,13 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "type": "reshape",
-  "config": &#123;
-    "rename": &#123;
-      "customer_email": "email",
-      "amt_cents": "amount_cents"
+  \"type\": \"reshape\",
+  \"config\": &#123;
+    \"rename\": &#123;
+      \"customer_email\": \"email\",
+      \"amt_cents\": \"amount_cents\"
     &#125;,
-    "drop": ["internal_notes", "raw_ip"]
+    \"drop\": [\"internal_notes\", \"raw_ip\"]
   &#125;
 &#125;</code></pre>
 </div>
@@ -95,9 +95,9 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "type": "filter",
-  "config": &#123;
-    "condition": "payload.status == 'completed' && payload.amount_cents > 0"
+  \"type\": \"filter\",
+  \"config\": &#123;
+    \"condition\": \"payload.status == 'completed' && payload.amount_cents > 0\"
   &#125;
 &#125;</code></pre>
 </div>
@@ -117,11 +117,11 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "type": "enrich",
-  "config": &#123;
-    "add_fields": &#123;
-      "environment": "production",
-      "processed_by": "godzilla-pipeline-v2"
+  \"type\": \"enrich\",
+  \"config\": &#123;
+    \"add_fields\": &#123;
+      \"environment\": \"production\",
+      \"processed_by\": \"godzilla-pipeline-v2\"
     &#125;
   &#125;
 &#125;</code></pre>
@@ -137,21 +137,21 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "name": "orders-with-transforms",
-  "source_connector_id": "conn_pg_orders",
-  "destination_connector_id": "conn_snowflake_dw",
-  "transforms": [
+  \"name\": \"orders-with-transforms\",
+  \"source_connector_id\": \"conn_pg_orders\",
+  \"destination_connector_id\": \"conn_snowflake_dw\",
+  \"transforms\": [
     &#123;
-      "type": "filter",
-      "config": &#123; "condition": "payload.amount_cents > 0" &#125;
+      \"type\": \"filter\",
+      \"config\": &#123; \"condition\": \"payload.amount_cents > 0\" &#125;
     &#125;,
     &#123;
-      "type": "reshape",
-      "config": &#123; "drop": ["raw_ip"] &#125;
+      \"type\": \"reshape\",
+      \"config\": &#123; \"drop\": [\"raw_ip\"] &#125;
     &#125;,
     &#123;
-      "type": "enrich",
-      "config": &#123; "add_fields": &#123; "region": "us-east" &#125; &#125;
+      \"type\": \"enrich\",
+      \"config\": &#123; \"add_fields\": &#123; \"region\": \"us-east\" &#125; &#125;
     &#125;
   ]
 &#125;</code></pre>
@@ -163,7 +163,7 @@
 </div>
 
 <h2>Next steps</h2>
-<p>Learn how Godzilla deals with transformation and destination write failures in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>, configure steps via the <a href="/api/transforms">Transforms endpoint</a>, or manage your pipelines directly using the <a href="/api/pipelines">Pipelines endpoint</a>.</p>
+<p>Learn how Godzilla deals with transformation and destination write failures in <a href="/guides/handling-errors-and-retries">Error handling & recovery</a>, configure steps via the <a href="/api/transforms">Transforms endpoint</a>, or manage your pipelines directly using the <a href="/api/pipelines">Pipelines endpoint</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>
@@ -172,7 +172,7 @@
   </a>
   <a class='docs-pagination__next' href='/guides/handling-errors-and-retries'>
     <span class='docs-pagination__direction'>Next</span>
-    <span class='docs-pagination__label'>Handling errors & retries</span>
+    <span class='docs-pagination__label'>Error handling & recovery</span>
   </a>
 </nav>
 </main>

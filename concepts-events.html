@@ -65,20 +65,13 @@
 <p>An <strong>event</strong> is the atomic unit of data that moves through a <code>Pipeline</code>. Every record a source connector emits, every row a transform produces, and every write a destination connector performs is an event.</p>
 
 <h2>Event shape</h2>
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>event.json</span>
-    <span class='code-block__lang'>json</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+{{ds:component/code-block|filename=event.json|language=json|code={
   "id": "evt_8f2c1a90",
   "type": "order.created",
   "occurred_at": "2026-08-18T09:12:44Z",
   "source": "connector_postgres_orders",
-  "payload": &#123; "order_id": "ord_4471", "amount_cents": 4899 &#125;
-&#125;</code></pre>
-</div>
+  "payload": { "order_id": "ord_4471", "amount_cents": 4899 }
+}}}
 
 <h2>Payload schemas &amp; validation</h2>
 <p>The <code>payload</code> property contains the user data carried by the event. You can declare contract definitions for event payload shapes using <a href="/concepts-schemas">Schemas</a>. Godzilla validates payloads at ingress, transform, and egress boundaries to ensure data matches expected types and required attributes.</p>
@@ -96,7 +89,7 @@
 </div>
 
 <h2>Retries and dead-lettering</h2>
-<p>An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a> for how to configure and drain a dead-letter queue.</p>
+<p>An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> for how to configure and drain a dead-letter queue.</p>
 </main>
 
 </div>
