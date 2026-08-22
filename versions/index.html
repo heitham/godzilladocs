@@ -40,7 +40,8 @@
     }
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
-    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
       .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
@@ -75,6 +76,11 @@
   <span class='card__tag'>Guide</span>
   <h3 class='card__title'>Migration guide (v1 → v2)</h3>
   <p class='card__description'>Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.</p>
+</a>
+  <a class='card' href='/api/pipelines-v2'>
+  <span class='card__tag'>Legacy</span>
+  <h3 class='card__title'>Pipelines endpoint (v2)</h3>
+  <p class='card__description'>Documentation for the legacy v2 Pipelines endpoint, superseded by v3.</p>
 </a>
   <a class='card' href='/versions/release-notes-archive'>
   <span class='card__tag'>Archive</span>

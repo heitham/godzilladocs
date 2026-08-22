@@ -11,10 +11,11 @@
 - [Troubleshooting / FAQ](https://localhost:3002/troubleshooting): Common problems and fixes across pipelines, connectors, and webhooks.
 
 ## api
-- [API Reference](https://localhost:3002/api/index): The Godzilla v2 REST API: pipelines, connectors, events, webhooks, and rate limits.
+- [API Reference](https://localhost:3002/api/index): The Godzilla REST API: pipelines (v3), connectors, events, transforms, webhooks, and rate limits.
 - [Connectors endpoint](https://localhost:3002/api/connectors): Create, list, and rotate credentials for connectors via the v2 REST API.
 - [Events endpoint](https://localhost:3002/api/events): Query and replay events that have flowed through a pipeline via the v2 REST API.
-- [Pipelines endpoint](https://localhost:3002/api/pipelines): Create, list, and manage pipelines via the v2 REST API.
+- [Pipelines endpoint](https://localhost:3002/api/pipelines): Create, list, and manage pipelines via the v3 REST API.
+- [Pipelines endpoint (v2)](https://localhost:3002/api/pipelines-v2): Legacy documentation for v2 of the Pipelines endpoint.
 - [Quotas & billing](https://localhost:3002/api/quotas-billing): Plan tiers, workspace resource limits, overage behavior, and billing policies.
 - [Limits, quotas & errors](https://localhost:3002/api/rate-limits-errors): Standard-tier rate limits, pagination envelope, and the v2 API's error response shape.
 - [Transforms endpoint](https://localhost:3002/api/transforms): Create and list transform steps within pipelines via the v2 REST API.
