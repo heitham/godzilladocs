@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotas &amp; billing | Godzilla Docs</title>
+  <meta name="description" content="Plan tiers, workspace resource limits, overage behavior, and billing policies.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-apis page-quotas-billing">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Quotas &amp; billing <span class='chip chip--primary'>v2</span></h1>
+<p>Godzilla enforces resource quotas per workspace according to your plan tier. This page details plan limits, quota dimensions, and the exact platform behavior when an account exceeds its quota.</p>
+
+<div class='stat-card'>
+  <div class='stat-card__value'>1,000</div>
+  <div class='stat-card__label'>requests / minute (Standard Tier)</div>
+  <p class='stat-card__description'>Default API rate limit per workspace. Enterprise plans support customized limits up to 50,000+ req/min.</p>
+</div>
+
+<h2 id="plan-tiers">Plan tiers</h2>
+<p>Each workspace is subscribed to one of three tiers. Quotas apply across all pipelines, connectors, and API keys created within that workspace.</p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Plan Tier</th>
+      <th>API Rate Limit</th>
+      <th>Monthly Events</th>
+      <th>Active Pipelines</th>
+      <th>Connectors</th>
+      <th>Support SLA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Developer</strong></td>
+      <td><code>100 req/min</code></td>
+      <td>50,000</td>
+      <td>2</td>
+      <td>3</td>
+      <td>Community</td>
+    </tr>
+    <tr>
+      <td><strong>Standard</strong></td>
+      <td><code>1,000 req/min</code></td>
+      <td>5,000,000</td>
+      <td>25</td>
+      <td>20</td>
+      <td>1 business day</td>
+    </tr>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td><code>Custom (10,000+)</code></td>
+      <td>Custom / Unlimited</td>
+      <td>Unlimited</td>
+      <td>Unlimited</td>
+      <td>24/7 dedicated (1 hr SLA)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="quota-dimensions">Quota dimensions</h2>
+<p>Godzilla accounts are governed by four primary quota dimensions:</p>
+<ul>
+  <li><strong>API request rate:</strong> Per-minute sliding window limits on calls to <code>https://api.godzilladocs.dev/v2</code>. See <a href="/apis/rate-limits-errors">Rate limits &amp; errors</a> for header specifications.</li>
+  <li><strong>Monthly event volume:</strong> The total number of events ingested, transformed, and delivered by your pipelines in a monthly billing cycle.</li>
+  <li><strong>Active pipeline concurrency:</strong> The maximum number of pipelines running in <code>active</code> state simultaneously. Pipelines in <code>draft</code> or <code>paused</code> state do not count toward this limit.</li>
+  <li><strong>Dead-letter queue retention:</strong> How long failed events remain available for inspection and replay (7 days on Developer, 30 days on Standard, 90 days on Enterprise).</li>
+</ul>
+
+<h2 id="exceeding-quotas">What happens when you exceed your quota</h2>
+<p>Platform behavior depends on which quota dimension is exceeded and your workspace billing settings:</p>
+
+<h3>1. API rate limit exceeded</h3>
+<p>When API request volume exceeds the per-minute threshold, the gateway immediately rejects additional requests with HTTP status <code>429 Too Many Requests</code>. Responses include a <code>Retry-After</code> header indicating the number of seconds until the rate limit resets.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>429-rate-limit-response.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "error": &#123;
+    "code": "rate_limit_exceeded",
+    "message": "API rate limit of 1000 req/min exceeded. Retry after 12 seconds.",
+    "request_id": "req_rl_4901b"
+  &#125;
+&#125;</code></pre>
+</div>
+
+<h3>2. Monthly event quota exceeded</h3>
+<p>When event processing approaches or passes the monthly quota:</p>
+<ul>
+  <li><strong>Warning notifications:</strong> Godzilla issues automated webhook notifications (<code>account.quota_warning</code> at 80% and <code>account.quota_exceeded</code> at 100%) and sends email alerts to workspace admins.</li>
+  <li><strong>Standard tier (auto-overage enabled):</strong> Pipelines continue processing without interruption. Overage events are billed at $0.25 per 100,000 events on your monthly invoice.</li>
+  <li><strong>Developer tier &amp; hard caps:</strong> If auto-overage is disabled or you are on the Developer tier, pipelines transition to <code>paused</code> state. In-flight events finish processing, while new incoming events are buffered up to connector queue limits before upstream reads pause.</li>
+</ul>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>No event drops on overage</div>
+  <div class='alert__body'><p>Godzilla never silently drops events when an account exceeds its quota. Events either flow with overage pricing or pause safely at the connector stage until the plan is upgraded or the billing cycle rolls over.</p></div>
+</div>
+
+<h3>3. Pipeline or connector limits exceeded</h3>
+<p>Attempting to create a pipeline or connector beyond your plan limit via <code>POST /v2/pipelines</code> or <code>POST /v2/connectors</code> returns <code>403 Forbidden</code> with error code <code>quota_exceeded</code>.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>quota-exceeded-response.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "error": &#123;
+    "code": "quota_exceeded",
+    "message": "Maximum active pipeline limit (25) reached for this workspace. Upgrade your plan to create more pipelines.",
+    "request_id": "req_lim_9921c"
+  &#125;
+&#125;</code></pre>
+</div>
+
+<h2 id="upgrading">Upgrading and billing management</h2>
+<p>You can upgrade your plan or configure overage settings at any time:</p>
+<ul>
+  <li><strong>Self-serve upgrades:</strong> Upgrade from Developer to Standard instantly in the workspace dashboard under <em>Settings &gt; Billing</em>.</li>
+  <li><strong>Enterprise custom plans:</strong> For custom rate limits, VPC peering, and enterprise volume discounts, contact our sales team at <code>sales@godzilladocs.dev</code> or via <a href="/support">Support / Contact</a>.</li>
+</ul>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Need help with rate limits or retries?</div>
+  <div class='alert__body'><p>Read <a href="/apis/rate-limits-errors">Rate limits &amp; errors</a> for HTTP response headers and error codes, or check the <a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a> guide for automated backoff strategies.</p></div>
+</div>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'>
+    <li><a href="#plan-tiers">Plan tiers</a></li>
+    <li><a href="#quota-dimensions">Quota dimensions</a></li>
+    <li><a href="#exceeding-quotas">What happens when you exceed your quota</a></li>
+    <li><a href="#upgrading">Upgrading and billing management</a></li>
+  </ul>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
