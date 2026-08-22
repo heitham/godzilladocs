@@ -41,7 +41,8 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -61,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Events endpoint <span class='chip chip--primary'>v2</span></h1>
-<p>Query and replay <a href="/concepts-events">events</a> that have flowed through a pipeline.</p>
+<p>Query and replay <a href="/concepts/events">events</a> that have flowed through a pipeline.</p>
 
 <h2 id="list">List events</h2>
 <p><code>GET /v2/pipelines/{pipeline_id}/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>

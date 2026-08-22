@@ -8,11 +8,6 @@ Generated from published output — 40 pages.
 | Path | Title |
 |---|---|
 | `/changelog` | Changelog |
-| `/concepts` | Concepts |
-| `/concepts-connectors` | Connectors |
-| `/concepts-events` | Events |
-| `/concepts-pipelines` | Pipelines |
-| `/concepts-schemas` | Schemas |
 | `/glossary` | Glossary |
 | `/index` | Godzilla Docs |
 | `/security-and-compliance` | Security & compliance overview |
@@ -31,6 +26,16 @@ Generated from published output — 40 pages.
 | `/api/rate-limits-errors` | Limits, quotas & errors |
 | `/api/transforms` | Transforms endpoint |
 | `/api/webhooks` | Webhooks endpoint |
+
+## concepts
+
+| Path | Title |
+|---|---|
+| `/concepts/connectors` | Connectors |
+| `/concepts/events` | Events |
+| `/concepts/index` | Concepts |
+| `/concepts/pipelines` | Pipelines |
+| `/concepts/schemas` | Schemas |
 
 ## getting-started
 

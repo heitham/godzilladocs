@@ -65,7 +65,7 @@
 <p>In modern data architectures, a single event stream often serves multiple consumers—such as sending purchase events to Snowflake for analytics, Elasticsearch for real-time indexing, and an external webhook for partner notifications. This recipe demonstrates how to implement the fan-out pattern in Godzilla with complete fault isolation between destinations.</p>
 
 <h2>Why fan out with independent pipelines?</h2>
-<p>While you could theoretically push data through a monolithic multi-target job, Godzilla recommends creating separate <a href="/concepts-pipelines">pipelines</a> attached to a single shared source <a href="/concepts-connectors">connector</a>. This pattern provides essential architectural guarantees:</p>
+<p>While you could theoretically push data through a monolithic multi-target job, Godzilla recommends creating separate <a href="/concepts/pipelines">pipelines</a> attached to a single shared source <a href="/concepts/connectors">connector</a>. This pattern provides essential architectural guarantees:</p>
 
 <ul>
   <li><strong>Fault isolation:</strong> An outage or slow write in one destination does not delay or block deliveries to other destinations.</li>
@@ -85,15 +85,15 @@
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '&#123;
+  -d '{
     "name": "orders-source-postgres",
     "type": "postgres",
     "direction": "source",
-    "config": &#123;
+    "config": {
       "connection_string": "postgres://user:secret@db.internal:5432/production",
       "tables": ["public.orders"]
-    &#125;
-  &#125;'</code></pre>
+    }
+  }'</code></pre>
 </div>
 
 <h2>2. Create destination connectors</h2>
@@ -109,13 +109,13 @@
 curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '&#123;"name":"analytics-snowflake","type":"snowflake","direction":"destination","config":&#123;"account":"xy12345","database":"analytics"&#125;&#125;'
+  -d '{"name":"analytics-snowflake","type":"snowflake","direction":"destination","config":{"account":"xy12345","database":"analytics"}}'
 
 # Destination 2: Webhook for notifications
 curl -X POST https://api.godzilladocs.dev/v2/connectors \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '&#123;"name":"partner-webhook","type":"webhook","direction":"destination","config":&#123;"url":"https://partner.example.com/events"&#125;&#125;'</code></pre>
+  -d '{"name":"partner-webhook","type":"webhook","direction":"destination","config":{"url":"https://partner.example.com/events"}}'</code></pre>
 </div>
 
 <h2>3. Wire up dedicated pipelines with specialized transforms</h2>
@@ -128,25 +128,25 @@ curl -X POST https://api.godzilladocs.dev/v2/connectors \
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'># Pipeline 1: Analytics (Full schema enrichment)
-&#123;
+{
   "name": "fanout-to-snowflake",
   "source_connector_id": "conn_pg_orders",
   "destination_connector_id": "conn_snowflake_dw",
   "transforms": [
-    &#123;"type": "enrich", "fields": &#123;"synced_at": "$now"&#125;&#125;
+    {"type": "enrich", "fields": {"synced_at": "$now"}}
   ]
-&#125;
+}
 
 # Pipeline 2: Webhook (Filtered & stripped PII)
-&#123;
+{
   "name": "fanout-to-webhook",
   "source_connector_id": "conn_pg_orders",
   "destination_connector_id": "conn_partner_hook",
   "transforms": [
-    &#123;"type": "filter", "condition": "payload.total_cents > 10000"&#125;,
-    &#123;"type": "reshape", "mapping": &#123;"order_id": "payload.id", "status": "payload.status"&#125;&#125;
+    {"type": "filter", "condition": "payload.total_cents > 10000"},
+    {"type": "reshape", "mapping": {"order_id": "payload.id", "status": "payload.status"}}
   ]
-&#125;</code></pre>
+}</code></pre>
 </div>
 
 <div class='alert alert--success'>

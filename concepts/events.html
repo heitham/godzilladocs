@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-root page-concepts-events">
+<body class="folder-concepts page-events">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/index">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts/connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts/schemas">Schemas</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Events</h1>
@@ -71,7 +71,13 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"id\": \"evt_8f2c1a90\",\n  \"type\": \"order.created\",\n  \"occurred_at\": \"2026-08-18T09:12:44Z\",\n  \"source\": \"connector_postgres_orders\",\n  \"payload\": { \"order_id\": \"ord_4471\", \"amount_cents\": 4899 }\n}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "id": "evt_8f2c1a90",
+  "type": "order.created",
+  "occurred_at": "2026-08-18T09:12:44Z",
+  "source": "connector_postgres_orders",
+  "payload": { "order_id": "ord_4471", "amount_cents": 4899 }
+}</code></pre>
 </div>
 
 <p>Every event contains two distinct layers:</p>
@@ -81,14 +87,14 @@
 </ul>
 
 <h2>Payload schemas and validation</h2>
-<p>While envelope metadata follows a fixed structure across Godzilla, the contents of the <code>payload</code> are governed by <a href="/concepts-schemas">Schemas</a>. Schemas declare the expected fields, data types, and value constraints for each event <code>type</code>.</p>
+<p>While envelope metadata follows a fixed structure across Godzilla, the contents of the <code>payload</code> are governed by <a href="/concepts/schemas">Schemas</a>. Schemas declare the expected fields, data types, and value constraints for each event <code>type</code>.</p>
 <p>Godzilla validates incoming event payloads against their schema definition at ingestion and after transform steps. If an event contains an invalid payload (such as missing required properties or wrong type formats), Godzilla enforces the pipeline's validation mode — rejecting the record or routing it to a dead-letter queue before malformed data reaches destination sinks.</p>
-<p>For details on declaring payload schemas, validation modes, and schema version evolution, see the <a href="/concepts-schemas">Schemas</a> concept guide.</p>
+<p>For details on declaring payload schemas, validation modes, and schema version evolution, see the <a href="/concepts/schemas">Schemas</a> concept guide.</p>
 
 <h2>User data events vs. platform events</h2>
 <p>Godzilla distinguishes two kinds of events:</p>
 <ul>
-  <li><strong>User data events</strong> — the records your pipelines process, shaped and validated according to your defined <a href="/concepts-schemas">schemas</a>.</li>
+  <li><strong>User data events</strong> — the records your pipelines process, shaped and validated according to your defined <a href="/concepts/schemas">schemas</a>.</li>
   <li><strong>Platform events</strong> — lifecycle notifications Godzilla itself emits: <code>pipeline.started</code>, <code>pipeline.completed</code>, <code>pipeline.failed</code>, <code>connector.error</code>. These are what power <a href="/api/webhooks">Webhooks</a>.</li>
 </ul>
 

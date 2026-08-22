@@ -41,7 +41,8 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -61,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Transforming events in flight</h1>
-<p>As <a href="/concepts-events">events</a> flow from a source <a href="/concepts-connectors">connector</a> to a destination connector, you can modify them in real time. This guide covers how to reshape payloads, filter out unwanted records, and enrich events with additional context inside a <a href="/concepts-pipelines">pipeline</a>.</p>
+<p>As <a href="/concepts/events">events</a> flow from a source <a href="/concepts/connectors">connector</a> to a destination connector, you can modify them in real time. This guide covers how to reshape payloads, drop unwanted records, and enrich events with additional context inside a <a href="/concepts/pipelines">pipeline</a>.</p>
 
 <h2>Configuring transforms</h2>
 <p>Transforms are defined as an ordered list in the <code>transforms</code> array of your pipeline definition. When creating or updating a pipeline via the <a href="/api/pipelines">Pipelines endpoint</a> or managing individual steps with the <a href="/api/transforms">Transforms endpoint</a>, specify one or more transform steps.</p>

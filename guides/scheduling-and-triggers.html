@@ -41,7 +41,8 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -61,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Scheduling &amp; triggers</h1>
-<p>A <a href="/concepts-pipelines">pipeline</a> runs either on a schedule or in response to incoming events. This guide covers both.</p>
+<p>A <a href="/concepts/pipelines">pipeline</a> runs either on a schedule or in response to incoming events. This guide covers both.</p>
 
 <h2>Scheduled pipelines</h2>
 <p>Set a <code>schedule</code> (a cron expression) when creating or updating a pipeline via the <a href="/api/pipelines">Pipelines endpoint</a>. Godzilla runs the pipeline once per schedule tick, processing whatever new data is available from the source since the last run.</p>

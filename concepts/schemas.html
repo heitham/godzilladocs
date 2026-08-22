@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-root page-concepts-schemas">
+<body class="folder-concepts page-schemas">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,11 +58,11 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/index">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts/connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/events">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts/schemas" class="usa-current">Schemas</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Schemas</h1>
-<p>A <strong>schema</strong> defines the structural contract for an <a href="/concepts-events">event</a>'s <code>payload</code>. While Godzilla enforces a standard top-level event envelope, schemas declare the exact data types, required properties, and value constraints of the user payload inside each event.</p>
+<p>A <strong>schema</strong> defines the structural contract for an <a href="/concepts/events">event</a>'s <code>payload</code>. While Godzilla enforces a standard top-level event envelope, schemas declare the exact data types, required properties, and value constraints of the user payload inside each event.</p>
 
 <h2>Declaring event payload shapes</h2>
 <p>Schemas in Godzilla use standard JSON Schema (draft-07) specifications. Each schema maps to an event <code>type</code> and declares what fields must be present and what data formats they must follow.</p>
@@ -73,13 +73,39 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"OrderCreatedPayload\",\n  \"type\": \"object\",\n  \"required\": [\"order_id\", \"customer_id\", \"amount_cents\", \"currency\"],\n  \"properties\": {\n    \"order_id\": {\n      \"type\": \"string\",\n      \"pattern\": \"^ord_[a-zA-Z0-9]+$\"\n    },\n    \"customer_id\": {\n      \"type\": \"string\"\n    },\n    \"amount_cents\": {\n      \"type\": \"integer\",\n      \"minimum\": 0\n    },\n    \"currency\": {\n      \"type\": \"string\",\n      \"enum\": [\"USD\", \"EUR\", \"GBP\", \"CAD\"]\n    },\n    \"metadata\": {\n      \"type\": \"object\"\n    }\n  },\n  \"additionalProperties\": false\n}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OrderCreatedPayload",
+  "type": "object",
+  "required": ["order_id", "customer_id", "amount_cents", "currency"],
+  "properties": {
+    "order_id": {
+      "type": "string",
+      "pattern": "^ord_[a-zA-Z0-9]+$"
+    },
+    "customer_id": {
+      "type": "string"
+    },
+    "amount_cents": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string",
+      "enum": ["USD", "EUR", "GBP", "CAD"]
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}</code></pre>
 </div>
 
 <h2>Payload validation lifecycle</h2>
-<p>Validation runs automatically as data moves through a <a href="/concepts-pipelines">pipeline</a>:</p>
+<p>Validation runs automatically as data moves through a <a href="/concepts/pipelines">pipeline</a>:</p>
 <ol>
-  <li><strong>Source ingestion:</strong> When a source <a href="/concepts-connectors">connector</a> emits an event, Godzilla matches the event's <code>type</code> against the registered schema and validates the <code>payload</code>.</li>
+  <li><strong>Source ingestion:</strong> When a source <a href="/concepts/connectors">connector</a> emits an event, Godzilla matches the event's <code>type</code> against the registered schema and validates the <code>payload</code>.</li>
   <li><strong>Transform boundaries:</strong> After each transform step that alters payload structures, the output can be re-validated before continuing down the pipeline.</li>
   <li><strong>Destination write:</strong> Ensures only schema-compliant events reach destination sinks (such as Snowflake or PostgreSQL).</li>
 </ol>
@@ -138,8 +164,8 @@
 <h2>See also</h2>
 <p>Learn how schemas connect with other core platform concepts and tools:</p>
 <ul>
-  <li><a href="/concepts-events">Events</a> — the envelope structure that wraps schema-validated payloads.</li>
-  <li><a href="/concepts-pipelines">Pipelines</a> — configuring validation modes and routing rules on pipelines.</li>
+  <li><a href="/concepts/events">Events</a> — the envelope structure that wraps schema-validated payloads.</li>
+  <li><a href="/concepts/pipelines">Pipelines</a> — configuring validation modes and routing rules on pipelines.</li>
   <li><a href="/guides/transforming-events-in-flight">Transforming events in flight</a> — reshaping event payloads to match destination schemas.</li>
 </ul>
 </main>
