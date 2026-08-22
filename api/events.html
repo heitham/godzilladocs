@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Events endpoint | Godzilla Docs</title>
-  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v2 REST API.">
+  <meta name="description" content="Query and replay events that have flowed through a pipeline via the v3 REST API.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -61,11 +61,11 @@
 <aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events" class="usa-current">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines-v2">Pipelines endpoint (v2)</a></li><li class="usa-sidenav__item"><a href="/api/quotas-and-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Events endpoint <span class='chip chip--primary'>v2</span></h1>
-<p>Query and replay <a href="/concepts/concepts-events">events</a> that have flowed through a pipeline.</p>
+<h1>Events endpoint <span class='chip chip--primary'>v3</span></h1>
+<p>Query and replay <a href="/concepts/concepts-events">events</a> that have flowed through a pipeline. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
 
 <h2 id="list">List events</h2>
-<p><code>GET /v2/pipelines/&#123;pipeline_id&#125;/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>
+<p><code>GET /v3/pipelines/{pipeline_id}/events</code> — cursor-paginated, filterable by <code>type</code> and <code>occurred_at</code> range.</p>
 
 <table class='param-table'>
   <thead>
@@ -79,26 +79,19 @@
   <tbody><tr><td><code>type</code></td><td>string</td><td>No</td><td>Filter to a single event type, e.g. <code>order.created</code>.</td></tr><tr><td><code>since</code></td><td>string</td><td>No</td><td>ISO-8601 timestamp lower bound on <code>occurred_at</code>.</td></tr><tr><td><code>cursor</code></td><td>string</td><td>No</td><td>Opaque pagination cursor from a previous response's <code>next_cursor</code>.</td></tr></tbody>
 </table>
 
-<div class='code-block'>
-  <div class='code-block__header'>
-    <span class='code-block__filename'>event.json</span>
-    <span class='code-block__lang'>json</span>
-    <button class='code-block__copy' type='button'>Copy</button>
-  </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  \"id\": \"evt_8f2c1a90\",
-  \"type\": \"order.created\",
-  \"occurred_at\": \"2026-08-18T09:12:44Z\",
-  \"payload\": &#123; \"order_id\": \"ord_4471\" &#125;
-&#125;</code></pre>
-</div>
+{{ds:component/code-block|filename=event.json|language=json|code={
+  "id": "evt_8f2c1a90",
+  "type": "order.created",
+  "occurred_at": "2026-08-18T09:12:44Z",
+  "payload": { "order_id": "ord_4471" }
+}}}
 
 <h2 id="replay">Replay a dead-lettered event</h2>
-<p><code>POST /v2/events/&#123;id&#125;/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> guide for when to use this versus reprocessing an entire time range.</p>
+<p><code>POST /v3/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> guide for when to use this versus reprocessing an entire time range.</p>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Platform events</div>
-  <div class='alert__body'><p>Lifecycle notifications like <code>pipeline.started</code> and <code>connector.error</code> are not returned by this endpoint — subscribe to them through the Webhooks endpoint instead.</p></div>
+  <div class='alert__body'><p>Lifecycle notifications like <code>pipeline.started</code> and <code>connector.error</code> are not returned by this endpoint — subscribe to them through the <a href="/api/webhooks">Webhooks endpoint</a> instead.</p></div>
 </div>
 
 <nav class='docs-toc' aria-label='On this page'>

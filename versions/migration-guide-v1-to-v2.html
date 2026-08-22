@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Migration guide (v1 → v2) | Godzilla Docs</title>
-  <meta name="description" content="Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.">
+  <meta name="description" content="Move an existing v1 integration to current APIs: cursor pagination, webhooks, v3 events, and the new error shape.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -62,7 +62,9 @@
 <main class="cms-main-content">
 
 <h1>Migration guide (v1 → v2) <span class='chip chip--danger'>v1 retired</span></h1>
-<p>v1 reached end of life on 2026-08-01 alongside the <a href="/changelog">webhooks GA changelog entry</a>. This guide covers the three breaking changes you need to handle to move a v1 integration to v2.</p>
+<p>v1 reached end of life on 2026-08-01 alongside the <a href="/changelog">webhooks GA changelog entry</a>. This guide covers the key breaking changes you need to handle to move a v1 integration over.</p>
+
+{{ds:component/alert|variant=warning|title=Events endpoint is on v3|body_html=<p>The v2 events endpoint has been withdrawn entirely. If you are migrating an integration that queries or replays events, target the <a href="/api/events">v3 Events endpoint</a> (<code>/v3/pipelines/{pipeline_id}/events</code> and <code>/v3/events/{id}/replay</code>) directly.</p>}}
 
 <h2>1. Pagination: offset → cursor</h2>
 <p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href="/api/rate-limits-errors">Rate limits</a> for the exact envelope.</p>

@@ -66,9 +66,12 @@
 
 <div class='stat-card'>
   <div class='stat-card__value'>v3</div>
-  <div class='stat-card__label'>pipelines endpoint version</div>
-  <p class='stat-card__description'>Pipelines endpoint is now on v3, with v2 documentation preserved for existing integrations.</p>
+  <div class='stat-card__label'>pipelines & events version</div>
+  <p class='stat-card__description'>Pipelines and events endpoints are now on v3. The v2 events endpoint has been withdrawn.</p>
 </div>
+
+<h2>2026-08-22 — Events v3 shipped; v2 events endpoint withdrawn</h2>
+<p>A v3 of the <a href="/api/events">Events endpoint</a> has shipped and the v2 events endpoint has been withdrawn entirely. Requests to query and replay events must now use <code>/v3/pipelines/{pipeline_id}/events</code> and <code>/v3/events/{id}/replay</code>. See the <a href="/versions/migration-guide-v1-to-v2">Migration guide</a> for details.</p>
 
 <h2>2026-08-22 — Pipelines v3 shipped</h2>
 <p>The <a href="/api/pipelines">Pipelines endpoint</a> has been updated to v3. The previous <a href="/api/pipelines-v2">v2 Pipelines endpoint</a> remains accessible for existing integrations.</p>
