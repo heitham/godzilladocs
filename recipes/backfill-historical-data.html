@@ -85,7 +85,18 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"name\": \"backfill-orders-2025\",\n  \"source_connector_id\": \"conn_pg_orders\",\n  \"destination_connector_id\": \"conn_snowflake_dw\",\n  \"config\": {\n    \"mode\": \"backfill\",\n    \"start_timestamp\": \"2025-01-01T00:00:00Z\",\n    \"end_timestamp\": \"2025-12-31T23:59:59Z\",\n    \"batch_size\": 5000,\n    \"max_concurrency\": 4\n  }\n}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "name": "backfill-orders-2025",
+  "source_connector_id": "conn_pg_orders",
+  "destination_connector_id": "conn_snowflake_dw",
+  "config": {
+    "mode": "backfill",
+    "start_timestamp": "2025-01-01T00:00:00Z",
+    "end_timestamp": "2025-12-31T23:59:59Z",
+    "batch_size": 5000,
+    "max_concurrency": 4
+  }
+}</code></pre>
 </div>
 
 <h2>2. Configure transform rules for bulk ingestion</h2>
@@ -97,7 +108,25 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"transforms\": [\n    {\n      \"type\": \"enrich\",\n      \"fields\": {\n        \"is_backfill\": true,\n        \"backfilled_at\": \"$now\"\n      }\n    },\n    {\n      \"type\": \"reshape\",\n      \"mapping\": {\n        \"id\": \"payload.order_id\",\n        \"amount\": \"payload.total_price\",\n        \"created_at\": \"payload.created_at\"\n      }\n    }\n  ]\n}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "transforms": [
+    {
+      "type": "enrich",
+      "fields": {
+        "is_backfill": true,
+        "backfilled_at": "$now"
+      }
+    },
+    {
+      "type": "reshape",
+      "mapping": {
+        "id": "payload.order_id",
+        "amount": "payload.total_price",
+        "created_at": "payload.created_at"
+      }
+    }
+  ]
+}</code></pre>
 </div>
 
 <h2>3. Managing destination rate limits and quotas</h2>
@@ -105,7 +134,7 @@
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Throttle to protect downstream systems</div>
-  <div class='alert__body'><p>If your destination database or API enforces strict write quotas, set <code>max_concurrency</code> low and monitor <a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a> to prevent cascading 429 status codes.</p></div>
+  <div class='alert__body'><p>If your destination database or API enforces strict write quotas, set <code>max_concurrency</code> low and monitor <a href="/api/rate-limits">Rate limits</a> to prevent cascading 429 status codes.</p></div>
 </div>
 
 <h2>4. Monitoring and verifying completion</h2>
@@ -117,7 +146,8 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines/pipe_backfill_2025/stats \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\"</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines/pipe_backfill_2025/stats \
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
 <p>If any individual records fail, inspect the dead-letter queue and replay failed records as described in <a href="/guides/handling-errors-and-retries">Error handling & recovery</a>.</p>

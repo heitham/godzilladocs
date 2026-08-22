@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Pipelines endpoint <span class='chip chip--primary'>v3</span></h1>
@@ -101,7 +101,7 @@
 </div>
 
 <h2 id="list">List pipelines</h2>
-<p><code>GET /v3/pipelines</code> — cursor-paginated, see <code>Limits, quotas & errors</code> for the pagination envelope.</p>
+<p><code>GET /v3/pipelines</code> — cursor-paginated, see <a href="/api/rate-limits#pagination">Rate limits</a> for the pagination envelope.</p>
 
 <h2 id="states">Pipeline states</h2>
 <p>Returned pipelines include a <code>state</code> field of <code>draft</code>, <code>active</code>, or <code>paused</code> — see <a href="/concepts/pipelines">Pipelines</a> for what each means.</p>

@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/error-reference">Error reference</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-billing" class="usa-current">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits">Rate limits</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Quotas &amp; billing <span class='chip chip--primary'>v2</span></h1>
@@ -115,7 +115,7 @@
 <h2 id="quota-dimensions">Quota dimensions</h2>
 <p>Godzilla accounts are governed by four primary quota dimensions:</p>
 <ul>
-  <li><strong>API request rate:</strong> Per-minute sliding window limits on calls to <code>https://api.godzilladocs.dev/v2</code>. See <a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a> for header specifications.</li>
+  <li><strong>API request rate:</strong> Per-minute sliding window limits on calls to <code>https://api.godzilladocs.dev/v2</code>. See <a href="/api/rate-limits">Rate limits</a> for header specifications.</li>
   <li><strong>Monthly event volume:</strong> The total number of events ingested, transformed, and delivered by your pipelines in a monthly billing cycle.</li>
   <li><strong>Active pipeline concurrency:</strong> The maximum number of pipelines running in <code>active</code> state simultaneously. Pipelines in <code>draft</code> or <code>paused</code> state do not count toward this limit.</li>
   <li><strong>Dead-letter queue retention:</strong> How long failed events remain available for inspection and replay (7 days on Developer, 30 days on Standard, 90 days on Enterprise).</li>
@@ -182,7 +182,7 @@
 
 <div class='alert alert--info'>
   <div class='alert__title'>Need help with rate limits or retries?</div>
-  <div class='alert__body'><p>Read <a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a> for HTTP response headers and error codes, or check the <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> guide for automated backoff strategies.</p></div>
+  <div class='alert__body'><p>Read <a href="/api/rate-limits">Rate limits</a> for HTTP response headers and the <a href="/api/error-reference">Error reference</a> for error codes, or check the <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> guide for automated backoff strategies.</p></div>
 </div>
 
 <nav class='docs-toc' aria-label='On this page'>

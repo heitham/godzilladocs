@@ -9,7 +9,11 @@
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
-    <loc>https://localhost:3002/api/rate-limits-errors</loc>
+    <loc>https://localhost:3002/api/rate-limits</loc>
+    <lastmod>2026-08-20</lastmod>
+  </url>
+  <url>
+    <loc>https://localhost:3002/api/error-reference</loc>
     <lastmod>2026-08-20</lastmod>
   </url>
   <url>
