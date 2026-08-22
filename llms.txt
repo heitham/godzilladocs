@@ -55,5 +55,4 @@
 
 ## versions
 - [Migration guide (v1 → v2)](https://localhost:3002/versions/migration-guide-v1-to-v2): Move an existing v1 integration to the v2 API: cursor pagination, webhooks, and the new error shape.
-- [Release notes archive](https://localhost:3002/versions/release-notes-archive): Older v1-era release notes, superseded by the current changelog.
-- [Versions](https://localhost:3002/versions/index): Version history, migration guides, and release archives for Godzilla.
+- [Versions](https://localhost:3002/versions/index): Version history, migration guides, and changelog for Godzilla.
