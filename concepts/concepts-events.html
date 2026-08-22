@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-root page-concepts-events">
+<body class="folder-concepts page-concepts-events">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,9 +58,9 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-events" class="usa-current">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-schemas">Schemas</a></li></ul></nav></aside>
 <main class="cms-main-content">
-
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/concepts" class="usa-breadcrumb__link"><span>concepts</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Events</span></li></ol></nav>
 <h1>Events</h1>
 <p>An <strong>event</strong> is the atomic unit of data that moves through a <code>Pipeline</code>. Every record a source connector emits, every row a transform produces, and every write a destination connector performs is an event.</p>
 
@@ -74,7 +74,7 @@
 }}}
 
 <h2>Payload schemas &amp; validation</h2>
-<p>The <code>payload</code> property contains the user data carried by the event. You can declare contract definitions for event payload shapes using <a href="/concepts-schemas">Schemas</a>. Godzilla validates payloads at ingress, transform, and egress boundaries to ensure data matches expected types and required attributes.</p>
+<p>The <code>payload</code> property contains the user data carried by the event. You can declare contract definitions for event payload shapes using <a href="/concepts/concepts-schemas">Schemas</a>. Godzilla validates payloads at ingress, transform, and egress boundaries to ensure data matches expected types and required attributes.</p>
 
 <h2>User data events vs. platform events</h2>
 <p>Godzilla distinguishes two kinds of events:</p>

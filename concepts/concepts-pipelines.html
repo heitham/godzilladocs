@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-root page-concepts-pipelines">
+<body class="folder-concepts page-concepts-pipelines">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,16 +58,16 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines" class="usa-current">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-pipelines" class="usa-current">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-schemas">Schemas</a></li></ul></nav></aside>
 <main class="cms-main-content">
-
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/concepts" class="usa-breadcrumb__link"><span>concepts</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Pipelines</span></li></ol></nav>
 <h1>Pipelines</h1>
-<p>A <strong>pipeline</strong> is the core unit of work in Godzilla: a named, versioned data-processing workflow that moves data from a source connector, through zero or more transform steps, to a destination connector. Every pipeline runs as a sequence of <a href="/concepts-events">events</a> flowing through that path.</p>
+<p>A <strong>pipeline</strong> is the core unit of work in Godzilla: a named, versioned data-processing workflow that moves data from a source connector, through zero or more transform steps, to a destination connector. Every pipeline runs as a sequence of <a href="/concepts/concepts-events">events</a> flowing through that path.</p>
 
 <h2>Anatomy of a pipeline</h2>
 <p>Every pipeline has three parts:</p>
 <ul>
-  <li><strong>Source</strong> — the <a href="/concepts-connectors">connector</a> that emits events into the pipeline (a database, a queue, an upload, a webhook).</li>
+  <li><strong>Source</strong> — the <a href="/concepts/concepts-connectors">connector</a> that emits events into the pipeline (a database, a queue, an upload, a webhook).</li>
   <li><strong>Transforms</strong> — an ordered list of steps that reshape, filter, or enrich events as they pass through. Transforms are optional; a pipeline with none is a pass-through copy.</li>
   <li><strong>Destination</strong> — the connector that events are written to once transforms complete.</li>
 </ul>

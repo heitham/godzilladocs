@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-root page-concepts-schemas">
+<body class="folder-concepts page-concepts-schemas">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,11 +58,11 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-schemas" class="usa-current">Schemas</a></li></ul></nav></aside>
 <main class="cms-main-content">
-
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/concepts" class="usa-breadcrumb__link"><span>concepts</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Schemas</span></li></ol></nav>
 <h1>Schemas</h1>
-<p>A <strong>schema</strong> is a declarative contract that defines the expected structure, data types, and required fields for an <a href="/concepts-events">event</a> payload moving through a <a href="/concepts-pipelines">pipeline</a>. Schemas prevent malformed records from propagating downstream and ensure data integrity across source and destination connectors.</p>
+<p>A <strong>schema</strong> is a declarative contract that defines the expected structure, data types, and required fields for an <a href="/concepts/concepts-events">event</a> payload moving through a <a href="/concepts/concepts-pipelines">pipeline</a>. Schemas prevent malformed records from propagating downstream and ensure data integrity across source and destination connectors.</p>
 
 <h2>Declaring a schema</h2>
 <p>Godzilla schemas follow standard JSON Schema (Draft-07) specifications. You define schemas per event type or attach them directly to pipeline ingress and egress stages.</p>
@@ -114,7 +114,7 @@
 <h2>See also</h2>
 <p>Learn more about working with events and payloads:</p>
 <ul>
-  <li><a href="/concepts-events">Events concept</a> — Structure and lifecycle of events in Godzilla.</li>
+  <li><a href="/concepts/concepts-events">Events concept</a> — Structure and lifecycle of events in Godzilla.</li>
   <li><a href="/guides/transforming-events-in-flight">Transforming events in flight</a> — Reshape, filter, and enrich event payloads.</li>
   <li><a href="/guides/handling-errors-and-retries">Error handling & recovery</a> — Dead-letter queues and retry mechanisms.</li>
 </ul>
