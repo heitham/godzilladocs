@@ -40,4 +40,142 @@
     }
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
-    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }\n  </style>\n\n</head>\n<body class=\"folder-root page-concepts-schemas\">\n<header class='site-header'>\n  <div class='site-header__inner'>\n    <a class='site-header__brand' href='/'>\n      <span class='site-header__logo'>&#127755;</span>\n      <span class='site-header__name'>Godzilla Docs</span>\n    </a>\n    <nav class='site-header__nav'></nav>\n  </div>\n</header>\n<div class=\"cms-page-container cms-has-left-nav\">\n<aside class=\"cms-left-nav\"><nav aria-label=\"Side navigation\"><ul class=\"usa-sidenav\"><li class=\"usa-sidenav__item\"><a href=\"/getting-started-authentication\">Authentication</a></li><li class=\"usa-sidenav__item\"><a href=\"/changelog\">Changelog</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts\">Concepts</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts-connectors\">Connectors</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts-events\">Events</a></li><li class=\"usa-sidenav__item\"><a href=\"/glossary\">Glossary</a></li><li class=\"usa-sidenav__item\"><a href=\"/index\">Godzilla Docs</a></li><li class=\"usa-sidenav__item\"><a href=\"/getting-started-installation\">Installation</a></li><li class=\"usa-sidenav__item\"><a href=\"/migration-guide-v1-to-v2\">Migration guide (v1 → v2)</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts-pipelines\">Pipelines</a></li><li class=\"usa-sidenav__item\"><a href=\"/getting-started-quickstart\">Quickstart</a></li><li class=\"usa-sidenav__item\"><a href=\"/release-notes-archive\">Release notes archive</a></li><li class=\"usa-sidenav__item\"><a href=\"/concepts-schemas\" class=\"usa-current\">Schemas</a></li><li class=\"usa-sidenav__item\"><a href=\"/security-and-compliance\">Security &amp; compliance overview</a></li><li class=\"usa-sidenav__item\"><a href=\"/support\">Support / Contact</a></li><li class=\"usa-sidenav__item\"><a href=\"/troubleshooting\">Troubleshooting / FAQ</a></li></ul></nav></aside>\n<main class=\"cms-main-content\">\n\n<h1>Schemas</h1>\n<p>A <strong>schema</strong> defines the structural contract for an <a href=\"/concepts-events\">event</a>'s <code>payload</code>. While Godzilla enforces a standard top-level event envelope, schemas declare the exact data types, required properties, and value constraints of the user payload inside each event.</p>\n\n<h2>Declaring event payload shapes</h2>\n<p>Schemas in Godzilla use standard JSON Schema (draft-07) specifications. Each schema maps to an event <code>type</code> and declares what fields must be present and what data formats they must follow.</p>\n\n<div class='code-block'>\n  <div class='code-block__header'>\n    <span class='code-block__filename'>order-created.schema.json</span>\n    <span class='code-block__lang'>json</span>\n    <button class='code-block__copy' type='button'>Copy</button>\n  </div>\n  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  "$schema": "http://json-schema.org/draft-07/schema#",\n  "title": "OrderCreatedPayload",\n  "type": "object",\n  "required": ["order_id", "customer_id", "amount_cents", "currency"],\n  "properties": &#123;\n    "order_id": &#123;\n      "type": "string",\n      "pattern": "^ord_[a-zA-Z0-9]+$"\n    &#125;,\n    "customer_id": &#123;\n      "type": "string"\n    &#125;,\n    "amount_cents": &#123;\n      "type": "integer",\n      "minimum": 0\n    &#125;,\n    "currency": &#123;\n      "type": "string",\n      "enum": ["USD", "EUR", "GBP", "CAD"]\n    &#125;,\n    "metadata": &#123;\n      "type": "object"\n    &#125;\n  &#125;,\n  "additionalProperties": false\n&#125;</code></pre>\n</div>\n\n<h2>Payload validation lifecycle</h2>\n<p>Validation runs automatically as data moves through a <a href=\"/concepts-pipelines\">pipeline</a>:</p>\n<ol>\n  <li><strong>Source ingestion:</strong> When a source <a href=\"/concepts-connectors\">connector</a> emits an event, Godzilla matches the event's <code>type</code> against the registered schema and validates the <code>payload</code>.</li>\n  <li><strong>Transform boundaries:</strong> After each transform step that alters payload structures, the output can be re-validated before continuing down the pipeline.</li>\n  <li><strong>Destination write:</strong> Ensures only schema-compliant events reach destination sinks (such as Snowflake or PostgreSQL).</li>\n</ol>\n\n<div class='alert alert--info'>\n  <div class='alert__title'>Validation occurs at runtime</div>\n  <div class='alert__body'><p>Schema enforcement happens at event ingestion before expensive transforms or downstream writes occur. Malformed payloads are trapped early, protecting downstream systems from invalid state.</p></div>\n</div>\n\n<h2>Validation modes</h2>\n<p>Pipelines can configure one of three validation modes depending on your data guarantees:</p>\n\n<table>\n  <thead>\n    <tr>\n      <th>Mode</th>\n      <th>Behavior on valid payload</th>\n      <th>Behavior on invalid payload</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><code>strict</code></td>\n      <td>Processed through pipeline</td>\n      <td>Rejected immediately; event is moved to the dead-letter queue</td>\n    </tr>\n    <tr>\n      <td><code>permissive</code></td>\n      <td>Processed through pipeline</td>\n      <td>Processed with a <code>validation_warning</code> attribute attached and metric incremented</td>\n    </tr>\n    <tr>\n      <td><code>disabled</code></td>\n      <td>Processed through pipeline</td>\n      <td>Bypasses payload validation checks completely</td>\n    </tr>\n  </tbody>\n</table>\n\n<h2>Handling validation failures</h2>\n<p>When an event fails validation under <code>strict</code> mode, Godzilla emits a <code>validation.failed</code> error, cancels downstream processing for that event, and routes it to the pipeline's dead-letter queue. The dead-lettered record includes detailed validation diagnostics:</p>\n<ul>\n  <li><code>failing_path</code> — the JSON pointer to the invalid field (e.g. <code>/payload/amount_cents</code>).</li>\n  <li><code>constraint</code> — the rule that failed (e.g. <code>minimum</code> or <code>required</code>).</li>\n  <li><code>received_value</code> — the actual invalid value received.</li>\n</ul>\n<p>To inspect and replay failed events after correcting schema definitions or source data, see the <a href=\"/guides/handling-errors-and-retries\">Handling errors & retries</a> guide and the <a href=\"/apis/events#replay\">Events replay endpoint</a>.</p>\n\n<h2>Schema versioning and evolution</h2>\n<p>Event schemas evolve as your application grows. Godzilla supports backwards-compatible schema changes without downtime:</p>\n<ul>\n  <li><strong>Additive changes:</strong> Adding optional fields or expanding enum values are non-breaking and can be deployed without updating existing event consumers.</li>\n  <li><strong>Breaking changes:</strong> Adding required fields, removing fields, or changing data types require publishing a new schema version (e.g. <code>order.created.v2</code>) or applying a transform. See <a href=\"/guides/transforming-events-in-flight\">Transforming events in flight</a> for reshaping payloads during migrations.</li>\n</ul>\n\n<h2>See also</h2>\n<p>Learn how schemas connect with other core platform concepts and tools:</p>\n<ul>\n  <li><a href=\"/concepts-events\">Events</a> — the envelope structure that wraps schema-validated payloads.</li>\n  <li><a href=\"/concepts-pipelines\">Pipelines</a> — configuring validation modes and routing rules on pipelines.</li>\n  <li><a href=\"/guides/transforming-events-in-flight\">Transforming events in flight</a> — reshaping event payloads to match destination schemas.</li>\n</ul>\n</main>\n\n</div>\n<footer class='site-footer'>\n  <div class='site-footer__inner'>\n    <span class='site-footer__brand'>Godzilla Docs</span>\n    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>\n  </div>\n</footer>\n</body>\n</html>\n
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-root page-concepts-schemas">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/concepts-schemas" class="usa-current">Schemas</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Schemas</h1>
+<p>A <strong>schema</strong> defines the structural contract for an <a href="/concepts-events">event</a>'s <code>payload</code>. While Godzilla enforces a standard top-level event envelope, schemas declare the exact data types, required properties, and value constraints of the user payload inside each event.</p>
+
+<h2>Declaring event payload shapes</h2>
+<p>Schemas in Godzilla use standard JSON Schema (draft-07) specifications. Each schema maps to an event <code>type</code> and declares what fields must be present and what data formats they must follow.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>order-created.schema.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  \"$schema\": \"http://json-schema.org/draft-07/schema#\",
+  \"title\": \"OrderCreatedPayload\",
+  \"type\": \"object\",
+  \"required\": [\"order_id\", \"customer_id\", \"amount_cents\", \"currency\"],
+  \"properties\": &#123;
+    \"order_id\": &#123;
+      \"type\": \"string\",
+      \"pattern\": \"^ord_[a-zA-Z0-9]+$\"
+    &#125;,
+    \"customer_id\": &#123;
+      \"type\": \"string\"
+    &#125;,
+    \"amount_cents\": &#123;
+      \"type\": \"integer\",
+      \"minimum\": 0
+    &#125;,
+    \"currency\": &#123;
+      \"type\": \"string\",
+      \"enum\": [\"USD\", \"EUR\", \"GBP\", \"CAD\"]
+    &#125;,
+    \"metadata\": &#123;
+      \"type\": \"object\"
+    &#125;
+  &#125;,
+  \"additionalProperties\": false
+&#125;</code></pre>
+</div>
+
+<h2>Payload validation lifecycle</h2>
+<p>Validation runs automatically as data moves through a <a href="/concepts-pipelines">pipeline</a>:</p>
+<ol>
+  <li><strong>Source ingestion:</strong> When a source <a href="/concepts-connectors">connector</a> emits an event, Godzilla matches the event's <code>type</code> against the registered schema and validates the <code>payload</code>.</li>
+  <li><strong>Transform boundaries:</strong> After each transform step that alters payload structures, the output can be re-validated before continuing down the pipeline.</li>
+  <li><strong>Destination write:</strong> Ensures only schema-compliant events reach destination sinks (such as Snowflake or PostgreSQL).</li>
+</ol>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Validation occurs at runtime</div>
+  <div class='alert__body'><p>Schema enforcement happens at event ingestion before expensive transforms or downstream writes occur. Malformed payloads are trapped early, protecting downstream systems from invalid state.</p></div>
+</div>
+
+<h2>Validation modes</h2>
+<p>Pipelines can configure one of three validation modes depending on your data guarantees:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Behavior on valid payload</th>
+      <th>Behavior on invalid payload</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>strict</code></td>
+      <td>Processed through pipeline</td>
+      <td>Rejected immediately; event is moved to the dead-letter queue</td>
+    </tr>
+    <tr>
+      <td><code>permissive</code></td>
+      <td>Processed through pipeline</td>
+      <td>Processed with a <code>validation_warning</code> attribute attached and metric incremented</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td>Processed through pipeline</td>
+      <td>Bypasses payload validation checks completely</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Handling validation failures</h2>
+<p>When an event fails validation under <code>strict</code> mode, Godzilla emits a <code>validation.failed</code> error, cancels downstream processing for that event, and routes it to the pipeline's dead-letter queue. The dead-lettered record includes detailed validation diagnostics:</p>
+<ul>
+  <li><code>failing_path</code> — the JSON pointer to the invalid field (e.g. <code>/payload/amount_cents</code>).</li>
+  <li><code>constraint</code> — the rule that failed (e.g. <code>minimum</code> or <code>required</code>).</li>
+  <li><code>received_value</code> — the actual invalid value received.</li>
+</ul>
+<p>To inspect and replay failed events after correcting schema definitions or source data, see the <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> guide and the <a href="/apis/events#replay">Events replay endpoint</a>.</p>
+
+<h2>Schema versioning and evolution</h2>
+<p>Event schemas evolve as your application grows. Godzilla supports backwards-compatible schema changes without downtime:</p>
+<ul>
+  <li><strong>Additive changes:</strong> Adding optional fields or expanding enum values are non-breaking and can be deployed without updating existing event consumers.</li>
+  <li><strong>Breaking changes:</strong> Adding required fields, removing fields, or changing data types require publishing a new schema version (e.g. <code>order.created.v2</code>) or applying a transform. See <a href="/guides/transforming-events-in-flight">Transforming events in flight</a> for reshaping payloads during migrations.</li>
+</ul>
+
+<h2>See also</h2>
+<p>Learn how schemas connect with other core platform concepts and tools:</p>
+<ul>
+  <li><a href="/concepts-events">Events</a> — the envelope structure that wraps schema-validated payloads.</li>
+  <li><a href="/concepts-pipelines">Pipelines</a> — configuring validation modes and routing rules on pipelines.</li>
+  <li><a href="/guides/transforming-events-in-flight">Transforming events in flight</a> — reshaping event payloads to match destination schemas.</li>
+</ul>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

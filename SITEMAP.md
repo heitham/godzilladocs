@@ -1,7 +1,7 @@
 # Site map
 
 Every page on this site, with its address and purpose.
-Generated from published output — 38 pages.
+Generated from published output — 39 pages.
 
 ## (root)
 
@@ -13,9 +13,6 @@ Generated from published output — 38 pages.
 | `/concepts-events` | Events |
 | `/concepts-pipelines` | Pipelines |
 | `/concepts-schemas` | Schemas |
-| `/getting-started-authentication` | Authentication |
-| `/getting-started-installation` | Installation |
-| `/getting-started-quickstart` | Quickstart |
 | `/glossary` | Glossary |
 | `/index` | Godzilla Docs |
 | `/migration-guide-v1-to-v2` | Migration guide (v1 → v2) |
@@ -36,6 +33,15 @@ Generated from published output — 38 pages.
 | `/apis/rate-limits-errors` | Rate limits & errors |
 | `/apis/transforms` | Transforms endpoint |
 | `/apis/webhooks` | Webhooks endpoint |
+
+## getting-started
+
+| Path | Title |
+|---|---|
+| `/getting-started/authentication` | Authentication |
+| `/getting-started/index` | Getting Started |
+| `/getting-started/installation` | Installation |
+| `/getting-started/quickstart` | Quickstart |
 
 ## guides
 
