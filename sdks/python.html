@@ -41,7 +41,8 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -62,6 +63,11 @@
 
 <h1>Python SDK <span class='chip chip--primary'>v2</span></h1>
 <p>A typed client for the <a href="/api/index">v2 REST API</a>, for Python 3.9+.</p>
+
+<div class='alert alert--danger'>
+  <div class='alert__title'>Upcoming breaking change</div>
+  <div class='alert__body'><p>A breaking change is coming in the next major SDK release. Please review your integrations and prepare for updates before upgrading.</p></div>
+</div>
 
 <h2>Install</h2>
 <div class='code-block'>
