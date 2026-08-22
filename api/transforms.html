@@ -103,25 +103,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{
-  "data": [
-    {
-      "id": "tr_f18e9a2b",
-      "type": "filter",
-      "condition": "payload.status == 'completed'",
-      "position": 0
-    },
-    {
-      "id": "tr_r73c4d11",
-      "type": "reshape",
-      "mapping": {
-        "order_id": "payload.id",
-        "total_amount": "payload.amount_cents / 100"
-      },
-      "position": 1
-    }
-  ]
-}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"data\": [\n    {\n      \"id\": \"tr_f18e9a2b\",\n      \"type\": \"filter\",\n      \"condition\": \"payload.status == 'completed'\",\n      \"position\": 0\n    },\n    {\n      \"id\": \"tr_r73c4d11\",\n      \"type\": \"reshape\",\n      \"mapping\": {\n        \"order_id\": \"payload.id\",\n        \"total_amount\": \"payload.amount_cents / 100\"\n      },\n      \"position\": 1\n    }\n  ]\n}</code></pre>
 </div>
 
 <h2 id="types">Transform types</h2>
@@ -141,6 +123,8 @@
   <div class='docs-toc__heading'>On this page</div>
   <ul class='docs-toc__list'><li><a href="#create">Create a transform step</a></li><li><a href="#list">List transform steps</a></li><li><a href="#types">Transform types</a></li></ul>
 </nav>
+
+<p>Last reviewed: 2026-09-01</p>
 </main>
 
 </div>
