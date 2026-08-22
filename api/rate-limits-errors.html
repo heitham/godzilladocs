@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rate limits | Godzilla Docs</title>
-  <meta name="description" content="Standard-tier rate limits, rate limit headers, and pagination envelope for the v2 API.">
+  <meta name="description" content="Rate limits by plan tier, rate limit headers, and pagination envelope for the v2 API.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -64,9 +64,19 @@
 <h1>Rate limits <span class='chip chip--primary'>v2</span> <span class='chip chip--success'>Stable</span></h1>
 
 <div class='stat-card'>
+  <div class='stat-card__value'>100</div>
+  <div class='stat-card__label'>requests / minute (Starter)</div>
+  <p class='stat-card__description'>Rate limit for Starter-tier API keys, per workspace.</p>
+</div>
+<div class='stat-card'>
   <div class='stat-card__value'>1,000</div>
-  <div class='stat-card__label'>requests / minute</div>
-  <p class='stat-card__description'>Default rate limit for standard-tier API keys, per workspace.</p>
+  <div class='stat-card__label'>requests / minute (Standard)</div>
+  <p class='stat-card__description'>Default rate limit for Standard-tier API keys, per workspace.</p>
+</div>
+<div class='stat-card'>
+  <div class='stat-card__value'>10,000+</div>
+  <div class='stat-card__label'>requests / minute (Enterprise)</div>
+  <p class='stat-card__description'>Custom rate limit for Enterprise-tier API keys, per workspace.</p>
 </div>
 
 <h2 id="headers">Rate limit headers</h2>
