@@ -82,7 +82,7 @@
   "additionalProperties": false
 }}}
 
-<h2>Validation & enforcement modes</h2>
+<h2>Validation &amp; enforcement modes</h2>
 <p>When a pipeline processes an event, Godzilla validates the <code>payload</code> against the registered schema. You can configure how validation failures are handled using one of three enforcement modes:</p>
 
 <ul>
@@ -93,7 +93,7 @@
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Validation failure handling</div>
-  <div class='alert__body'><p>In <code>strict</code> mode, validation errors do not retry endlessly. Because payload schema mismatches are deterministic, failed events bypass transient retries and move straight to the dead-letter queue. See <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> for details on inspecting and replaying dead-lettered events.</p></div>
+  <div class='alert__body'><p>In <code>strict</code> mode, validation errors do not retry endlessly. Because payload schema mismatches are deterministic, failed events bypass transient retries and move straight to the dead-letter queue. See <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> for details on inspecting and replaying dead-lettered events.</p></div>
 </div>
 
 <h2>Schema validation in the pipeline lifecycle</h2>
@@ -104,7 +104,7 @@
   <li><strong>Egress validation</strong> — Checked before writing to a destination connector to guarantee downstream compatibility.</li>
 </ol>
 
-<h2>Schema evolution & compatibility</h2>
+<h2>Schema evolution &amp; compatibility</h2>
 <p>As business requirements change, schemas evolve. Godzilla supports backward and forward compatibility rules to prevent breaking active pipelines:</p>
 <ul>
   <li><strong>Additive changes</strong> — Adding optional fields is backward-compatible and does not require pipeline downtime.</li>
@@ -112,11 +112,12 @@
 </ul>
 
 <h2>See also</h2>
-<p>Learn more about working with events and payloads:</p>
+<p>Learn more about working with events, transforms, and payloads:</p>
 <ul>
   <li><a href="/concepts/concepts-events">Events concept</a> — Structure and lifecycle of events in Godzilla.</li>
   <li><a href="/guides/transforming-events-in-flight">Transforming events in flight</a> — Reshape, filter, and enrich event payloads.</li>
-  <li><a href="/guides/handling-errors-and-retries">Error handling & recovery</a> — Dead-letter queues and retry mechanisms.</li>
+  <li><a href="/api/transforms">Transforms endpoint</a> — Create and list transform steps via the API reference.</li>
+  <li><a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> — Dead-letter queues and retry mechanisms.</li>
 </ul>
 </main>
 

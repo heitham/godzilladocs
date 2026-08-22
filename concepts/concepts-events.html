@@ -62,7 +62,7 @@
 <main class="cms-main-content">
 <nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/concepts" class="usa-breadcrumb__link"><span>concepts</span></a></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Events</span></li></ol></nav>
 <h1>Events</h1>
-<p>An <strong>event</strong> is the atomic unit of data that moves through a <code>Pipeline</code>. Every record a source connector emits, every row a transform produces, and every write a destination connector performs is an event.</p>
+<p>An <strong>event</strong> is the atomic unit of data that moves through a <a href="/concepts/concepts-pipelines">pipeline</a>. Every record a source connector emits, every row a transform produces, and every write a destination connector performs is an event.</p>
 
 <h2>Event shape</h2>
 {{ds:component/code-block|filename=event.json|language=json|code={
@@ -90,6 +90,9 @@
 
 <h2>Retries and dead-lettering</h2>
 <p>An event that fails a transform or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> for how to configure and drain a dead-letter queue.</p>
+
+<h2>See also</h2>
+<p>To query or replay events programmatically via the REST API, see the <a href="/api/events">Events endpoint</a> in the API reference.</p>
 </main>
 
 </div>

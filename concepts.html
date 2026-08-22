@@ -70,7 +70,7 @@
 </section>
 
 <section>
-  <p>Godzilla is built from core concepts that compose into everything else in these docs. Understanding how they relate makes the rest of the platform — guides, API reference, SDKs — much easier to follow.</p>
+  <p>Godzilla is built from core concepts that compose into everything else in these docs. Understanding how they relate makes the rest of the platform — guides, <a href="/api/index">API reference</a>, SDKs — much easier to follow.</p>
 
   <a class='card' href='/concepts/concepts-pipelines'>
   <span class='card__tag'>Concept</span>
@@ -104,13 +104,13 @@
   <p>Short definitions for every term used throughout these docs.</p>
   <dl>
     <dt><a href="/concepts/concepts-pipelines">Pipeline</a></dt>
-    <dd>A named, versioned workflow that moves data from a source connector, through optional transforms, to a destination connector.</dd>
+    <dd>A named, versioned workflow that moves data from a source connector, through optional transforms, to a destination connector. See the <a href="/api/pipelines">Pipelines endpoint</a> for API operations.</dd>
 
     <dt><a href="/concepts/concepts-connectors">Connector</a></dt>
-    <dd>A pre-built integration to an external system — a source, a destination, or both.</dd>
+    <dd>A pre-built integration to an external system — a source, a destination, or both. Manage credentials and health in the <a href="/api/connectors">Connectors endpoint</a>.</dd>
 
     <dt><a href="/concepts/concepts-events">Event</a></dt>
-    <dd>The atomic unit of data moving through a pipeline, or a platform lifecycle notification like <code>pipeline.failed</code>.</dd>
+    <dd>The atomic unit of data moving through a pipeline, or a platform lifecycle notification like <code>pipeline.failed</code>. Query and replay them via the <a href="/api/events">Events endpoint</a>.</dd>
 
     <dt><a href="/concepts/concepts-schemas">Schema</a></dt>
     <dd>A declarative contract specifying the structure, types, and validation rules for event payloads.</dd>
