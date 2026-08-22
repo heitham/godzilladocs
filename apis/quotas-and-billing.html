@@ -106,7 +106,7 @@
 <p>Exceeding limits is handled differently depending on whether you exceed a per-minute API request rate or a monthly event volume quota.</p>
 
 <h3>API rate limits (HTTP 429)</h3>
-<p>If your application sends more requests in a one-minute window than your tier allows, the API returns a <code>429 Too Many Requests</code> status code. Responses include a <code>Retry-After</code> header indicating how many seconds to wait before resuming requests. See <a href="/apis/rate-limits-errors">Rate limits &amp; errors</a> for header details and retry strategies.</p>
+<p>If your application sends more requests in a one-minute window than your tier allows, the API returns a <code>429 Too Many Requests</code> status code. Responses include a <code>Retry-After</code> header indicating how many seconds to wait before resuming requests. See <a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a> for header details and retry strategies.</p>
 
 <h3>Monthly event quotas</h3>
 <p>Monthly event usage resets on the first day of your billing cycle. When approaching or exceeding event limits:</p>
