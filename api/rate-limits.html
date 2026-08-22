@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rate limits | Godzilla Docs</title>
-  <meta name="description" content="Standard-tier rate limits, response headers, and cursor pagination.">
+  <meta name="description" content="Workspace API rate limits across plan tiers, response headers, and cursor pagination.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -62,15 +62,94 @@
 <main class="cms-main-content">
 
 <h1>Rate limits <span class='chip chip--primary'>v2</span> <span class='chip chip--success'>Stable</span></h1>
+<p>API rate limits are enforced per workspace using a 60-second sliding window. Limits apply across all pipelines, connectors, and API keys created within the workspace.</p>
+
+<div class='stat-card'>
+  <div class='stat-card__value'>100</div>
+  <div class='stat-card__label'>requests / minute (Developer)</div>
+  <p class='stat-card__description'>Rate limit for Developer tier API keys per workspace.</p>
+</div>
 
 <div class='stat-card'>
   <div class='stat-card__value'>1,000</div>
-  <div class='stat-card__label'>requests / minute</div>
-  <p class='stat-card__description'>Default rate limit for standard-tier API keys, per workspace. See <a href="/api/quotas-billing">Quotas &amp; billing</a> for all plan tiers.</p>
+  <div class='stat-card__label'>requests / minute (Standard)</div>
+  <p class='stat-card__description'>Default rate limit for Standard tier API keys per workspace. See <a href="/api/quotas-billing">Quotas &amp; billing</a> for all plan tiers.</p>
 </div>
+
+<div class='stat-card'>
+  <div class='stat-card__value'>10,000+</div>
+  <div class='stat-card__label'>requests / minute (Enterprise)</div>
+  <p class='stat-card__description'>Customizable rate limits for Enterprise plans up to 50,000+ req/min.</p>
+</div>
+
+<h2 id="plan-tiers">Rate limits by plan tier</h2>
+<p>The table below summarizes the API rate limits and enforcement behavior for each plan tier:</p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Plan Tier</th>
+      <th>API Rate Limit</th>
+      <th>Window</th>
+      <th>Status Code on Breach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Developer</strong></td>
+      <td><code>100 req/min</code></td>
+      <td>60-second sliding window</td>
+      <td><code>429 Too Many Requests</code></td>
+    </tr>
+    <tr>
+      <td><strong>Standard</strong></td>
+      <td><code>1,000 req/min</code></td>
+      <td>60-second sliding window</td>
+      <td><code>429 Too Many Requests</code></td>
+    </tr>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td><code>Custom (10,000+)</code></td>
+      <td>60-second sliding window</td>
+      <td><code>429 Too Many Requests</code></td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="headers">Rate limit headers</h2>
 <p>Every response includes <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code>. A request over the limit returns <code>429 Too Many Requests</code> with a <code>Retry-After</code> header.</p>
+
+<table class='param-table'>
+  <thead>
+    <tr>
+      <th>Header</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>X-RateLimit-Limit</code></td>
+      <td>integer</td>
+      <td>The maximum number of requests allowed in the current 60-second sliding window.</td>
+    </tr>
+    <tr>
+      <td><code>X-RateLimit-Remaining</code></td>
+      <td>integer</td>
+      <td>The number of remaining requests permitted within the current window.</td>
+    </tr>
+    <tr>
+      <td><code>X-RateLimit-Reset</code></td>
+      <td>integer</td>
+      <td>Unix timestamp (in seconds) indicating when the current sliding rate limit window resets.</td>
+    </tr>
+    <tr>
+      <td><code>Retry-After</code></td>
+      <td>integer</td>
+      <td>Number of seconds to wait before retrying when a <code>429 Too Many Requests</code> response is returned.</td>
+    </tr>
+  </tbody>
+</table>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Need higher limits or hitting quota caps?</div>
@@ -95,7 +174,11 @@
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#headers">Rate limit headers</a></li><li><a href="#pagination">Pagination</a></li></ul>
+  <ul class='docs-toc__list'>
+    <li><a href="#plan-tiers">Rate limits by plan tier</a></li>
+    <li><a href="#headers">Rate limit headers</a></li>
+    <li><a href="#pagination">Pagination</a></li>
+  </ul>
 </nav>
 </main>
 
