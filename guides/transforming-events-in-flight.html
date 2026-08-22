@@ -40,14 +40,13 @@
     }
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
-    @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
+    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }
       .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
 </head>
-<body class="folder-guides page-transforming-events-in-flight">
+<body class=\"folder-guides page-transforming-events-in-flight\">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -57,12 +56,12 @@
     <nav class='site-header__nav'></nav>
   </div>
 </header>
-<div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight" class="usa-current">Transforming events in flight</a></li></ul></nav></aside>
-<main class="cms-main-content">
+<div class=\"cms-page-container cms-has-left-nav\">
+<aside class=\"cms-left-nav\"><nav aria-label=\"Side navigation\"><ul class=\"usa-sidenav\"><li class=\"usa-sidenav__item\"><a href=\"/guides/building-your-first-pipeline\">Building your first pipeline</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/connecting-a-data-source\">Connecting a data source</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/index\">Guides</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/handling-errors-and-retries\">Handling errors &amp; retries</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/monitoring-and-alerts\">Monitoring &amp; alerts</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/scheduling-and-triggers\">Scheduling &amp; triggers</a></li><li class=\"usa-sidenav__item\"><a href=\"/guides/transforming-events-in-flight\" class=\"usa-current\">Transforming events in flight</a></li></ul></nav></aside>
+<main class=\"cms-main-content\">
 
 <h1>Transforming events in flight</h1>
-<p>As <a href="/concepts-events">events</a> flow from a source connector to a destination in a <a href="/concepts-pipelines">pipeline</a>, you can transform them in real time. Transforms allow you to reshape data structures, discard irrelevant records, and enrich events with additional context before they reach storage or downstream consumers.</p>
+<p>As <a href=\"/concepts-events\">events</a> flow from a source connector to a destination in a <a href=\"/concepts-pipelines\">pipeline</a>, you can transform them in real time. Transforms allow you to reshape data structures, discard irrelevant records, and enrich events with additional context before they reach storage or downstream consumers.</p>
 
 <h2>How transforms work</h2>
 <p>Transforms run sequentially in the order defined in the pipeline's <code>transforms</code> array. Each step accepts the output of the previous step, modifies or evaluates the event, and passes the result along to the next step. If all transforms succeed, the resulting event is written to the destination connector.</p>
@@ -77,14 +76,14 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "type": "reshape",
-  "config": &#123;
-    "mappings": &#123;
-      "id": "payload.order_id",
-      "total_price": "payload.amount_cents",
-      "customer_email": "payload.customer.email"
+  \"type\": \"reshape\",
+  \"config\": &#123;
+    \"mappings\": &#123;
+      \"id\": \"payload.order_id\",
+      \"total_price\": \"payload.amount_cents\",
+      \"customer_email\": \"payload.customer.email\"
     &#125;,
-    "remove": ["payload.internal_notes", "payload.payment_token"]
+    \"remove\": [\"payload.internal_notes\", \"payload.payment_token\"]
   &#125;
 &#125;</code></pre>
 </div>
@@ -99,9 +98,9 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "type": "filter",
-  "config": &#123;
-    "condition": "payload.status == 'completed' &amp;&amp; payload.amount_cents &gt; 0"
+  \"type\": \"filter\",
+  \"config\": &#123;
+    \"condition\": \"payload.status == 'completed' &amp;&amp; payload.amount_cents &gt; 0\"
   &#125;
 &#125;</code></pre>
 </div>
@@ -116,19 +115,19 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "type": "enrich",
-  "config": &#123;
-    "fields": &#123;
-      "processed_at": "$sys.timestamp",
-      "environment": "production",
-      "region": "us-east-1"
+  \"type\": \"enrich\",
+  \"config\": &#123;
+    \"fields\": &#123;
+      \"processed_at\": \"$sys.timestamp\",
+      \"environment\": \"production\",
+      \"region\": \"us-east-1\"
     &#125;
   &#125;
 &#125;</code></pre>
 </div>
 
 <h2>Configuring transforms on a pipeline</h2>
-<p>Provide the list of transform steps when creating or updating a pipeline via the <a href="/apis/pipelines">Pipelines endpoint</a>.</p>
+<p>Provide the list of transform steps when creating or updating a pipeline via the <a href=\"/apis/pipelines\">Pipelines endpoint</a>, or manage individual steps via the <a href=\"/apis/transforms\">Transforms endpoint</a>.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
@@ -136,37 +135,16 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '&#123;
-    "name": "orders-etl-pipeline",
-    "source_connector_id": "conn_pg_orders",
-    "destination_connector_id": "conn_snowflake_dw",
-    "transforms": [
-      &#123;
-        "type": "filter",
-        "config": &#123; "condition": "payload.amount_cents &gt; 0" &#125;
-      &#125;,
-      &#123;
-        "type": "reshape",
-        "config": &#123; "mappings": &#123; "total": "payload.amount_cents" &#125; &#125;
-      &#125;,
-      &#123;
-        "type": "enrich",
-        "config": &#123; "fields": &#123; "env": "prod" &#125; &#125;
-      &#125;
-    ]
-  &#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '&#123;\n    \"name\": \"orders-etl-pipeline\",\n    \"source_connector_id\": \"conn_pg_orders\",\n    \"destination_connector_id\": \"conn_snowflake_dw\",\n    \"transforms\": [\n      &#123;\n        \"type\": \"filter\",\n        \"config\": &#123; \"condition\": \"payload.amount_cents &gt; 0\" &#125;\n      &#125;,\n      &#123;\n        \"type\": \"reshape\",\n        \"config\": &#123; \"mappings\": &#123; \"total\": \"payload.amount_cents\" &#125; &#125;\n      &#125;,\n      &#123;\n        \"type\": \"enrich\",\n        \"config\": &#123; \"fields\": &#123; \"env\": \"prod\" &#125; &#125;\n      &#125;\n    ]\n  &#125;'</code></pre>
 </div>
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Handling transform errors</div>
-  <div class='alert__body'><p>If an event fails a transform step due to unexpected formatting or malformed data, Godzilla retries the event according to your retry policy. If retries are exhausted, the event is routed to the dead-letter queue. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for details.</p></div>
+  <div class='alert__body'><p>If an event fails a transform step due to unexpected formatting or malformed data, Godzilla retries the event according to your retry policy. If retries are exhausted, the event is routed to the dead-letter queue. See <a href=\"/guides/handling-errors-and-retries\">Handling errors & retries</a> for details.</p></div>
 </div>
 
 <h2>Next steps</h2>
-<p>Learn how to manage failed transformations and drain stalled records in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>, or configure your pipeline's execution timing in <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a>.</p>
+<p>Learn how to manage failed transformations and drain stalled records in <a href=\"/guides/handling-errors-and-retries\">Handling errors & retries</a>, or configure your pipeline's execution timing in <a href=\"/guides/scheduling-and-triggers\">Scheduling & triggers</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href='/guides/connecting-a-data-source'>

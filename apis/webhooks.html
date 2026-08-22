@@ -40,14 +40,13 @@
     }
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
-    @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
+    @media (max-width: 768px) {\n      .cms-page-container { padding: 0 16px; }
       .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
 </head>
-<body class="folder-apis page-webhooks">
+<body class=\"folder-apis page-webhooks\">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -57,14 +56,14 @@
     <nav class='site-header__nav'></nav>
   </div>
 </header>
-<div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks" class="usa-current">Webhooks endpoint</a></li></ul></nav></aside>
-<main class="cms-main-content">
+<div class=\"cms-page-container cms-has-left-nav\">
+<aside class=\"cms-left-nav\"><nav aria-label=\"Side navigation\"><ul class=\"usa-sidenav\"><li class=\"usa-sidenav__item\"><a href=\"/apis/index\">API Reference</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/connectors\">Connectors endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/events\">Events endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/pipelines\">Pipelines endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/rate-limits-errors\">Rate limits &amp; errors</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/transforms\">Transforms endpoint</a></li><li class=\"usa-sidenav__item\"><a href=\"/apis/webhooks\" class=\"usa-current\">Webhooks endpoint</a></li></ul></nav></aside>
+<main class=\"cms-main-content\">
 
 <h1>Webhooks endpoint <span class='chip chip--primary'>v2</span></h1>
-<p>Subscribe to platform lifecycle events — such as <code>pipeline.completed</code> or <code>connector.error</code> — as outbound HTTP requests to a URL you control. This is the v2 replacement for v1's polling-only status checks; see the <a href="/migration-guide-v1-to-v2">Migration guide</a> if you're moving off v1.</p>
+<p>Subscribe to platform lifecycle events — such as <code>pipeline.completed</code> or <code>connector.error</code> — as outbound HTTP requests to a URL you control. This is the v2 replacement for v1's polling-only status checks; see the <a href=\"/migration-guide-v1-to-v2\">Migration guide</a> if you're moving off v1.</p>
 
-<h2 id="create">Create a webhook subscription</h2>
+<h2 id=\"create\">Create a webhook subscription</h2>
 <p><code>POST /v2/webhooks</code></p>
 
 <table class='param-table'>
@@ -76,7 +75,7 @@
       <th>Description</th>
     </tr>
   </thead>
-  <tbody><tr><td><code>url</code></td><td>string</td><td>Yes</td><td>HTTPS endpoint Godzilla will POST events to.</td></tr><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>List of event types to subscribe to, e.g. <code>["pipeline.failed"]</code>.</td></tr><tr><td><code>secret</code></td><td>string</td><td>No</td><td>Shared secret used to sign the <code>X-Godzilla-Signature</code> header. Auto-generated if omitted.</td></tr></tbody>
+  <tbody><tr><td><code>url</code></td><td>string</td><td>Yes</td><td>HTTPS endpoint Godzilla will POST events to.</td></tr><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>List of event types to subscribe to, e.g. <code>[\"pipeline.failed\"]</code>.</td></tr><tr><td><code>secret</code></td><td>string</td><td>No</td><td>Shared secret used to sign the <code>X-Godzilla-Signature</code> header. Auto-generated if omitted.</td></tr></tbody>
 </table>
 
 <div class='code-block'>
@@ -86,10 +85,10 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "id": "evt_wh_2091",
-  "type": "pipeline.failed",
-  "occurred_at": "2026-08-18T09:14:02Z",
-  "data": &#123; "pipeline_id": "pl_ingest_orders", "error": "destination_timeout" &#125;
+  \"id\": \"evt_wh_2091\",
+  \"type\": \"pipeline.failed\",
+  \"occurred_at\": \"2026-08-18T09:14:02Z\",
+  \"data\": &#123; \"pipeline_id\": \"pl_ingest_orders\", \"error\": \"destination_timeout\" &#125;
 &#125;</code></pre>
 </div>
 
@@ -98,12 +97,12 @@
   <div class='alert__body'><p>Always verify <code>X-Godzilla-Signature</code> before trusting a webhook payload. Unsigned or unverifiable requests to your endpoint should be rejected, not processed.</p></div>
 </div>
 
-<h2 id="retries">Delivery retries</h2>
+<h2 id=\"retries\">Delivery retries</h2>
 <p>A webhook delivery that doesn't receive a <code>2xx</code> response is retried with exponential backoff for up to 24 hours, then marked failed. Failed deliveries are visible per-subscription and can be manually redelivered.</p>
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href="#create">Create a webhook subscription</a></li><li><a href="#retries">Delivery retries</a></li></ul>
+  <ul class='docs-toc__list'><li><a href=\"#create\">Create a webhook subscription</a></li><li><a href=\"#retries\">Delivery retries</a></li></ul>
 </nav>
 </main>
 
