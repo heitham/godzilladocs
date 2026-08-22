@@ -71,10 +71,13 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  \"id\": \"evt_8f2c1a90\",
-  \"type\": \"order.created\",
-  \"occurred_at\": \"2026-08-18T09:12:44Z\",\n  \"source\": \"connector_postgres_orders\",\n  \"payload\": &#123; \"order_id\": \"ord_4471\", \"amount_cents\": 4899 &#125;\n&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "id": "evt_8f2c1a90",
+  "type": "order.created",
+  "occurred_at": "2026-08-18T09:12:44Z",
+  "source": "connector_postgres_orders",
+  "payload": { "order_id": "ord_4471", "amount_cents": 4899 }
+}</code></pre>
 </div>
 
 <p>Every event contains two distinct layers:</p>
@@ -92,7 +95,7 @@
 <p>Godzilla distinguishes two kinds of events:</p>
 <ul>
   <li><strong>User data events</strong> — the records your pipelines process, shaped and validated according to your defined <a href="/concepts-schemas">schemas</a>.</li>
-  <li><strong>Platform events</strong> — lifecycle notifications Godzilla itself emits: <code>pipeline.started</code>, <code>pipeline.completed</code>, <code>pipeline.failed</code>, <code>connector.error</code>. These are what power <a href="/apis/webhooks">Webhooks</a>.</li>
+  <li><strong>Platform events</strong> — lifecycle notifications Godzilla itself emits: <code>pipeline.started</code>, <code>pipeline.completed</code>, <code>pipeline.failed</code>, <code>connector.error</code>. These are what power <a href="/api/webhooks">Webhooks</a>.</li>
 </ul>
 
 <div class='alert alert--info'>

@@ -41,11 +41,13 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
   </style>
 
 </head>
-<body class="folder-apis page-pipelines">
+<body class="folder-api page-pipelines">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -56,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/quotas-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Pipelines endpoint <span class='chip chip--primary'>v2</span></h1>
@@ -86,11 +88,11 @@
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '&#123;
+  -d '{
     "name": "ingest-orders",
     "source_connector_id": "conn_pg_orders",
     "destination_connector_id": "conn_snowflake_dw"
-  &#125;'</code></pre>
+  }'</code></pre>
 </div>
 
 <h2 id="list">List pipelines</h2>

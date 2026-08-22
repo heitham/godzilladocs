@@ -73,33 +73,33 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  \"$schema\": \"http://json-schema.org/draft-07/schema#\",
-  \"title\": \"OrderCreatedPayload\",
-  \"type\": \"object\",
-  \"required\": [\"order_id\", \"customer_id\", \"amount_cents\", \"currency\"],
-  \"properties\": &#123;
-    \"order_id\": &#123;
-      \"type\": \"string\",
-      \"pattern\": \"^ord_[a-zA-Z0-9]+$\"
-    &#125;,
-    \"customer_id\": &#123;
-      \"type\": \"string\"
-    &#125;,
-    \"amount_cents\": &#123;
-      \"type\": \"integer\",
-      \"minimum\": 0
-    &#125;,
-    \"currency\": &#123;
-      \"type\": \"string\",
-      \"enum\": [\"USD\", \"EUR\", \"GBP\", \"CAD\"]
-    &#125;,
-    \"metadata\": &#123;
-      \"type\": \"object\"
-    &#125;
-  &#125;,
-  \"additionalProperties\": false
-&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OrderCreatedPayload",
+  "type": "object",
+  "required": ["order_id", "customer_id", "amount_cents", "currency"],
+  "properties": {
+    "order_id": {
+      "type": "string",
+      "pattern": "^ord_[a-zA-Z0-9]+$"
+    },
+    "customer_id": {
+      "type": "string"
+    },
+    "amount_cents": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string",
+      "enum": ["USD", "EUR", "GBP", "CAD"]
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}</code></pre>
 </div>
 
 <h2>Payload validation lifecycle</h2>
@@ -152,7 +152,7 @@
   <li><code>constraint</code> — the rule that failed (e.g. <code>minimum</code> or <code>required</code>).</li>
   <li><code>received_value</code> — the actual invalid value received.</li>
 </ul>
-<p>To inspect and replay failed events after correcting schema definitions or source data, see the <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> guide and the <a href="/apis/events#replay">Events replay endpoint</a>.</p>
+<p>To inspect and replay failed events after correcting schema definitions or source data, see the <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> guide and the <a href="/api/events#replay">Events replay endpoint</a>.</p>
 
 <h2>Schema versioning and evolution</h2>
 <p>Event schemas evolve as your application grows. Godzilla supports backwards-compatible schema changes without downtime:</p>

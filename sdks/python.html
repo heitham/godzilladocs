@@ -13,7 +13,8 @@
     body { margin: 0; padding-top: var(--cms-header-height, 0px); }
 
     /* Default layout: single centred column within the site max-width */
-    .cms-page-container {\n      max-width: 1280px;
+    .cms-page-container {
+      max-width: 1280px;
       margin: 0 auto;
       padding: 0 64px;
       box-sizing: border-box;
@@ -61,7 +62,7 @@
 <main class="cms-main-content">
 
 <h1>Python SDK <span class='chip chip--primary'>v2</span></h1>
-<p>A typed client for the <a href="/apis/index">v2 REST API</a>, for Python 3.9+.</p>
+<p>A typed client for the <a href="/api/index">v2 REST API</a>, for Python 3.9+.</p>
 
 <h2>Install</h2>
 <div class='code-block'>
@@ -86,7 +87,7 @@ godzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
 </div>
 
 <h2>Create a pipeline</h2>
-<p>Maps directly onto the <a href="/apis/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
+<p>Maps directly onto the <a href="/api/pipelines">Pipelines endpoint</a> — see the <a href="/guides/building-your-first-pipeline">Building your first pipeline</a> guide for the concepts.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>
