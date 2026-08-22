@@ -41,8 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -104,7 +103,7 @@
 </div>
 
 <h2>Retries and dead-lettering</h2>
-<p>An event that fails a schema validation check (in strict mode), transform, or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for how to configure and drain a dead-letter queue.</p>
+<p>An event that fails a schema validation check (in strict mode), transform, or destination write is retried with exponential backoff. After the configured retry limit, it is moved to that pipeline's dead-letter queue rather than dropped. See <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> for how to configure and drain a dead-letter queue.</p>
 </main>
 
 </div>

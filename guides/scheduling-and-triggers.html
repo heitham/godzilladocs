@@ -41,8 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -58,7 +57,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Handling errors &amp; retries</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers" class="usa-current">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/guides/building-your-first-pipeline">Building your first pipeline</a></li><li class="usa-sidenav__item"><a href="/guides/connecting-a-data-source">Connecting a data source</a></li><li class="usa-sidenav__item"><a href="/guides/index">Guides</a></li><li class="usa-sidenav__item"><a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a></li><li class="usa-sidenav__item"><a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a></li><li class="usa-sidenav__item"><a href="/guides/scheduling-and-triggers" class="usa-current">Scheduling &amp; triggers</a></li><li class="usa-sidenav__item"><a href="/guides/transforming-events-in-flight">Transforming events in flight</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Scheduling &amp; triggers</h1>
@@ -87,12 +86,12 @@
 </div>
 
 <h2>Pausing and resuming</h2>
-<p>A <code>paused</code> pipeline skips scheduled ticks entirely and buffers nothing for event-triggered sources — resuming picks up new events going forward, not a backlog. To reprocess a time range instead, see the replay flow in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>, or check out the <a href="/recipes/backfill-historical-data">Backfill historical data recipe</a>.</p>
+<p>A <code>paused</code> pipeline skips scheduled ticks entirely and buffers nothing for event-triggered sources — resuming picks up new events going forward, not a backlog. To reprocess a time range instead, see the replay flow in <a href="/guides/handling-errors-and-retries">Error handling & recovery</a>, or check out the <a href="/recipes/backfill-historical-data">Backfill historical data recipe</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href="/guides/handling-errors-and-retries">
     <span class='docs-pagination__direction'>Previous</span>
-    <span class='docs-pagination__label'>Handling errors & retries</span>
+    <span class='docs-pagination__label'>Error handling & recovery</span>
   </a>
   <a class='docs-pagination__next' href="/guides/monitoring-and-alerts">
     <span class='docs-pagination__direction'>Next</span>

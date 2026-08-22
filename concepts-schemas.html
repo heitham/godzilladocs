@@ -41,8 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -152,7 +151,7 @@
   <li><code>constraint</code> — the rule that failed (e.g. <code>minimum</code> or <code>required</code>).</li>
   <li><code>received_value</code> — the actual invalid value received.</li>
 </ul>
-<p>To inspect and replay failed events after correcting schema definitions or source data, see the <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> guide and the <a href="/api/events#replay">Events replay endpoint</a>.</p>
+<p>To inspect and replay failed events after correcting schema definitions or source data, see the <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> guide and the <a href="/api/events#replay">Events replay endpoint</a>.</p>
 
 <h2>Schema versioning and evolution</h2>
 <p>Event schemas evolve as your application grows. Godzilla supports backwards-compatible schema changes without downtime:</p>

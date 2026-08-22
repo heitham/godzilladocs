@@ -49,7 +49,7 @@ Generated from published output — 39 pages.
 |---|---|
 | `/guides/building-your-first-pipeline` | Building your first pipeline |
 | `/guides/connecting-a-data-source` | Connecting a data source |
-| `/guides/handling-errors-and-retries` | Handling errors & retries |
+| `/guides/handling-errors-and-retries` | Error handling & recovery |
 | `/guides/index` | Guides |
 | `/guides/monitoring-and-alerts` | Monitoring & alerts |
 | `/guides/scheduling-and-triggers` | Scheduling & triggers |

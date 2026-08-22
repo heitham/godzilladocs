@@ -41,8 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -81,7 +80,7 @@
   <dd>An outbound HTTP request Godzilla sends to a URL you control when a subscribed event occurs.</dd>
 
   <dt>Dead-letter queue</dt>
-  <dd>Where an event goes after exhausting its retries, rather than being dropped. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>.</dd>
+  <dd>Where an event goes after exhausting its retries, rather than being dropped. See <a href="/guides/handling-errors-and-retries">Error handling & recovery</a>.</dd>
 
   <dt>Cursor pagination</dt>
   <dd>The pagination style used by every v2 list endpoint. See <a href="/api/rate-limits-errors">Limits, quotas & errors</a>.</dd>

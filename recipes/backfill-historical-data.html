@@ -41,8 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -85,21 +84,18 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "backfill-orders-2025",
-    "source_connector_id": "conn_pg_orders",
-    "destination_connector_id": "conn_snowflake_dw",
-    "config": {
-      "mode": "backfill",
-      "start_timestamp": "2025-01-01T00:00:00Z",
-      "end_timestamp": "2025-12-31T23:59:59Z",
-      "batch_size": 5000,
-      "max_concurrency": 4
-    }
-  }'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "name": "backfill-orders-2025",
+  "source_connector_id": "conn_pg_orders",
+  "destination_connector_id": "conn_snowflake_dw",
+  "config": {
+    "mode": "backfill",
+    "start_timestamp": "2025-01-01T00:00:00Z",
+    "end_timestamp": "2025-12-31T23:59:59Z",
+    "batch_size": 5000,
+    "max_concurrency": 4
+  }
+}</code></pre>
 </div>
 
 <h2>2. Configure transform rules for bulk ingestion</h2>
@@ -153,7 +149,7 @@
   -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
 </div>
 
-<p>If any individual records fail, inspect the dead-letter queue and replay failed records as described in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>.</p>
+<p>If any individual records fail, inspect the dead-letter queue and replay failed records as described in <a href="/guides/handling-errors-and-retries">Error handling & recovery</a>.</p>
 
 <h2>Next steps</h2>
 <p>Once your backfill completes, explore the <a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a> recipe to route your streaming data to multiple downstream storage systems simultaneously.</p>

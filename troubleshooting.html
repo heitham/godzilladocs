@@ -41,8 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -68,7 +67,7 @@
 <p>Check the source connector's <code>health</code> field via the <a href="/api/connectors">Connectors endpoint</a>. A <code>down</code> connector stalls every pipeline that reads from it. If it's <code>healthy</code>, confirm the pipeline itself is <code>active</code> and not <code>paused</code> — see <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a>.</p>
 
 <h2>Events keep failing and landing in the dead-letter queue</h2>
-<p>Walk through <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> — it covers both diagnosing the failure and replaying events once fixed.</p>
+<p>Walk through <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> — it covers both diagnosing the failure and replaying events once fixed.</p>
 
 <h2>I'm not receiving webhook deliveries</h2>
 <p>Verify your endpoint returns a <code>2xx</code> status and that you're checking <code>X-Godzilla-Signature</code> correctly — a rejected signature looks identical to a dropped delivery from the outside. Full details in the <a href="/api/webhooks">Webhooks endpoint</a> reference.</p>

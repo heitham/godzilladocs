@@ -37,7 +37,7 @@
 - [Building your first pipeline](https://localhost:3002/guides/building-your-first-pipeline): Create a source connector, a destination connector, and the pipeline that connects them, end to end.
 - [Connecting a data source](https://localhost:3002/guides/connecting-a-data-source): Choose the right connector type and authentication method for a new data source.
 - [Guides](https://localhost:3002/guides/index): Task-oriented walkthroughs for building, connecting, and operating Godzilla pipelines.
-- [Handling errors & retries](https://localhost:3002/guides/handling-errors-and-retries): How Godzilla retries failed events, when they're dead-lettered, and how to replay them.
+- [Error handling & recovery](https://localhost:3002/guides/handling-errors-and-retries): How Godzilla retries failed events, when they're dead-lettered, and how to replay them.
 - [Monitoring & alerts](https://localhost:3002/guides/monitoring-and-alerts): Watch pipeline health and get notified of failures via webhooks before they become incidents.
 - [Scheduling & triggers](https://localhost:3002/guides/scheduling-and-triggers): Run a pipeline on a cron schedule or trigger it directly from incoming events.
 - [Transforming events in flight](https://localhost:3002/guides/transforming-events-in-flight): Reshape, filter, and enrich events in real time as they move through a pipeline.
