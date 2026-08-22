@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pipelines endpoint | Godzilla Docs</title>
-  <meta name="description" content="Create, list, and manage pipelines via the v2 REST API (deprecated).">
+  <meta name="description" content="Create, list, and manage pipelines via the v2 REST API.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-api-v2 page-pipelines">
+<body class="folder-apis page-pipelines">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,19 +58,13 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/v2/pipelines" class="usa-current">Pipelines endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
-<nav class="usa-breadcrumb" aria-label="Breadcrumbs"><ol class="usa-breadcrumb__list"><li class="usa-breadcrumb__list-item"><a href="/" class="usa-breadcrumb__link"><span>Home</span></a></li><li class="usa-breadcrumb__list-item"><a href="/api/" class="usa-breadcrumb__link"><span>api</span></a></li><li class="usa-breadcrumb__list-item"><span>v2</span></li><li class="usa-breadcrumb__list-item usa-current" aria-current="page"><span>Pipelines endpoint</span></li></ol></nav>
-<h1>Pipelines endpoint <span class='chip chip--danger'>Deprecated</span></h1>
 
-<div class='alert alert--danger'>
-  <div class='alert__title'>v2 is deprecated</div>
-  <div class='alert__body'><p>The v2 API is no longer the current version. <strong><a href="/concepts/concepts-pipelines">Switch to v3</a></strong>, which includes batch operations, improved filtering, and better error messages. See the migration guide to upgrade your integrations.</p></div>
-</div>
+<h1>Pipelines endpoint <span class='chip chip--primary'>v2</span></h1>
+<p>Create and manage <a href="/concepts-pipelines">pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
 
-<p>Create and manage <a href="/concepts/concepts-pipelines">pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
-
-<h2 id=create>Create a pipeline</h2>
+<h2 id="create">Create a pipeline</h2>
 <p><code>POST /v2/pipelines</code></p>
 
 <table class='param-table'>
@@ -85,20 +79,27 @@
   <tbody><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>Human-readable pipeline name, unique per workspace.</td></tr><tr><td><code>source_connector_id</code></td><td>string</td><td>Yes</td><td>ID of the connector events are read from.</td></tr><tr><td><code>destination_connector_id</code></td><td>string</td><td>Yes</td><td>ID of the connector events are written to.</td></tr><tr><td><code>transforms</code></td><td>array</td><td>No</td><td>Ordered list of transform step definitions. Omit for a pass-through copy.</td></tr><tr><td><code>schedule</code></td><td>string</td><td>No</td><td>Cron expression. Omit for event-triggered (streaming) pipelines.</td></tr></tbody>
 </table>
 
-{{ds:component/code-block|filename=create-pipeline.sh|language=bash|code=curl -X POST https://api.godzilladocs.dev/v2/pipelines \\
-  -H "Authorization: Bearer $GODZILLA_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-pipeline.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '&#123;
     "name": "ingest-orders",
     "source_connector_id": "conn_pg_orders",
     "destination_connector_id": "conn_snowflake_dw"
-  }'}}
+  &#125;'</code></pre>
+</div>
 
-<h2 id=list>List pipelines</h2>
+<h2 id="list">List pipelines</h2>
 <p><code>GET /v2/pipelines</code> — cursor-paginated, see <code>Rate limits & errors</code> for the pagination envelope.</p>
 
-<h2 id=states>Pipeline states</h2>
-<p>Returned pipelines include a <code>state</code> field of <code>draft</code>, <code>active</code>, or <code>paused</code> — see <a href="/concepts/concepts-pipelines">Pipelines</a> for what each means.</p>
+<h2 id="states">Pipeline states</h2>
+<p>Returned pipelines include a <code>state</code> field of <code>draft</code>, <code>active</code>, or <code>paused</code> — see <a href="/concepts-pipelines">Pipelines</a> for what each means.</p>
 
 <div class='alert alert--danger'>
   <div class='alert__title'>Deleting a pipeline</div>
@@ -107,10 +108,8 @@
 
 <nav class='docs-toc' aria-label='On this page'>
   <div class='docs-toc__heading'>On this page</div>
-  <ul class='docs-toc__list'><li><a href=#create>Create a pipeline</a></li><li><a href=#list>List pipelines</a></li><li><a href=#states>Pipeline states</a></li></ul>
+  <ul class='docs-toc__list'><li><a href="#create">Create a pipeline</a></li><li><a href="#list">List pipelines</a></li><li><a href="#states">Pipeline states</a></li></ul>
 </nav>
-
-<p style="margin-top: 2rem; font-size: 0.875rem; color: #6b625c;"><strong>Last reviewed:</strong> 2026-09-01</p>
 </main>
 
 </div>

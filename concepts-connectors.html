@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-concepts page-concepts-connectors">
+<body class="folder-root page-concepts-connectors">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,7 +58,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/concepts/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-connectors" class="usa-current">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/concepts/concepts-schemas">Schemas</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors" class="usa-current">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Connectors</h1>
@@ -73,13 +73,13 @@
 
 <h2>Built-in connector catalog</h2>
 <table>
-  <thead><tr><th>Connector</th><th>Direction</th><th>Auth</th><th>Incremental reads</th></tr></thead>
+  <thead><tr><th>Connector</th><th>Direction</th><th>Auth</th></tr></thead>
   <tbody>
-    <tr><td>Postgres</td><td>Source</td><td>Connection string + replication slot</td><td>Yes</td></tr>
-    <tr><td>Amazon S3</td><td>Source / Destination</td><td>IAM role or access key</td><td>Yes</td></tr>
-    <tr><td>Snowflake</td><td>Destination</td><td>Key-pair auth</td><td>—</td></tr>
-    <tr><td>Kafka</td><td>Source / Destination</td><td>SASL/SSL</td><td>Yes</td></tr>
-    <tr><td>Webhook</td><td>Source / Destination</td><td>Signed request or bearer token</td><td>—</td></tr>
+    <tr><td>Postgres</td><td>Source</td><td>Connection string + replication slot</td></tr>
+    <tr><td>Amazon S3</td><td>Source / Destination</td><td>IAM role or access key</td></tr>
+    <tr><td>Snowflake</td><td>Destination</td><td>Key-pair auth</td></tr>
+    <tr><td>Kafka</td><td>Source / Destination</td><td>SASL/SSL</td></tr>
+    <tr><td>Webhook</td><td>Source / Destination</td><td>Signed request or bearer token</td></tr>
   </tbody>
 </table>
 
@@ -92,7 +92,7 @@
 <p>Each connector reports a health status independent of any single pipeline: <span class="chip-inline">healthy</span>, <span class="chip-inline">degraded</span>, or <span class="chip-inline">down</span>. A connector shared across multiple pipelines only needs to be fixed once — every pipeline referencing it recovers automatically.</p>
 
 <h2>See also</h2>
-<p>Connectors are configured per pipeline in the <a href="/guides/connecting-a-data-source">Connecting a data source</a> guide, and referenced directly in the <a href="/api/connectors">Connectors endpoint</a> of the API reference.</p>
+<p>Connectors are configured per pipeline in the <a href="/guides/connecting-a-data-source">Connecting a data source</a> guide, and referenced directly in the <a href="/apis/connectors">Connectors endpoint</a> of the API reference.</p>
 </main>
 
 </div>
