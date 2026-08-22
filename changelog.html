@@ -65,16 +65,19 @@
 <p>Recent changes to the API and platform. For the full v1 → v2 history, see the <a href="/versions/migration-guide-v1-to-v2">Migration guide</a>. Older entries live in <a href="/versions/release-notes-archive">Release notes archive</a>.</p>
 
 <div class='stat-card'>
-  <div class='stat-card__value'>v2</div>
-  <div class='stat-card__label'>current API version</div>
-  <p class='stat-card__description'>Introduced cursor pagination and webhooks in place of v1 polling.</p>
+  <div class='stat-card__value'>v3</div>
+  <div class='stat-card__label'>pipelines endpoint version</div>
+  <p class='stat-card__description'>Pipelines endpoint is now on v3, with v2 documentation preserved for existing integrations.</p>
 </div>
+
+<h2>2026-08-22 — Pipelines v3 shipped</h2>
+<p>The <a href="/api/pipelines">Pipelines endpoint</a> has been updated to v3. The previous <a href="/api/pipelines-v2">v2 Pipelines endpoint</a> remains accessible for existing integrations.</p>
 
 <h2>2026-08-01 — Webhooks generally available</h2>
 <p>The <a href="/api/webhooks">Webhooks endpoint</a> is now generally available for all workspaces, with signed payload verification.</p>
 
 <h2>2026-06-15 — Cursor pagination on all list endpoints</h2>
-<p>Every list endpoint, including <a href="/api/pipelines">Pipelines</a>, moved from offset to cursor pagination. See <a href="/api/rate-limits-errors">Limits, quotas & errors</a> for the envelope shape.</p>
+<p>Every list endpoint, including <a href="/api/pipelines">Pipelines</a>, moved from offset to cursor pagination. See <a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a> for the envelope shape.</p>
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Breaking change</div>

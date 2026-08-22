@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pipelines endpoint | Godzilla Docs</title>
-  <meta name="description" content="Create, list, and manage pipelines via the v3 REST API.">
+  <title>Pipelines endpoint (v2) | Godzilla Docs</title>
+  <meta name="description" content="Create, list, and manage pipelines via the v2 REST API (previous version).">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -47,7 +47,7 @@
   </style>
 
 </head>
-<body class="folder-api page-pipelines">
+<body class="folder-api page-pipelines-v2">
 <header class='site-header'>
   <div class='site-header__inner'>
     <a class='site-header__brand' href='/'>
@@ -58,20 +58,20 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines-v2">Pipelines endpoint (v2)</a></li><li class="usa-sidenav__item"><a href="/api/quotas-and-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/api/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/api/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/api/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/api/pipelines">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/api/pipelines-v2" class="usa-current">Pipelines endpoint (v2)</a></li><li class="usa-sidenav__item"><a href="/api/quotas-and-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/api/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/api/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<h1>Pipelines endpoint <span class='chip chip--primary'>v3</span></h1>
+<h1>Pipelines endpoint <span class='chip chip--warning'>v2</span></h1>
 
-<div class='alert alert--info'>
-  <div class='alert__title'>Looking for v2?</div>
-  <div class='alert__body'><p>v3 is the current version of the pipelines endpoint. If you are maintaining an existing v2 integration, see the <a href="/api/pipelines-v2">v2 Pipelines documentation</a>.</p></div>
+<div class='alert alert--warning'>
+  <div class='alert__title'>Previous API version</div>
+  <div class='alert__body'><p>This documentation is for version 2 of the pipelines endpoint. <strong>Version 3 is now the current version.</strong> If you are starting a new integration or upgrading, see the <a href="/api/pipelines">v3 Pipelines endpoint documentation</a>.</p></div>
 </div>
 
-<p>Create and manage <a href="/concepts/concepts-pipelines">pipelines</a> programmatically. Base URL: <code>https://api.godzilladocs.dev/v3</code>.</p>
+<p>Create and manage <a href="/concepts/concepts-pipelines">pipelines</a> programmatically using the v2 API. Base URL: <code>https://api.godzilladocs.dev/v2</code>.</p>
 
 <h2 id="create">Create a pipeline</h2>
-<p><code>POST /v3/pipelines</code></p>
+<p><code>POST /v2/pipelines</code></p>
 
 <table class='param-table'>
   <thead>
@@ -91,7 +91,7 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/pipelines \
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
   -H "Authorization: Bearer $GODZILLA_API_KEY" \
   -H "Content-Type: application/json" \
   -d '&#123;
@@ -102,7 +102,7 @@
 </div>
 
 <h2 id="list">List pipelines</h2>
-<p><code>GET /v3/pipelines</code> — cursor-paginated, see <a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a> for the pagination envelope.</p>
+<p><code>GET /v2/pipelines</code> — cursor-paginated, see <a href="/api/rate-limits-errors">Limits, quotas &amp; errors</a> for the pagination envelope.</p>
 
 <h2 id="states">Pipeline states</h2>
 <p>Returned pipelines include a <code>state</code> field of <code>draft</code>, <code>active</code>, or <code>paused</code> — see <a href="/concepts/concepts-pipelines">Pipelines</a> for what each means.</p>
