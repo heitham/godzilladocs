@@ -67,13 +67,20 @@
 <h2 id="automatic-retries">Automatic retries</h2>
 <p>Failed events retry with exponential backoff — 1s, 2s, 4s, up to a per-pipeline configurable ceiling. Most transient failures (a destination hiccup, a rate-limited third party) resolve within the first few attempts.</p>
 
-{{ds:component/code-block|filename=pipeline-retry-config.json|language=json|code={
-  "retry_policy": {
-    "max_attempts": 5,
-    "backoff": "exponential",
-    "initial_delay_ms": 1000
-  }
-}}}
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>pipeline-retry-config.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  \"retry_policy\": &#123;
+    \"max_attempts\": 5,
+    \"backoff\": \"exponential\",
+    \"initial_delay_ms\": 1000
+  &#125;
+&#125;</code></pre>
+</div>
 
 <h2 id="dead-lettering">Dead-lettering</h2>
 <p>An event that exhausts its retries is moved to that pipeline's dead-letter queue rather than dropped silently.</p>
@@ -93,7 +100,7 @@
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v3/events/evt_8f2c1a90/replay \
-  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+  -H \"Authorization: Bearer $GODZILLA_API_KEY\"</code></pre>
 </div>
 
 <h2 id="watching-for-failures">Watching for failures</h2>

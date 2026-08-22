@@ -76,7 +76,9 @@
     <span class='code-block__lang'>bash</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/webhooks \\\n  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \\\n  -d '&#123;\"url\":\"https://you.example.com/hooks/godzilla\",\"events\":[\"pipeline.failed\",\"connector.error\"]&#125;'</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/webhooks \
+  -H \"Authorization: Bearer $GODZILLA_API_KEY\" \
+  -d '&#123;\"url\":\"https://you.example.com/hooks/godzilla\",\"events\":[\"pipeline.failed\",\"connector.error\"]&#125;'</code></pre>
 </div>
 
 <div class='alert alert--success'>
