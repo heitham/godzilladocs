@@ -64,7 +64,7 @@
 <h1>Transforming events in flight</h1>
 <p>Transforms are intermediate processing steps applied to <a href="/concepts/concepts-events">events</a> as they travel between a source connector and a destination in a <a href="/concepts/concepts-pipelines">pipeline</a>. You can use transforms to reshape payload structures, filter out unwanted records, and enrich events with additional context.</p>
 
-<h2>1. Reshaping events</h2>
+<h2 id="reshaping-events">1. Reshaping events</h2>
 <p>Use reshape transforms to rename fields, restructure nested objects, or strip sensitive and unneeded keys before writing to downstream storage.</p>
 
 <div class='code-block'>
@@ -85,7 +85,7 @@
 &#125;</code></pre>
 </div>
 
-<h2>2. Filtering events</h2>
+<h2 id="filtering-events">2. Filtering events</h2>
 <p>Filtering lets you conditionally route or drop events based on payload criteria. Non-matching events are discarded immediately, saving destination throughput and storage.</p>
 
 <div class='code-block'>
@@ -107,7 +107,7 @@
   <div class='alert__body'><p>Filtered-out events do not trigger retries or dead-letter queue entries; they are treated as successfully skipped.</p></div>
 </div>
 
-<h2>3. Enriching events</h2>
+<h2 id="enriching-events">3. Enriching events</h2>
 <p>Enrichment transforms add metadata, computed values, or static contextual fields to the event payload before delivery.</p>
 
 <div class='code-block'>
@@ -127,7 +127,7 @@
 &#125;</code></pre>
 </div>
 
-<h2>Configuring transforms in a pipeline</h2>
+<h2 id="configuring-transforms">Configuring transforms in a pipeline</h2>
 <p>Transforms are supplied as an ordered array on the pipeline definition. Godzilla executes each transform sequentially for every event.</p>
 
 <div class='code-block'>
@@ -162,7 +162,7 @@
   <div class='alert__body'><p>Because transforms run sequentially, placing filter steps first avoids unnecessary processing on events that will ultimately be dropped.</p></div>
 </div>
 
-<h2>Next steps</h2>
+<h2 id="next-steps">Next steps</h2>
 <p>Learn how Godzilla deals with transformation and destination write failures in <a href="/guides/handling-errors-and-retries">Error handling & recovery</a>, configure steps via the <a href="/api/transforms">Transforms endpoint</a>, or manage your pipelines directly using the <a href="/api/pipelines">Pipelines endpoint</a>.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
@@ -174,6 +174,11 @@
     <span class='docs-pagination__direction'>Next</span>
     <span class='docs-pagination__label'>Error handling & recovery</span>
   </a>
+</nav>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'><li><a href='#reshaping-events'>1. Reshaping events</a></li><li><a href='#filtering-events'>2. Filtering events</a></li><li><a href='#enriching-events'>3. Enriching events</a></li><li><a href='#configuring-transforms'>Configuring transforms in a pipeline</a></li><li><a href='#next-steps'>Next steps</a></li></ul>
 </nav>
 </main>
 
