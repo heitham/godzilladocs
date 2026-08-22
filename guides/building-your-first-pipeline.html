@@ -69,7 +69,7 @@
   <div class='alert__body'><p>You'll need an API key. See <a href="/getting-started/authentication">Authentication</a> in Getting Started if you don't have one yet.</p></div>
 </div>
 
-<h2>1. Create a source connector</h2>
+<h2 id="create-source-connector">1. Create a source connector</h2>
 <p>We'll pull orders from Postgres. See <a href="/concepts/connectors">Connectors</a> for the full catalog of types.</p>
 
 <div class='code-block'>
@@ -98,7 +98,7 @@
 })</code></pre>
 </div>
 
-<h2>2. Create a destination connector</h2>
+<h2 id="create-destination-connector">2. Create a destination connector</h2>
 <p>We'll write to Snowflake.</p>
 
 <div class='code-block'>
@@ -127,7 +127,7 @@
 })</code></pre>
 </div>
 
-<h2>3. Create the pipeline</h2>
+<h2 id="create-pipeline">3. Create the pipeline</h2>
 <p>Full request/response details are in the <a href="/api/pipelines">Pipelines endpoint</a> reference.</p>
 
 <div class='code-block'>
@@ -156,8 +156,18 @@
 
 <p>The pipeline starts in <code>draft</code> state. Activate it once you're ready to start processing events.</p>
 
-<h2>Next steps</h2>
+<h2 id="next-steps">Next steps</h2>
 <p>Now that events are flowing, read <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> to see what happens when a write fails, <a href="/guides/monitoring-and-alerts">Monitoring &amp; alerts</a> to watch it run, or explore <a href="/recipes/index">Recipes</a> for architecture patterns like multi-destination fan-out and historical backfills.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'>
+    <li><a href="#create-source-connector">1. Create a source connector</a></li>
+    <li><a href="#create-destination-connector">2. Create a destination connector</a></li>
+    <li><a href="#create-pipeline">3. Create the pipeline</a></li>
+    <li><a href="#next-steps">Next steps</a></li>
+  </ul>
+</nav>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href="/guides/index">

@@ -64,7 +64,7 @@
 <h1>Transforming events in flight</h1>
 <p>As <a href="/concepts/events">events</a> flow from a source <a href="/concepts/connectors">connector</a> to a destination connector, you can modify them in real time. This guide covers how to reshape payloads, drop unwanted records, and enrich events with additional context inside a <a href="/concepts/pipelines">pipeline</a>.</p>
 
-<h2>Configuring transforms</h2>
+<h2 id="configuring-transforms">Configuring transforms</h2>
 <p>Transforms are defined as an ordered list in the <code>transforms</code> array of your pipeline definition. When creating or updating a pipeline via the <a href="/api/pipelines">Pipelines endpoint</a> or managing individual steps with the <a href="/api/transforms">Transforms endpoint</a>, specify one or more transform steps.</p>
 
 <div class='code-block'>
@@ -101,7 +101,7 @@
 }</code></pre>
 </div>
 
-<h2>Reshaping payloads</h2>
+<h2 id="reshaping-payloads">Reshaping payloads</h2>
 <p>Use reshape transforms to map incoming fields to target schema structures, rename keys, calculate derived values, or drop unnecessary nested data before writing to the destination.</p>
 
 <table>
@@ -113,7 +113,7 @@
   </tbody>
 </table>
 
-<h2>Filtering events</h2>
+<h2 id="filtering-events">Filtering events</h2>
 <p>Filter steps evaluate a boolean condition against each event. Events that evaluate to <code>true</code> proceed to the next step, while events evaluating to <code>false</code> are dropped cleanly without triggering an error or alerting the dead-letter queue.</p>
 
 <div class='alert alert--info'>
@@ -121,14 +121,26 @@
   <div class='alert__body'><p>Place filter steps at the beginning of the transforms list to avoid executing unnecessary reshape or enrichment steps on records that will ultimately be discarded.</p></div>
 </div>
 
-<h2>Enriching events</h2>
+<h2 id="enriching-events">Enriching events</h2>
 <p>Enrichment steps append new metadata or computed context to the event payload. Common enrichments include injecting processing timestamps (<code>$now</code>), platform metadata, or static environment tags needed by downstream analytics systems.</p>
 
-<h2>Error handling in transforms</h2>
+<h2 id="error-handling-in-transforms">Error handling in transforms</h2>
 <p>If an event encounters an unhandled evaluation error during a transform step (such as a type mismatch or missing required field), it is retried according to the pipeline's retry policy before being sent to the dead-letter queue. See <a href="/guides/handling-errors-and-retries">Error handling & recovery</a> for details on debugging and replaying failed transforms.</p>
 
-<h2>Next steps</h2>
+<h2 id="next-steps">Next steps</h2>
 <p>Learn how to handle unexpected failures and replay dead-lettered events in <a href="/guides/handling-errors-and-retries">Error handling & recovery</a>, see <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a> to control how your pipeline runs, or follow the <a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations recipe</a> for routing different transforms to separate systems.</p>
+
+<nav class='docs-toc' aria-label='On this page'>
+  <div class='docs-toc__heading'>On this page</div>
+  <ul class='docs-toc__list'>
+    <li><a href="#configuring-transforms">Configuring transforms</a></li>
+    <li><a href="#reshaping-payloads">Reshaping payloads</a></li>
+    <li><a href="#filtering-events">Filtering events</a></li>
+    <li><a href="#enriching-events">Enriching events</a></li>
+    <li><a href="#error-handling-in-transforms">Error handling in transforms</a></li>
+    <li><a href="#next-steps">Next steps</a></li>
+  </ul>
+</nav>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
   <a class='docs-pagination__prev' href="/guides/connecting-a-data-source">
