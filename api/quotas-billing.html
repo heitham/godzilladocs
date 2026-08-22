@@ -115,7 +115,7 @@
 <h2 id="quota-dimensions">Quota dimensions</h2>
 <p>Godzilla accounts are governed by four primary quota dimensions:</p>
 <ul>
-  <li><strong>API request rate:</strong> Per-minute sliding window limits on calls to <code>https://api.godzilladocs.dev/v2</code>. See <a href="/api/rate-limits">Rate limits</a> for header specifications.</li>
+  <li><strong>API request rate:</strong> Per-minute sliding window limits on calls to the Godzilla API (<code>https://api.godzilladocs.dev/v2</code> and <code>https://api.godzilladocs.dev/v3</code>). See <a href="/api/rate-limits">Rate limits</a> for header specifications.</li>
   <li><strong>Monthly event volume:</strong> The total number of events ingested, transformed, and delivered by your pipelines in a monthly billing cycle.</li>
   <li><strong>Active pipeline concurrency:</strong> The maximum number of pipelines running in <code>active</code> state simultaneously. Pipelines in <code>draft</code> or <code>paused</code> state do not count toward this limit.</li>
   <li><strong>Dead-letter queue retention:</strong> How long failed events remain available for inspection and replay (7 days on Developer, 30 days on Standard, 90 days on Enterprise).</li>
@@ -156,7 +156,7 @@
 </div>
 
 <h3>3. Pipeline or connector limits exceeded</h3>
-<p>Attempting to create a pipeline or connector beyond your plan limit via <code>POST /v2/pipelines</code> or <code>POST /v2/connectors</code> returns <code>403 Forbidden</code> with error code <code>quota_exceeded</code>.</p>
+<p>Attempting to create a pipeline or connector beyond your plan limit via <code>POST /v3/pipelines</code> or <code>POST /v2/connectors</code> returns <code>403 Forbidden</code> with error code <code>quota_exceeded</code>.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>

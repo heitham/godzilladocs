@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Error reference | Godzilla Docs</title>
-  <meta name="description" content="The v2 API error response shape, error codes, and migration differences from v1.">
+  <meta name="description" content="The v2 and v3 API error response shape, error codes, and migration differences from v1.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -82,7 +82,7 @@
 
 <div class='alert alert--danger'>
   <div class='alert__title'>Breaking change from v1</div>
-  <div class='alert__body'><p>v1 returned bare error strings. v2 always wraps errors in an <code>error</code> object with a stable <code>code</code> field — match on <code>code</code>, not on <code>message</code> text.</p></div>
+  <div class='alert__body'><p>v1 returned bare error strings. v2 and v3 always wrap errors in an <code>error</code> object with a stable <code>code</code> field — match on <code>code</code>, not on <code>message</code> text.</p></div>
 </div>
 
 <nav class='docs-toc' aria-label='On this page'>
