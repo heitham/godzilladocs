@@ -1,7 +1,6 @@
 # Godzilla Docs
 
-> Everything you need to build data pipelines on the Godzilla platform.
-
+> Everything you need to build data pipelines on the Godzilla platform.\n
 ## Pages
 - [Authentication](https://localhost:3002/getting-started-authentication): Authenticate API requests with a bearer API key.
 - [Changelog](https://localhost:3002/changelog): Recent changes to the Godzilla API and platform.
@@ -25,6 +24,7 @@
 - [Events endpoint](https://localhost:3002/apis/events): Query and replay events that have flowed through a pipeline via the v2 REST API.
 - [Pipelines endpoint](https://localhost:3002/apis/pipelines): Create, list, and manage pipelines via the v2 REST API.
 - [Rate limits & errors](https://localhost:3002/apis/rate-limits-errors): Standard-tier rate limits, pagination envelope, and the v2 API's error response shape.
+- [Transforms endpoint](https://localhost:3002/apis/transforms): Create and list transform steps within pipelines via the v2 REST API.
 - [Webhooks endpoint](https://localhost:3002/apis/webhooks): Subscribe to Godzilla platform lifecycle events over outbound HTTP via the v2 REST API.
 
 ## guides
