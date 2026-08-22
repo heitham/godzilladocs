@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backfill historical data | Godzilla Docs</title>
+  <meta name="description" content="Replay and ingest historical datasets through a pipeline without disrupting real-time event flow.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-recipes page-backfill-historical-data">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data" class="usa-current">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Backfill historical data</h1>
+<p>When connecting a new destination or onboarding a new dataset, you often need to ingest historical records in addition to streaming new changes. This recipe demonstrates how to run large-scale historical backfills through a <a href="/concepts-pipelines">pipeline</a> safely without exhausting rate limits or blocking live <a href="/concepts-events">events</a>.</p>
+
+<div class='alert alert--info'>
+  <div class='alert__title'>Prerequisites</div>
+  <div class='alert__body'><p>Ensure your source and destination <a href="/concepts-connectors">connectors</a> are active and verified. See <a href="/guides/connecting-a-data-source">Connecting a data source</a> for setup details.</p></div>
+</div>
+
+<h2>Architecture overview</h2>
+<p>Rather than modifying your live streaming pipeline, create a dedicated backfill pipeline with bounded source offsets. This provides two key benefits:</p>
+<ul>
+  <li><strong>Workload isolation:</strong> High-throughput backfill traffic does not starve or add latency to real-time events.</li>
+  <li><strong>Custom rate limits:</strong> You can tune concurrency, batch sizes, and retry backoffs specifically for bulk loading.</li>
+</ul>
+
+<h2>1. Create a dedicated backfill pipeline</h2>
+<p>Use the <a href="/apis/pipelines">Pipelines endpoint</a> to create a pipeline configured with bounded timestamps or query constraints on the source connector.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-backfill-pipeline.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/pipelines \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '&#123;
+    "name": "backfill-orders-2025",
+    "source_connector_id": "conn_pg_orders",
+    "destination_connector_id": "conn_snowflake_dw",
+    "config": &#123;
+      "mode": "backfill",
+      "start_timestamp": "2025-01-01T00:00:00Z",
+      "end_timestamp": "2025-12-31T23:59:59Z",
+      "batch_size": 5000,
+      "max_concurrency": 4
+    &#125;
+  &#125;'</code></pre>
+</div>
+
+<h2>2. Configure transform rules for bulk ingestion</h2>
+<p>Bulk backfills may contain legacy data formats or outdated schema versions. Attach <a href="/concepts-schemas">schema</a> normalization <a href="/guides/transforming-events-in-flight">transforms</a> to map older records into your current target format.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>backfill-transforms.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;
+  "transforms": [
+    &#123;
+      "type": "enrich",
+      "fields": &#123;
+        "is_backfill": true,
+        "backfilled_at": "$now"
+      &#125;
+    &#125;,
+    &#123;
+      "type": "reshape",
+      "mapping": &#123;
+        "id": "payload.order_id",
+        "amount": "payload.total_price",
+        "created_at": "payload.created_at"
+      &#125;
+    &#125;
+  ]
+&#125;</code></pre>
+</div>
+
+<h2>3. Managing destination rate limits and quotas</h2>
+<p>Backfills push high volumes of data in short periods. Avoid throttling destination systems by adjusting concurrency settings and observing platform quotas.</p>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Throttle to protect downstream systems</div>
+  <div class='alert__body'><p>If your destination database or API enforces strict write quotas, set <code>max_concurrency</code> low and monitor <a href="/apis/rate-limits-errors">Rate limits &amp; errors</a> to prevent cascading 429 status codes.</p></div>
+</div>
+
+<h2>4. Monitoring and verifying completion</h2>
+<p>Track progress by checking pipeline metrics or subscribing to platform lifecycle events. When all historical records have been processed, the backfill pipeline status transitions to <code>completed</code>.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>check-status.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl https://api.godzilladocs.dev/v2/pipelines/pipe_backfill_2025/stats \
+  -H "Authorization: Bearer $GODZILLA_API_KEY"</code></pre>
+</div>
+
+<p>If any individual records fail, inspect the dead-letter queue and replay failed records as described in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>.</p>
+
+<h2>Next steps</h2>
+<p>Once your backfill completes, explore the <a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations</a> recipe to route your streaming data to multiple downstream storage systems simultaneously.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/recipes/index'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Recipes</span>
+  </a>
+  <a class='docs-pagination__next' href='/recipes/fan-out-to-multiple-destinations'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Fan-out to multiple destinations</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

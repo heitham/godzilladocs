@@ -73,32 +73,7 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>&#123;
-  "name": "orders-etl",
-  "source_connector_id": "conn_pg_orders",
-  "destination_connector_id": "conn_snowflake_dw",
-  "transforms": [
-    &#123;
-      "type": "filter",
-      "condition": "payload.status == 'completed'"
-    &#125;,
-    &#123;
-      "type": "reshape",
-      "mapping": &#123;
-        "order_id": "payload.id",
-        "total_amount": "payload.amount_cents / 100",
-        "customer_email": "payload.email"
-      &#125;
-    &#125;,
-    &#123;
-      "type": "enrich",
-      "fields": &#123;
-        "processed_at": "$now",
-        "environment": "production"
-      &#125;
-    &#125;
-  ]
-&#125;</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>&#123;\n  \"name\": \"orders-etl\",\n  \"source_connector_id\": \"conn_pg_orders\",\n  \"destination_connector_id\": \"conn_snowflake_dw\",\n  \"transforms\": [\n    &#123;\n      \"type\": \"filter\",\n      \"condition\": \"payload.status == 'completed'\"\n    &#125;,\n    &#123;\n      \"type\": \"reshape\",\n      \"mapping\": &#123;\n        \"order_id\": \"payload.id\",\n        \"total_amount\": \"payload.amount_cents / 100\",\n        \"customer_email\": \"payload.email\"\n      &#125;\n    &#125;,\n    &#123;\n      \"type\": \"enrich\",\n      \"fields\": &#123;\n        \"processed_at\": \"$now\",\n        \"environment\": \"production\"\n      &#125;\n    &#125;\n  ]\n&#125;</code></pre>
 </div>
 
 <h2>Reshaping payloads</h2>
@@ -107,9 +82,9 @@
 <table>
   <thead><tr><th>Operation</th><th>Example mapping</th></tr></thead>
   <tbody>
-    <tr><td>Field renaming</td><td><code>&#123; "user_id": "payload.account_id" &#125;</code></td></tr>
-    <tr><td>Calculations</td><td><code>&#123; "amount_usd": "payload.amount_cents / 100" &#125;</code></td></tr>
-    <tr><td>Flattening nested fields</td><td><code>&#123; "city": "payload.address.city" &#125;</code></td></tr>
+    <tr><td>Field renaming</td><td><code>&#123; \"user_id\": \"payload.account_id\" &#125;</code></td></tr>
+    <tr><td>Calculations</td><td><code>&#123; \"amount_usd\": \"payload.amount_cents / 100\" &#125;</code></td></tr>
+    <tr><td>Flattening nested fields</td><td><code>&#123; \"city\": \"payload.address.city\" &#125;</code></td></tr>
   </tbody>
 </table>
 
@@ -128,14 +103,14 @@
 <p>If an event encounters an unhandled evaluation error during a transform step (such as a type mismatch or missing required field), it is retried according to the pipeline's retry policy before being sent to the dead-letter queue. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> for details on debugging and replaying failed transforms.</p>
 
 <h2>Next steps</h2>
-<p>Learn how to handle unexpected failures and replay dead-lettered events in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>, or see <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a> to control how your pipeline runs.</p>
+<p>Learn how to handle unexpected failures and replay dead-lettered events in <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>, see <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a> to control how your pipeline runs, or follow the <a href="/recipes/fan-out-to-multiple-destinations">Fan-out to multiple destinations recipe</a> for routing different transforms to separate systems.</p>
 
 <nav class='docs-pagination' aria-label='Page navigation'>
-  <a class='docs-pagination__prev' href="/guides/connecting-a-data-source">
+  <a class='docs-pagination__prev' href=\"/guides/connecting-a-data-source\">
     <span class='docs-pagination__direction'>Previous</span>
     <span class='docs-pagination__label'>Connecting a data source</span>
   </a>
-  <a class='docs-pagination__next' href="/guides/handling-errors-and-retries">
+  <a class='docs-pagination__next' href=\"/guides/handling-errors-and-retries\">
     <span class='docs-pagination__direction'>Next</span>
     <span class='docs-pagination__label'>Handling errors & retries</span>
   </a>

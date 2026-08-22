@@ -39,6 +39,11 @@
 - [Scheduling & triggers](https://localhost:3002/guides/scheduling-and-triggers): Run a pipeline on a cron schedule or trigger it directly from incoming events.
 - [Transforming events in flight](https://localhost:3002/guides/transforming-events-in-flight): Reshape, filter, and enrich events in real time as they move through a pipeline.
 
+## recipes
+- [Backfill historical data](https://localhost:3002/recipes/backfill-historical-data): Replay and ingest historical datasets through a pipeline without disrupting real-time event flow.
+- [Fan-out to multiple destinations](https://localhost:3002/recipes/fan-out-to-multiple-destinations): Broadcast a single source event stream to multiple independent destinations with isolated error handling.
+- [Recipes](https://localhost:3002/recipes/index): Production-tested architecture recipes and patterns for Godzilla data pipelines.
+
 ## sdks
 - [Go SDK](https://localhost:3002/sdks/go): Install and use godzilla-go to manage pipelines and connectors from Go.
 - [Node.js SDK](https://localhost:3002/sdks/node-js): Install and use @godzilla/sdk to manage pipelines and connectors from Node.js.

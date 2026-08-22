@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fan-out to multiple destinations | Godzilla Docs</title>
+  <meta name="description" content="Broadcast a single source event stream to multiple independent destinations with isolated error handling.">
+  <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
+  <style>
+    /* Page body — remove browser default margin so header sits flush.
+       DSes that use position:fixed headers must set --cms-header-height on :root
+       so this padding pushes the first content element below the header. */
+    body { margin: 0; padding-top: var(--cms-header-height, 0px); }
+
+    /* Default layout: single centred column within the site max-width */
+    .cms-page-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      box-sizing: border-box;
+    }
+    .cms-main-content { min-width: 0; }
+
+    /* Two-column layout — left nav enabled (FR-PB-025): nav 3 of 12, main 9 of 12 */
+    .cms-has-left-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 32px;
+      align-items: start;
+    }
+    /* Right nav placeholder column (population deferred) */
+    .cms-has-right-nav {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .cms-has-left-nav.cms-has-right-nav {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+    }
+
+    /* Mobile — stack columns, match DS spacing.margin-mobile token */
+    @media (max-width: 768px) {
+      .cms-page-container { padding: 0 16px; }
+      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+
+</head>
+<body class="folder-recipes page-fan-out-to-multiple-destinations">
+<header class='site-header'>
+  <div class='site-header__inner'>
+    <a class='site-header__brand' href='/'>
+      <span class='site-header__logo'>&#127755;</span>
+      <span class='site-header__name'>Godzilla Docs</span>
+    </a>
+    <nav class='site-header__nav'></nav>
+  </div>
+</header>
+<div class="cms-page-container cms-has-left-nav">
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/recipes/backfill-historical-data">Backfill historical data</a></li><li class="usa-sidenav__item"><a href="/recipes/fan-out-to-multiple-destinations" class="usa-current">Fan-out to multiple destinations</a></li><li class="usa-sidenav__item"><a href="/recipes/index">Recipes</a></li></ul></nav></aside>
+<main class="cms-main-content">
+
+<h1>Fan-out to multiple destinations</h1>
+<p>In modern data architectures, a single event stream often serves multiple consumers—such as sending purchase events to Snowflake for analytics, Elasticsearch for real-time indexing, and an external webhook for partner notifications. This recipe demonstrates how to implement the fan-out pattern in Godzilla with complete fault isolation between destinations.</p>
+
+<h2>Why fan out with independent pipelines?</h2>
+<p>While you could theoretically push data through a monolithic multi-target job, Godzilla recommends creating separate <a href="/concepts-pipelines">pipelines</a> attached to a single shared source <a href="/concepts-connectors">connector</a>. This pattern provides essential architectural guarantees:</p>
+
+<ul>
+  <li><strong>Fault isolation:</strong> An outage or slow write in one destination does not delay or block deliveries to other destinations.</li>
+  <li><strong>Independent retries and DLQs:</strong> Failed deliveries to a partner webhook retry independently without impacting your data warehouse sync.</li>
+  <li><strong>Tailored transformations:</strong> Each pipeline applies transforms specific to its destination schema (e.g. masking PII for search while storing full records in cold storage).</li>
+</ul>
+
+<h2>1. Create a shared source connector</h2>
+<p>First, create the primary source connector that reads events once from your upstream system (such as Postgres CDC or Kafka).</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-source.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'>curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '&#123;
+    "name": "orders-source-postgres",
+    "type": "postgres",
+    "direction": "source",
+    "config": &#123;
+      "connection_string": "postgres://user:secret@db.internal:5432/production",
+      "tables": ["public.orders"]
+    &#125;
+  &#125;'</code></pre>
+</div>
+
+<h2>2. Create destination connectors</h2>
+<p>Next, set up the individual destination connectors for each target system.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>create-destinations.sh</span>
+    <span class='code-block__lang'>bash</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'># Destination 1: Snowflake Data Warehouse
+curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '&#123;"name":"analytics-snowflake","type":"snowflake","direction":"destination","config":&#123;"account":"xy12345","database":"analytics"&#125;&#125;'
+
+# Destination 2: Webhook for notifications
+curl -X POST https://api.godzilladocs.dev/v2/connectors \
+  -H "Authorization: Bearer $GODZILLA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '&#123;"name":"partner-webhook","type":"webhook","direction":"destination","config":&#123;"url":"https://partner.example.com/events"&#125;&#125;'</code></pre>
+</div>
+
+<h2>3. Wire up dedicated pipelines with specialized transforms</h2>
+<p>Create a pipeline for each destination referencing the shared <code>source_connector_id</code>. Configure custom <a href="/guides/transforming-events-in-flight">transforms</a> per pipeline.</p>
+
+<div class='code-block'>
+  <div class='code-block__header'>
+    <span class='code-block__filename'>fanout-pipelines.json</span>
+    <span class='code-block__lang'>json</span>
+    <button class='code-block__copy' type='button'>Copy</button>
+  </div>
+  <pre class='code-block__pre'><code class='code-block__code'># Pipeline 1: Analytics (Full schema enrichment)
+&#123;
+  "name": "fanout-to-snowflake",
+  "source_connector_id": "conn_pg_orders",
+  "destination_connector_id": "conn_snowflake_dw",
+  "transforms": [
+    &#123;"type": "enrich", "fields": &#123;"synced_at": "$now"&#125;&#125;
+  ]
+&#125;
+
+# Pipeline 2: Webhook (Filtered & stripped PII)
+&#123;
+  "name": "fanout-to-webhook",
+  "source_connector_id": "conn_pg_orders",
+  "destination_connector_id": "conn_partner_hook",
+  "transforms": [
+    &#123;"type": "filter", "condition": "payload.total_cents > 10000"&#125;,
+    &#123;"type": "reshape", "mapping": &#123;"order_id": "payload.id", "status": "payload.status"&#125;&#125;
+  ]
+&#125;</code></pre>
+</div>
+
+<div class='alert alert--success'>
+  <div class='alert__title'>Independent retry policies</div>
+  <div class='alert__body'><p>Because the pipelines are independent, you can assign an aggressive retry policy to your data warehouse pipeline while setting a lenient retry policy with a longer timeout for third-party webhooks.</p></div>
+</div>
+
+<h2>4. Monitoring fan-out streams</h2>
+<p>Each pipeline exposes its own throughput, latency, and error metrics. Use <a href="/guides/monitoring-and-alerts">Monitoring & alerts</a> to subscribe to webhook alerts for <code>pipeline.failed</code> across all pipelines in your workspace.</p>
+
+<h2>Next steps</h2>
+<p>Need to populate existing records across all your new fan-out pipelines? Follow the <a href="/recipes/backfill-historical-data">Backfill historical data</a> recipe.</p>
+
+<nav class='docs-pagination' aria-label='Page navigation'>
+  <a class='docs-pagination__prev' href='/recipes/backfill-historical-data'>
+    <span class='docs-pagination__direction'>Previous</span>
+    <span class='docs-pagination__label'>Backfill historical data</span>
+  </a>
+  <a class='docs-pagination__next' href='/recipes/index'>
+    <span class='docs-pagination__direction'>Next</span>
+    <span class='docs-pagination__label'>Recipes</span>
+  </a>
+</nav>
+</main>
+
+</div>
+<footer class='site-footer'>
+  <div class='site-footer__inner'>
+    <span class='site-footer__brand'>Godzilla Docs</span>
+    <span class='site-footer__copy'>&copy;  Godzilla Docs. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>
