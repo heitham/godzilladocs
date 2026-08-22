@@ -62,6 +62,12 @@
 <main class="cms-main-content">
 
 <h1>Python SDK <span class='chip chip--primary'>v2</span></h1>
+
+<div class='alert alert--warning'>
+  <div class='alert__title'>Upcoming breaking change</div>
+  <div class='alert__body'><p>A breaking change is coming in the next major SDK release. Please review your integrations and upcoming release notes before upgrading.</p></div>
+</div>
+
 <p>A typed client for the <a href="/api/index">v2 REST API</a>, for Python 3.9+.</p>
 
 <h2>Install</h2>
@@ -96,9 +102,9 @@ godzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
   <pre class='code-block__pre'><code class='code-block__code'>pipeline = godzilla.pipelines.create(
-    name=\"ingest-orders\",
-    source_connector_id=\"conn_pg_orders\",
-    destination_connector_id=\"conn_snowflake_dw\",
+    name="ingest-orders",
+    source_connector_id="conn_pg_orders",
+    destination_connector_id="conn_snowflake_dw",
 )</code></pre>
 </div>
 
@@ -111,7 +117,7 @@ godzilla = Godzilla(api_key=os.environ["GODZILLA_API_KEY"])</code></pre>
     <span class='code-block__lang'>python</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>godzilla.events.replay(\"evt_8f2c1a90\")</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>godzilla.events.replay("evt_8f2c1a90")</code></pre>
 </div>
 
 <div class='alert alert--info'>
