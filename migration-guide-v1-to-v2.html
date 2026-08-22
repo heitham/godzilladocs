@@ -41,9 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
-    }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }
   </style>
 
 </head>
@@ -65,7 +63,7 @@
 <p>v1 reached end of life on 2026-08-01 alongside the <a href="/changelog">webhooks GA changelog entry</a>. This guide covers the three breaking changes you need to handle to move a v1 integration to v2.</p>
 
 <h2>1. Pagination: offset → cursor</h2>
-<p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href="/apis/rate-limits-errors">Rate limits & errors</a> for the exact envelope.</p>
+<p>v1 used <code>page</code>/<code>per_page</code> query parameters. v2 uses an opaque <code>cursor</code> and <code>next_cursor</code> — see <a href="/apis/rate-limits-errors">Limits, quotas & errors</a> for the exact envelope.</p>
 
 <div class='code-block'>
   <div class='code-block__header'>

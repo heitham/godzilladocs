@@ -30,7 +30,7 @@ Generated from published output — 39 pages.
 | `/apis/index` | API Reference |
 | `/apis/pipelines` | Pipelines endpoint |
 | `/apis/quotas-billing` | Quotas & billing |
-| `/apis/rate-limits-errors` | Rate limits & errors |
+| `/apis/rate-limits-errors` | Limits, quotas & errors |
 | `/apis/transforms` | Transforms endpoint |
 | `/apis/webhooks` | Webhooks endpoint |
 

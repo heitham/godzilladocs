@@ -41,9 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
-    }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }
   </style>
 
 </head>
@@ -74,7 +72,7 @@
 <p>The <a href="/apis/webhooks">Webhooks endpoint</a> is now generally available for all workspaces, with signed payload verification.</p>
 
 <h2>2026-06-15 — Cursor pagination on all list endpoints</h2>
-<p>Every list endpoint, including <a href="/apis/pipelines#list">Pipelines</a>, moved from offset to cursor pagination. See <a href="/apis/rate-limits-errors">Rate limits & errors</a> for the envelope shape.</p>
+<p>Every list endpoint, including <a href="/apis/pipelines#list">Pipelines</a>, moved from offset to cursor pagination. See <a href="/apis/rate-limits-errors">Limits, quotas & errors</a> for the envelope shape.</p>
 
 <div class='alert alert--warning'>
   <div class='alert__title'>Breaking change</div>

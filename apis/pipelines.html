@@ -41,9 +41,7 @@
 
     /* Mobile — stack columns, match DS spacing.margin-mobile token */
     @media (max-width: 768px) {
-      .cms-page-container { padding: 0 16px; }
-      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }
-    }
+      .cms-page-container { padding: 0 16px; }\n      .cms-has-left-nav, .cms-has-right-nav { grid-template-columns: 1fr; }\n    }
   </style>
 
 </head>
@@ -58,7 +56,7 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Rate limits &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/apis/index">API Reference</a></li><li class="usa-sidenav__item"><a href="/apis/connectors">Connectors endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/events">Events endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/pipelines" class="usa-current">Pipelines endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/quotas-billing">Quotas &amp; billing</a></li><li class="usa-sidenav__item"><a href="/apis/rate-limits-errors">Limits, quotas &amp; errors</a></li><li class="usa-sidenav__item"><a href="/apis/transforms">Transforms endpoint</a></li><li class="usa-sidenav__item"><a href="/apis/webhooks">Webhooks endpoint</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
 <h1>Pipelines endpoint <span class='chip chip--primary'>v2</span></h1>
@@ -96,7 +94,7 @@
 </div>
 
 <h2 id="list">List pipelines</h2>
-<p><code>GET /v2/pipelines</code> — cursor-paginated, see <code>Rate limits & errors</code> for the pagination envelope.</p>
+<p><code>GET /v2/pipelines</code> — cursor-paginated, see <code>Limits, quotas & errors</code> for the pagination envelope.</p>
 
 <h2 id="states">Pipeline states</h2>
 <p>Returned pipelines include a <code>state</code> field of <code>draft</code>, <code>active</code>, or <code>paused</code> — see <a href="/concepts-pipelines">Pipelines</a> for what each means.</p>
