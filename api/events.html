@@ -85,15 +85,20 @@
     <span class='code-block__lang'>json</span>
     <button class='code-block__copy' type='button'>Copy</button>
   </div>
-  <pre class='code-block__pre'><code class='code-block__code'>{\n  \"id\": \"evt_8f2c1a90\",\n  \"type\": \"order.created\",\n  \"occurred_at\": \"2026-08-18T09:12:44Z\",\n  \"payload\": { \"order_id\": \"ord_4471\" }\n}</code></pre>
+  <pre class='code-block__pre'><code class='code-block__code'>{
+  "id": "evt_8f2c1a90",
+  "type": "order.created",
+  "occurred_at": "2026-08-18T09:12:44Z",
+  "payload": { "order_id": "ord_4471" }
+}</code></pre>
 </div>
 
 <h2 id="replay">Replay a dead-lettered event</h2>
-<p><code>POST /v3/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <code>Error handling & recovery</code> guide for when to use this versus reprocessing an entire time range.</p>
+<p><code>POST /v3/events/{id}/replay</code> — re-runs an event that exhausted its retries from where it was dead-lettered. See the <a href="/guides/handling-errors-and-retries">Error handling &amp; recovery</a> guide for when to use this versus reprocessing an entire time range.</p>
 
 <div class='alert alert--info'>
   <div class='alert__title'>Platform events</div>
-  <div class='alert__body'><p>Lifecycle notifications like <code>pipeline.started</code> and <code>connector.error</code> are not returned by this endpoint — subscribe to them through the Webhooks endpoint instead.</p></div>
+  <div class='alert__body'><p>Lifecycle notifications like <code>pipeline.started</code> and <code>connector.error</code> are not returned by this endpoint — subscribe to them through the <a href="/api/webhooks">Webhooks endpoint</a> instead.</p></div>
 </div>
 
 <nav class='docs-toc' aria-label='On this page'>
