@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Glossary (archived) | Godzilla Docs</title>
-  <meta name="description" content="This page has been archived. Glossary definitions are now integrated into the Concepts landing page.">
+  <title>Glossary | Godzilla Docs</title>
+  <meta name="description" content="Definitions for Godzilla's core terms, each linking to its full explanation.">
   <link rel="stylesheet" href="/assets/ds/3d67e511-2482-49b6-8846-c64c523d1a39.css">
   <style>
     /* Page body — remove browser default margin so header sits flush.
@@ -58,10 +58,34 @@
   </div>
 </header>
 <div class="cms-page-container cms-has-left-nav">
-<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/glossary" class="usa-current">Glossary (archived)</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact (Archived)</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
+<aside class="cms-left-nav"><nav aria-label="Side navigation"><ul class="usa-sidenav"><li class="usa-sidenav__item"><a href="/getting-started-authentication">Authentication</a></li><li class="usa-sidenav__item"><a href="/changelog">Changelog</a></li><li class="usa-sidenav__item"><a href="/concepts">Concepts</a></li><li class="usa-sidenav__item"><a href="/concepts-connectors">Connectors</a></li><li class="usa-sidenav__item"><a href="/concepts-events">Events</a></li><li class="usa-sidenav__item"><a href="/glossary" class="usa-current">Glossary</a></li><li class="usa-sidenav__item"><a href="/index">Godzilla Docs</a></li><li class="usa-sidenav__item"><a href="/getting-started-installation">Installation</a></li><li class="usa-sidenav__item"><a href="/migration-guide-v1-to-v2">Migration guide (v1 → v2)</a></li><li class="usa-sidenav__item"><a href="/concepts-pipelines">Pipelines</a></li><li class="usa-sidenav__item"><a href="/getting-started-quickstart">Quickstart</a></li><li class="usa-sidenav__item"><a href="/release-notes-archive">Release notes archive</a></li><li class="usa-sidenav__item"><a href="/security-and-compliance">Security &amp; compliance overview</a></li><li class="usa-sidenav__item"><a href="/support">Support / Contact</a></li><li class="usa-sidenav__item"><a href="/troubleshooting">Troubleshooting / FAQ</a></li></ul></nav></aside>
 <main class="cms-main-content">
 
-<p><strong>This page has been archived.</strong> The glossary definitions are now part of the <a href="/concepts/concepts">Concepts</a> landing page.</p>
+<h1>Glossary</h1>
+<p>Short definitions for every term used throughout these docs.</p>
+
+<dl>
+  <dt><a href="/concepts-pipelines">Pipeline</a></dt>
+  <dd>A named, versioned workflow that moves data from a source connector, through optional transforms, to a destination connector.</dd>
+
+  <dt><a href="/concepts-connectors">Connector</a></dt>
+  <dd>A pre-built integration to an external system — a source, a destination, or both.</dd>
+
+  <dt><a href="/concepts-events">Event</a></dt>
+  <dd>The atomic unit of data moving through a pipeline, or a platform lifecycle notification like <code>pipeline.failed</code>.</dd>
+
+  <dt><a href="/apis/webhooks">Webhook</a></dt>
+  <dd>An outbound HTTP request Godzilla sends to a URL you control when a subscribed event occurs.</dd>
+
+  <dt>Dead-letter queue</dt>
+  <dd>Where an event goes after exhausting its retries, rather than being dropped. See <a href="/guides/handling-errors-and-retries">Handling errors & retries</a>.</dd>
+
+  <dt>Cursor pagination</dt>
+  <dd>The pagination style used by every v2 list endpoint. See <a href="/apis/rate-limits-errors">Rate limits & errors</a>.</dd>
+
+  <dt>Workspace</dt>
+  <dd>The top-level account boundary an API key is scoped to.</dd>
+</dl>
 </main>
 
 </div>
