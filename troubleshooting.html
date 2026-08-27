@@ -65,7 +65,7 @@
 <p>Common problems, and where in the docs to go for the full explanation. Check the status page before filing a ticket.</p>
 
 <h2>My pipeline isn't processing events</h2>
-<p>Check the source connector's <code>health</code> field via the <a href="/apis/connectors">Connectors endpoint</a>. A <code>down</code> connector stalls every pipeline that reads from it. If it's <code>healthy</code>, confirm the pipeline itself is <code>active</code> and not <code>paused</code> — see <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a>.</p>
+<p>Check the source connector's <code>health</code> field via the <a href="<!-- unresolved: cms:item/ddb58709-99c6-458d-8c11-cfd16fd2c6a8 -->">Connectors endpoint</a>. A <code>down</code> connector stalls every pipeline that reads from it. If it's <code>healthy</code>, confirm the pipeline itself is <code>active</code> and not <code>paused</code> — see <a href="/guides/scheduling-and-triggers">Scheduling & triggers</a>.</p>
 
 <h2>Events keep failing and landing in the dead-letter queue</h2>
 <p>Walk through <a href="/guides/handling-errors-and-retries">Handling errors & retries</a> — it covers both diagnosing the failure and replaying events once fixed.</p>
