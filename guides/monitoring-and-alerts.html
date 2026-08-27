@@ -65,7 +65,7 @@
 <p>Keep an eye on a running <a href="/concepts-pipelines">pipeline</a> without babysitting it manually.</p>
 
 <h2>Connector health</h2>
-<p>Poll a connector's <code>health</code> field via the <a href="/apis/connectors">Connectors endpoint</a>, or better, subscribe to <code>connector.error</code> so you're notified the moment it degrades.</p>
+<p>Poll a connector's <code>health</code> field via the connectors endpoint (see <a href="/concepts-connectors">Connectors</a>), or better, subscribe to <code>connector.error</code> so you're notified the moment it degrades.</p>
 
 <h2>Subscribing to pipeline lifecycle events</h2>
 <p>The most reliable way to monitor a pipeline is a <a href="/apis/webhooks">webhook</a> subscription on <code>pipeline.failed</code> and <code>connector.error</code>.</p>
